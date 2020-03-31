@@ -17,17 +17,15 @@ Development
 The app can be developed purely on localhost. There's no need to start any kind of server. It connects directly to services and Firebase Realtime Database.
 
 1. Create Firebase account and set Realtime Database and hosting
-1. Create file `firebaseConfig.js` in project root and fill it with firebase config object. You can find it in your firebase settings:
-    ```javascript
-    export const firebaseConfig = {
-        apiKey: "",
-        authDomain: "",
-        databaseURL: "",
-        projectId: "",
-        storageBucket: "",
-        messagingSenderId: "",
-        appId: ""
-    };
+1. Create file `.env` in project root and fill it with firebase config object. You can find it in your firebase settings:
+    ```
+    REACT_APP_FIREBASE_APIKEY=""
+    REACT_APP_FIREBASE_AUTHDOMAIN=""
+    REACT_APP_FIREBASE_DATABASEURL=""
+    REACT_APP_FIREBASE_PROJECTID=""
+    REACT_APP_FIREBASE_STORAGEBUCKET=""
+    REACT_APP_FIREBASE_MESSAGINGSENDERID=""
+    REACT_APP_FIREBASE_APPID=""
     ```
 1. Allow using email for authentication and create your account
 1. Fill DB with your media services' api keys:

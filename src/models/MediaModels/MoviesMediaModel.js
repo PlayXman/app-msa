@@ -208,7 +208,7 @@ class MoviesMediaModel extends MediaModel {
 
 				// remove what's not in watchlist
 				Object.keys( dbItems ).forEach( ( id ) => {
-					const movie = new this.createItem();
+					const movie = this.createItem();
 					movie.setId( id ).remove();
 				} );
 
