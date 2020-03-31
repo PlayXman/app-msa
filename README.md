@@ -1,4 +1,8 @@
-MediaStorage-App <img src="https://aa-msa.web.app/images/logo.svg" width="40" />
+<p align="center">
+    <img src="https://raw.githubusercontent.com/PlayXman/app-msa/master/public/images/favicons/android-chrome-192x192.png" style="display: block; margin: auto" />
+</p>
+
+MediaStorage-App
 ================
 App for managing your personal lists of all sorts of media - books, movies, games etc. It connects the media with favorite services like _Trakt_, _Giantbomb_ and _Tmdb_.
 
@@ -6,37 +10,51 @@ It's meant for personal use only. There's no durable account management system r
 
 The app is utterly serverless. It connects directly to services from its frontend. It's basically hard client after all assets are downloaded.
 
-**My personal instance:** https://aa-msa.web.app/
-
-> **INFO:** The app was written in PHP at first. And this is its 4th version. I use live private repository for development purposes. However, you can download this repo and use it for yourself.
+> **INFO:** The app was written in PHP at first. And this is its last version. I moved it from private repo that's why it has no history.
 
 Development
 -----------
 The app can be developed purely on localhost. There's no need to start any kind of server. It connects directly to services and Firebase Realtime Database.
 
-1. Create Firebase account and set Realtime Database
-1. Fill firebase login object at `src/config.js::firebase`
-1. Allow authentication using email and create your account
+1. Create Firebase account and set Realtime Database and hosting
+1. Create file `firebaseConfig.js` in project root and fill it with firebase config object. You can find it in your firebase settings:
+    ```javascript
+    export const firebaseConfig = {
+        apiKey: "",
+        authDomain: "",
+        databaseURL: "",
+        projectId: "",
+        storageBucket: "",
+        messagingSenderId: "",
+        appId: ""
+    };
+    ```
+1. Allow using email for authentication and create your account
 1. Fill DB with your media services' api keys:
     ```json
     {
-        "giantBomb" : {
-            "key" : "XXX_your_key_XXX"
-        },
-        "tmdb" : {
-            "key" : "XXX_your_key_XXX"
-        },
-        "traktTv" : {
-            "key" : {
-                "clientId" : "XXX_your_key_XXX",
-                "clientSecret" : "XXX_your_key_XXX",
-                "refreshToken" : ""
+        "vendors": {
+            "giantBomb" : {
+                "key" : "XXX_your_key_XXX"
+            },
+            "tmdb" : {
+                "key" : "XXX_your_key_XXX"
+            },
+            "traktTv" : {
+                "key" : {
+                    "clientId" : "XXX_your_key_XXX",
+                    "clientSecret" : "XXX_your_key_XXX",
+                    "refreshToken" : ""
+                }
             }
         }
     }
     ```
 
-> **INFO:** There are no test. This project is personal and kinda serves as a playground. I made the mistake creating ones before for PHP version and it only slowed me down.
+> **INFO:** There are no test right now. This project is personal and kinda serves as a playground. I made the mistake creating ones before for PHP version and it only slowed me down.
+
+### Graphical sources
+They can be found in `/_graphic` folder.
 
 Deployment
 ----------
