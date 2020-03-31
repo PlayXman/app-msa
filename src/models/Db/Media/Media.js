@@ -1,8 +1,7 @@
 import firebase from 'firebase/app';
-import Url from "../../Helpers/Url";
+import Url from '../../Helpers/Url';
 
 class Media {
-
 	/** @type {string} */
 	_id = '';
 	/** @type {string} */
@@ -21,7 +20,7 @@ class Media {
 	 * @param {string} id
 	 * @return {Media}
 	 */
-	setId( id ) {
+	setId(id) {
 		this._id = id;
 		return this;
 	}
@@ -39,13 +38,13 @@ class Media {
 	 * @param {{}} dbObj Object from DB snapshot
 	 * @return {this}
 	 */
-	fillObj( dbObj ) {
-		Object.keys( dbObj ).forEach( ( paramName ) => {
-			if ( paramName === 'title' ) {
-				this._setSort( dbObj[paramName] );
+	fillObj(dbObj) {
+		Object.keys(dbObj).forEach((paramName) => {
+			if (paramName === 'title') {
+				this._setSort(dbObj[paramName]);
 			}
 			this[paramName] = dbObj[paramName];
-		} );
+		});
 
 		return this;
 	}
@@ -55,15 +54,15 @@ class Media {
 	 * @return {Promise<any>}
 	 */
 	push() {
-		if ( this._id.length === 0 ) {
-			throw new Error( 'Missing id!' );
+		if (this._id.length === 0) {
+			throw new Error('Missing id!');
 		}
-		if(this.title) {
+		if (this.title) {
 			this._setSort(this.title);
 		}
 
 		const obj = this._prepareDbObj();
-		return firebase.database().ref( `${this._getDbRef()}/${this.getId()}` ).update( obj );
+		return firebase.database().ref(`${this._getDbRef()}/${this.getId()}`).update(obj);
 	}
 
 	/**
@@ -71,11 +70,11 @@ class Media {
 	 * @return {Promise<any>}
 	 */
 	remove() {
-		if ( this._id.length === 0 ) {
-			throw new Error( 'Missing id!' );
+		if (this._id.length === 0) {
+			throw new Error('Missing id!');
 		}
 
-		return firebase.database().ref( `${this._getDbRef()}/${this.getId()}` ).remove();
+		return firebase.database().ref(`${this._getDbRef()}/${this.getId()}`).remove();
 	}
 
 	/**
@@ -83,8 +82,8 @@ class Media {
 	 * @param {string} text
 	 * @private
 	 */
-	_setSort( text ) {
-		this.sort = Url.slugify( text );
+	_setSort(text) {
+		this.sort = Url.slugify(text);
 	}
 
 	/**
@@ -100,18 +99,17 @@ class Media {
 	 * @private
 	 */
 	_prepareDbObj() {
-		const params = Object.getOwnPropertyNames( this );
+		const params = Object.getOwnPropertyNames(this);
 		let obj = {};
 
-		params.forEach( ( key ) => {
-			if ( this[key] !== undefined && key !== '_id' ) {
+		params.forEach((key) => {
+			if (this[key] !== undefined && key !== '_id') {
 				obj[key] = this[key];
 			}
-		} );
+		});
 
 		return obj;
 	}
-
 }
 
 export default Media;

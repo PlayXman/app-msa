@@ -2,24 +2,21 @@
  * Handles jsonp requests. Helps with CORS
  */
 class Jsonp {
-
 	/**
 	 * Makes http request for jsonp source data. Deals with CORS problem
 	 * @param {string} url Requested URL
 	 * @return {Promise<{}><{}>} Returns parsed data or err
 	 */
-	static jsonpRequest( url ) {
-
-		return new Promise( ( resolve, reject ) => {
+	static jsonpRequest(url) {
+		return new Promise((resolve, reject) => {
 			const callbackName = Jsonp._createCallbackName();
 			url = Jsonp._prepareUrl(url, callbackName);
 			const script = Jsonp._createScript(url, reject);
 
 			Jsonp._runCallbackJsonpFunction(callbackName, script, resolve);
 
-			document.body.appendChild( script );
-		} );
-
+			document.body.appendChild(script);
+		});
 	}
 
 	/**
@@ -28,7 +25,7 @@ class Jsonp {
 	 * @private
 	 */
 	static _createCallbackName() {
-		return 'msa_jsonp_' + Math.round( 100000 * Math.random() );
+		return 'msa_jsonp_' + Math.round(100000 * Math.random());
 	}
 
 	/**
@@ -39,10 +36,10 @@ class Jsonp {
 	 * @private
 	 */
 	static _prepareUrl(url, callbackName) {
-		if ( url.match( /\?/ ) ) {
-			url += "&json_callback=" + callbackName;
+		if (url.match(/\?/)) {
+			url += '&json_callback=' + callbackName;
 		} else {
-			url += "?json_callback=" + callbackName;
+			url += '?json_callback=' + callbackName;
 		}
 
 		return url;
@@ -56,14 +53,14 @@ class Jsonp {
 	 * @private
 	 */
 	static _createScript(url, promiseReject) {
-		const script = document.createElement( 'script' );
+		const script = document.createElement('script');
 
 		script.src = url;
 
 		// error handler
-		script.addEventListener( 'error', ( err ) => {
-			promiseReject( err );
-		} );
+		script.addEventListener('error', (err) => {
+			promiseReject(err);
+		});
 
 		return script;
 	}
@@ -76,14 +73,13 @@ class Jsonp {
 	 * @private
 	 */
 	static _runCallbackJsonpFunction(callbackName, script, promiseResolve) {
-		window[callbackName] = function ( data ) {
+		window[callbackName] = function (data) {
 			delete window[callbackName];
-			document.body.removeChild( script );
+			document.body.removeChild(script);
 
-			promiseResolve( data );
+			promiseResolve(data);
 		};
 	}
-
 }
 
 export default Jsonp.jsonpRequest;

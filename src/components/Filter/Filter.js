@@ -1,26 +1,25 @@
 import React, { PureComponent } from 'react';
-import IconButton from "@material-ui/core/IconButton";
-import { FilterList as FilterListIcon } from "@material-ui/icons";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import GlobalStorage from "../../models/Helpers/GlobalStorage/GlobalStorage";
-import OwnageStatus from "../../models/Helpers/OwnageStatus";
-import { withStyles } from "@material-ui/core";
+import IconButton from '@material-ui/core/IconButton';
+import { FilterList as FilterListIcon } from '@material-ui/icons';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import GlobalStorage from '../../models/Helpers/GlobalStorage/GlobalStorage';
+import OwnageStatus from '../../models/Helpers/OwnageStatus';
+import { withStyles } from '@material-ui/core';
 
 const styles = (theme) => ({
 	selected: {
-		background: theme.palette.secondary.light
-	}
+		background: theme.palette.secondary.light,
+	},
 });
 
 /**
  * Filters media items
  */
 class Filter extends PureComponent {
-
 	state = {
 		anchorEl: null,
-		selected: 0
+		selected: 0,
 	};
 	/** @type {FilterActions} */
 	filterActions;
@@ -31,65 +30,65 @@ class Filter extends PureComponent {
 			action: () => {
 				this.filterActions.reset();
 				this.filterActions.filter();
-			}
+			},
 		},
 		{
 			title: 'Not Released',
 			action: () => {
 				this.filterActions.reset();
-				this.filterActions.searchByRelease( false );
+				this.filterActions.searchByRelease(false);
 				this.filterActions.filter();
-			}
+			},
 		},
 		{
 			title: 'Released',
 			action: () => {
 				this.filterActions.reset();
-				this.filterActions.searchByRelease( true );
+				this.filterActions.searchByRelease(true);
 				this.filterActions.filter();
-			}
+			},
 		},
 		{
 			title: 'Downloadable',
 			action: () => {
 				this.filterActions.reset();
-				this.filterActions.searchByOwnageStatus( OwnageStatus.statuses.DOWNLOADABLE );
+				this.filterActions.searchByOwnageStatus(OwnageStatus.statuses.DOWNLOADABLE);
 				this.filterActions.filter();
-			}
+			},
 		},
 		{
 			title: 'Owned',
 			action: () => {
 				this.filterActions.reset();
-				this.filterActions.searchByOwnageStatus( OwnageStatus.statuses.OWNED );
+				this.filterActions.searchByOwnageStatus(OwnageStatus.statuses.OWNED);
 				this.filterActions.filter();
-			}
+			},
 		},
 	];
 
-	constructor( props ) {
-		super( props );
+	constructor(props) {
+		super(props);
 
-		this.filterActions = GlobalStorage.getState( 'filterActions' );
+		this.filterActions = GlobalStorage.getState('filterActions');
 	}
 
 	/**
 	 * Handles menu open
 	 * @param {Event} event
 	 */
-	handleOpen = ( event ) => {
-		this.setState( {
-			anchorEl: event.currentTarget
-		} );
+	handleOpen = (event) => {
+		this.setState({
+			anchorEl: event.currentTarget,
+		});
 	};
 
 	/**
 	 * Handles menu close
 	 */
 	handleClose = () => {
-		this.setState( {
-			anchorEl: null
-		} );
+		this.setState({
+			anchorEl: null,
+		});
 	};
 
 	/**
@@ -98,12 +97,12 @@ class Filter extends PureComponent {
 	 * @param {function} action Item action
 	 * @return {Function}
 	 */
-	handleItemClick( index, action ) {
+	handleItemClick(index, action) {
 		return () => {
-			this.setState( {
+			this.setState({
 				selected: index,
-				anchorEl: null
-			} );
+				anchorEl: null,
+			});
 
 			action();
 		};
@@ -140,19 +139,18 @@ class Filter extends PureComponent {
 	_renderItems() {
 		const selected = this.state.selected;
 
-		return this.items.map( ( item, index ) => {
+		return this.items.map((item, index) => {
 			return (
 				<MenuItem
 					key={index}
 					selected={selected === index}
-					onClick={this.handleItemClick( index, item.action )}
+					onClick={this.handleItemClick(index, item.action)}
 				>
 					{item.title}
 				</MenuItem>
 			);
-		} );
+		});
 	}
-
 }
 
-export default withStyles( styles )( Filter );
+export default withStyles(styles)(Filter);

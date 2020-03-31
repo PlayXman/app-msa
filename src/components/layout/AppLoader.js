@@ -1,22 +1,21 @@
 import React, { PureComponent } from 'react';
-import { CircularProgress, withStyles } from "@material-ui/core";
+import { CircularProgress, withStyles } from '@material-ui/core';
 
 const style = {
 	root: {
-		display: "flex",
-		height: "100vh",
+		display: 'flex',
+		height: '100vh',
 		alignItems: 'center',
-		justifyContent: 'center'
-	}
+		justifyContent: 'center',
+	},
 };
 
 /**
  * Loader before all app is loaded
  */
 class AppLoader extends PureComponent {
-
 	render() {
-		const {classes} = this.props;
+		const { classes } = this.props;
 
 		return (
 			<div className={classes.root}>
@@ -24,7 +23,6 @@ class AppLoader extends PureComponent {
 			</div>
 		);
 	}
-
 }
 
 export default withStyles(style)(AppLoader);

@@ -1,23 +1,22 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import IconButton from "@material-ui/core/IconButton/IconButton";
-import Clipboard from "../../models/Helpers/Clipboard";
-import Tooltip from "@material-ui/core/Tooltip/Tooltip";
-import { FileCopy as FileCopyIcon } from "@material-ui/icons";
-import Notification from "../../models/Notification";
+import IconButton from '@material-ui/core/IconButton/IconButton';
+import Clipboard from '../../models/Helpers/Clipboard';
+import Tooltip from '@material-ui/core/Tooltip/Tooltip';
+import { FileCopy as FileCopyIcon } from '@material-ui/icons';
+import Notification from '../../models/Notification';
 
 /**
  * Copy button component
  */
 class CopyBtn extends PureComponent {
-
 	/**
 	 * Copy button event
 	 */
 	handleClick = () => {
-		Clipboard.copy( this.props.textToCopy );
+		Clipboard.copy(this.props.textToCopy);
 		const msg = new Notification();
-		msg.setText( 'Title copied' );
+		msg.setText('Title copied');
 		msg.showAndHide();
 	};
 
@@ -38,7 +37,7 @@ class CopyBtn extends PureComponent {
 
 CopyBtn.propTypes = {
 	classes: PropTypes.object,
-	textToCopy: PropTypes.string
+	textToCopy: PropTypes.string,
 };
 
 export default CopyBtn;

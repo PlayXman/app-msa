@@ -1,22 +1,23 @@
-import Notification from "../Notification";
+import Notification from '../Notification';
 
 /**
  * MediaModel prescription.
  */
 class MediaModel {
-
 	/**
 	 * Formats date to readable form.
 	 * @param {string} date
 	 * @return {string}
 	 */
-	getReleaseDate( date ) {
-		if ( date ) {
-			if ( date.slice( 0, 1 ) === 'Q' ) {
+	getReleaseDate(date) {
+		if (date) {
+			if (date.slice(0, 1) === 'Q') {
 				return date;
 			} else {
-				const dateObj = new Date( date );
-				return dateObj.getDate() + '.' + (dateObj.getMonth() + 1) + '.' + dateObj.getFullYear();
+				const dateObj = new Date(date);
+				return (
+					dateObj.getDate() + '.' + (dateObj.getMonth() + 1) + '.' + dateObj.getFullYear()
+				);
 			}
 		} else {
 			return 'TBA';
@@ -44,7 +45,7 @@ class MediaModel {
 	 * @param {string} date
 	 * @return {boolean}
 	 */
-	isReleased( date ) {
+	isReleased(date) {
 		//@OVERRIDE should be defined
 	}
 
@@ -53,9 +54,9 @@ class MediaModel {
 	 * @param {string} title Search text
 	 * @return {Promise<Media[]>}
 	 */
-	searchItem( title ) {
+	searchItem(title) {
 		//@OVERRIDE should be defined
-	};
+	}
 
 	/**
 	 * Removes media item from DB
@@ -67,16 +68,21 @@ class MediaModel {
 		loader.show();
 		const msg = new Notification();
 
-		this.getDbRef().child(id).remove().then( () => {
-			msg.setText('Removed');
-		}).catch( ( err ) => {
-			console.log('Remove failed: ' + err);
-			msg.setText("Couldn't remove");
-		}).finally( () => {
-			loader.hide();
-			msg.showAndHide();
-		});
-	};
+		this.getDbRef()
+			.child(id)
+			.remove()
+			.then(() => {
+				msg.setText('Removed');
+			})
+			.catch((err) => {
+				console.log('Remove failed: ' + err);
+				msg.setText("Couldn't remove");
+			})
+			.finally(() => {
+				loader.hide();
+				msg.showAndHide();
+			});
+	}
 
 	/**
 	 * Returns reference to database model of media item
@@ -84,7 +90,7 @@ class MediaModel {
 	 */
 	createItem() {
 		//@OVERRIDE should be defined
-	};
+	}
 
 	/**
 	 * Refreshes all items meta data. Downloads images, gets titles etc.
@@ -92,20 +98,22 @@ class MediaModel {
 	 *
 	 * @override should be defined
 	 */
-	handleItemsRefresh( loaderMsg ) {
-		const loader = new Notification( true );
-		loader.setText( loaderMsg );
+	handleItemsRefresh(loaderMsg) {
+		const loader = new Notification(true);
+		loader.setText(loaderMsg);
 		loader.show();
 
-		this.getDbRef().once( 'value' ).then( ( snap ) => {
-			if ( !snap.val() ) {
-				return false;
-			}
+		this.getDbRef()
+			.once('value')
+			.then((snap) => {
+				if (!snap.val()) {
+					return false;
+				}
 
-			const ids = Object.keys( snap.val() );
-			this._updateDbItems( ids, loader, loaderMsg );
-		} );
-	};
+				const ids = Object.keys(snap.val());
+				this._updateDbItems(ids, loader, loaderMsg);
+			});
+	}
 
 	/**
 	 * Updates metadata of all media items in DB by their ids
@@ -114,10 +122,9 @@ class MediaModel {
 	 * @param {string} loaderMsg Loader message
 	 * @private
 	 */
-	_updateDbItems( moviesIds, loader, loaderMsg ) {
+	_updateDbItems(moviesIds, loader, loaderMsg) {
 		//@OVERRIDE should be defined
 	}
-
 }
 
 export default MediaModel;

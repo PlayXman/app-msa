@@ -2,7 +2,6 @@
  * Handles clipboard operations.
  */
 class Clipboard {
-
 	/**
 	 * Copies string into clipboard.
 	 * @param {string} text
@@ -15,7 +14,6 @@ class Clipboard {
 		document.execCommand('copy');
 		document.body.removeChild(el);
 	}
-
 }
 
 export default Clipboard;

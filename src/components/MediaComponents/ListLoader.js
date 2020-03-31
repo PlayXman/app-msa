@@ -1,19 +1,18 @@
-import { CircularProgress, withStyles } from "@material-ui/core";
-import React, { PureComponent } from "react";
+import { CircularProgress, withStyles } from '@material-ui/core';
+import React, { PureComponent } from 'react';
 
 const style = {
 	loaderWrapper: {
 		height: '70vh',
 		display: 'flex',
-		alignItems: 'center'
-	}
+		alignItems: 'center',
+	},
 };
 
 /**
  * Loader during all items load
  */
 class ListLoader extends PureComponent {
-
 	render() {
 		return (
 			<div className={this.props.classes.loaderWrapper}>
@@ -21,7 +20,6 @@ class ListLoader extends PureComponent {
 			</div>
 		);
 	}
-
 }
 
-export default withStyles( style )( ListLoader );
+export default withStyles(style)(ListLoader);

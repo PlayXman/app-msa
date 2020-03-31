@@ -1,6 +1,6 @@
-import firebase from "firebase/app";
-import OwnageStatus from "../../Helpers/OwnageStatus";
-import Media from "./Media";
+import firebase from 'firebase/app';
+import OwnageStatus from '../../Helpers/OwnageStatus';
+import Media from './Media';
 
 /** @type {string} database reference path */
 const DB_PATH = '/Media/Books';
@@ -9,7 +9,6 @@ const DB_PATH = '/Media/Books';
  * Database model for Books
  */
 class Books extends Media {
-
 	/** @type {string} */
 	title;
 	/** @type {string} OwnageStatus */
@@ -28,7 +27,7 @@ class Books extends Media {
 	 * @return {firebase.database.Reference}
 	 */
 	static dbRef() {
-		return firebase.database().ref( DB_PATH );
+		return firebase.database().ref(DB_PATH);
 	}
 
 	/**
@@ -53,7 +52,6 @@ class Books extends Media {
 	_getDbRef() {
 		return DB_PATH;
 	}
-
 }
 
 export default Books;

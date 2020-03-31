@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Typography, withStyles } from "@material-ui/core";
+import { Typography, withStyles } from '@material-ui/core';
 
 const style = (theme) => ({
 	root: {
@@ -8,17 +8,16 @@ const style = (theme) => ({
 		fontWeight: 'bold',
 		fontSize: '1.5rem',
 		margin: '7rem 0',
-		color: theme.palette.grey["300"]
-	}
+		color: theme.palette.grey['300'],
+	},
 });
 
 /**
  * Text if no items found
  */
 class Text extends PureComponent {
-
 	render() {
-		const {text, classes} = this.props;
+		const { text, classes } = this.props;
 
 		return (
 			<Typography variant="body1" className={classes.root}>
@@ -26,11 +25,10 @@ class Text extends PureComponent {
 			</Typography>
 		);
 	}
-
 }
 
 Text.propTypes = {
-	text: PropTypes.string.isRequired
+	text: PropTypes.string.isRequired,
 };
 
 export default withStyles(style)(Text);

@@ -5,7 +5,6 @@
  * @requires {NotificationContainer} Single instance used in app
  */
 class Notification {
-
 	/** @type {NotificationContainer} Reference for single app NotificationContainer instance */
 	static reactObject;
 	/** @type {boolean} Should be as loader */
@@ -15,7 +14,7 @@ class Notification {
 	 * Constructor
 	 * @param {boolean} isLoader Shows loader or not
 	 */
-	constructor( isLoader = false ) {
+	constructor(isLoader = false) {
 		this.hide();
 		this.isLoader = isLoader;
 	}
@@ -24,22 +23,22 @@ class Notification {
 	 * Set text message. It's shown in snackbar. Can be changed even if the snackbar is visible
 	 * @param {string} messageText
 	 */
-	setText( messageText ) {
-		Notification.reactObject.setState( {
-			messageText: messageText
-		} );
+	setText(messageText) {
+		Notification.reactObject.setState({
+			messageText: messageText,
+		});
 	}
 
 	/**
 	 * Show snackbar. Must be closed manually!
 	 */
 	show() {
-		Notification.reactObject.setState( {
+		Notification.reactObject.setState({
 			open: true,
 			autoHideDuration: null,
 			showCloseButton: false,
-			showLoader: this.isLoader
-		} );
+			showLoader: this.isLoader,
+		});
 	}
 
 	/**
@@ -53,14 +52,13 @@ class Notification {
 	 * Shows snackbar for few seconds. It shows event close button
 	 */
 	showAndHide() {
-		Notification.reactObject.setState( {
+		Notification.reactObject.setState({
 			open: true,
 			autoHideDuration: 3000,
 			showCloseButton: true,
-			showLoader: this.isLoader
-		} );
+			showLoader: this.isLoader,
+		});
 	}
-
 }
 
 export default Notification;

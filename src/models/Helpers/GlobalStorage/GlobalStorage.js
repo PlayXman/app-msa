@@ -1,11 +1,10 @@
-import GlobalStorageObserver from "./GlobalStorageObserver";
+import GlobalStorageObserver from './GlobalStorageObserver';
 
 /**
  * Lite version of Redux. Serves as global storage. Data are saved as ket-data pair and functions listen for particular
  * data changes
  */
 class GlobalStorage {
-
 	/**
 	 * @type {{}} all stored data
 	 * @private
@@ -17,13 +16,13 @@ class GlobalStorage {
 	 * @param {string} key Key name
 	 * @param {*} data
 	 */
-	static set( key, data ) {
+	static set(key, data) {
 		this._storage[key] = data;
 
-		const event = new CustomEvent( this._createEventKey( key ), {
-			detail: this.getState( key )
-		} );
-		document.dispatchEvent( event );
+		const event = new CustomEvent(this._createEventKey(key), {
+			detail: this.getState(key),
+		});
+		document.dispatchEvent(event);
 	}
 
 	/**
@@ -33,11 +32,11 @@ class GlobalStorage {
 	 * @param {function(*)} callback Function called when the key is changed
 	 * @return {GlobalStorageObserver}
 	 */
-	static connect( key, callback ) {
-		const observer = new GlobalStorageObserver( callback );
+	static connect(key, callback) {
+		const observer = new GlobalStorageObserver(callback);
 
-		callback( this.getState( key ) );
-		observer.listen( this._createEventKey( key ) );
+		callback(this.getState(key));
+		observer.listen(this._createEventKey(key));
 
 		return observer;
 	}
@@ -47,8 +46,8 @@ class GlobalStorage {
 	 * @param {string} key Key name
 	 * @return {*|null} null if the key is not set
 	 */
-	static getState( key ) {
-		return this._storage[key] || null
+	static getState(key) {
+		return this._storage[key] || null;
 	}
 
 	/**
@@ -57,10 +56,9 @@ class GlobalStorage {
 	 * @return {string}
 	 * @private
 	 */
-	static _createEventKey( key ) {
+	static _createEventKey(key) {
 		return `storage_${key}`;
 	}
-
 }
 
 export default GlobalStorage;

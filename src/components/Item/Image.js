@@ -1,25 +1,24 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { SimpleImg } from 'react-simple-img';
-import { withStyles } from "@material-ui/core";
+import { withStyles } from '@material-ui/core';
 
 const style = {
 	loader: {
 		background: '#292929',
-		"& img": {
+		'& img': {
 			objectFit: 'contain',
 			width: 'auto',
 			maxWidth: '101%',
-			height: 'auto !important'
-		}
-	}
+			height: 'auto !important',
+		},
+	},
 };
 
 /**
  * Item card image
  */
 class Image extends PureComponent {
-
 	render() {
 		const { src, classes } = this.props;
 
@@ -34,11 +33,10 @@ class Image extends PureComponent {
 			/>
 		);
 	}
-
 }
 
 Image.propTypes = {
-	src: PropTypes.string.isRequired
+	src: PropTypes.string.isRequired,
 };
 
-export default withStyles( style )( Image );
+export default withStyles(style)(Image);

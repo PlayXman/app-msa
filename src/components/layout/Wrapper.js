@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { withStyles } from "@material-ui/core";
+import { withStyles } from '@material-ui/core';
 
 const style = {
 	root: {
@@ -7,25 +7,19 @@ const style = {
 		maxWidth: '1110px',
 		margin: '0 auto',
 		width: '100%',
-		boxSizing: 'border-box'
-	}
+		boxSizing: 'border-box',
+	},
 };
 
 /**
  * Content wrapper
  */
 class Wrapper extends PureComponent {
-
 	render() {
 		const { classes, children } = this.props;
 
-		return (
-			<div className={classes.root}>
-				{children}
-			</div>
-		);
+		return <div className={classes.root}>{children}</div>;
 	}
-
 }
 
-export default withStyles( style )( Wrapper );
+export default withStyles(style)(Wrapper);

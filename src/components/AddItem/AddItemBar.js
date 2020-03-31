@@ -1,61 +1,60 @@
 import React, { PureComponent } from 'react';
-import Dialog from "@material-ui/core/Dialog/Dialog";
-import AppBar from "@material-ui/core/AppBar/AppBar";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton/IconButton";
-import withStyles from "@material-ui/core/es/styles/withStyles";
-import Toolbar from "@material-ui/core/Toolbar/Toolbar";
-import Slide from "@material-ui/core/Slide/Slide";
-import { createMuiTheme } from "@material-ui/core/styles";
-import MuiThemeProvider from "@material-ui/core/es/styles/MuiThemeProvider";
-import Grid from "@material-ui/core/Grid/Grid";
-import PropTypes from "prop-types";
-import { Config } from "../../config";
-import { Close as CloseIcon } from "@material-ui/icons";
-import GlobalStorage from "../../models/Helpers/GlobalStorage/GlobalStorage";
-import Text from "./Text";
-import ItemList from "./ItemList";
-import Wrapper from "../layout/Wrapper";
-import SearchField from "./SearchField";
+import Dialog from '@material-ui/core/Dialog/Dialog';
+import AppBar from '@material-ui/core/AppBar/AppBar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton/IconButton';
+import withStyles from '@material-ui/core/es/styles/withStyles';
+import Toolbar from '@material-ui/core/Toolbar/Toolbar';
+import Slide from '@material-ui/core/Slide/Slide';
+import { createMuiTheme } from '@material-ui/core/styles';
+import MuiThemeProvider from '@material-ui/core/es/styles/MuiThemeProvider';
+import Grid from '@material-ui/core/Grid/Grid';
+import PropTypes from 'prop-types';
+import { Config } from '../../config';
+import { Close as CloseIcon } from '@material-ui/icons';
+import GlobalStorage from '../../models/Helpers/GlobalStorage/GlobalStorage';
+import Text from './Text';
+import ItemList from './ItemList';
+import Wrapper from '../layout/Wrapper';
+import SearchField from './SearchField';
 
 const style = {
 	root: {
 		paddingLeft: 4,
-		paddingRight: 4
+		paddingRight: 4,
 	},
 	text: {
-		paddingLeft: "1rem",
-		flexGrow: 1
-	}
+		paddingLeft: '1rem',
+		flexGrow: 1,
+	},
 };
 
-const theme = createMuiTheme( Config.muiThemeAddItem );
+const theme = createMuiTheme(Config.muiThemeAddItem);
 
 /**
  * Whole add item dialog
  */
 class AddItemBar extends PureComponent {
-
 	state = {
 		items: [],
 		currentMediaModel: null,
-		hasSearched: false
+		hasSearched: false,
 	};
 	/** @type {GlobalStorageObserver} */
 	currentMediaModelListener = null;
 
 	componentDidMount() {
-		this.currentMediaModelListener = GlobalStorage.connect( 'currentMediaModel', ( model ) => {
-			this.setState( {
+		this.currentMediaModelListener = GlobalStorage.connect('currentMediaModel', (model) => {
+			this.setState({
 				currentMediaModel: model,
 				hasSearched: false,
-				items: []
-			} )
-		} );
+				items: [],
+			});
+		});
 	}
 
 	componentWillUnmount() {
-		this.currentMediaModelListener.disconnect()
+		this.currentMediaModelListener.disconnect();
 	}
 
 	/**
@@ -64,7 +63,7 @@ class AddItemBar extends PureComponent {
 	 * @return {React}
 	 * @constructor
 	 */
-	static Transition( props ) {
+	static Transition(props) {
 		return <Slide direction="up" {...props} />;
 	}
 
@@ -72,21 +71,24 @@ class AddItemBar extends PureComponent {
 	 * Handle form submit and search for items
 	 * @param {string} searchText
 	 */
-	handleSearch = ( searchText ) => {
+	handleSearch = (searchText) => {
 		const { currentMediaModel } = this.state;
 
-		if ( searchText.length ) {
-			currentMediaModel.searchItem( searchText ).then( ( items ) => {
-				this.setState( {
-					items: items,
-					hasSearched: true
-				} )
-			} ).catch( () => {
-				this.setState( {
-					items: [],
-					hasSearched: true
-				} )
-			} );
+		if (searchText.length) {
+			currentMediaModel
+				.searchItem(searchText)
+				.then((items) => {
+					this.setState({
+						items: items,
+						hasSearched: true,
+					});
+				})
+				.catch(() => {
+					this.setState({
+						items: [],
+						hasSearched: true,
+					});
+				});
 		}
 	};
 
@@ -133,20 +135,19 @@ class AddItemBar extends PureComponent {
 	_renderItems() {
 		const { hasSearched, items, currentMediaModel } = this.state;
 
-		if ( !hasSearched ) {
+		if (!hasSearched) {
 			return <Text text="Start searching" />;
-		} else if ( items.length ) {
-			return <ItemList items={items} currentMediaModel={currentMediaModel} />
+		} else if (items.length) {
+			return <ItemList items={items} currentMediaModel={currentMediaModel} />;
 		} else {
 			return <Text text="Nothing found" />;
 		}
 	}
-
 }
 
 AddItemBar.propTypes = {
 	open: PropTypes.bool,
-	handleClose: PropTypes.func.isRequired
+	handleClose: PropTypes.func.isRequired,
 };
 
-export default withStyles( style )( AddItemBar );
+export default withStyles(style)(AddItemBar);

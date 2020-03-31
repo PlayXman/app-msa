@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid/Grid";
-import withStyles from "@material-ui/core/styles/withStyles";
+import React, { Component } from 'react';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid/Grid';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = {
 	cont: {
-		margin: '20vh 0'
-	}
+		margin: '20vh 0',
+	},
 };
 
 /**
@@ -14,11 +14,13 @@ const styles = {
  */
 class NoItems extends Component {
 	render() {
-		const {classes} = this.props;
+		const { classes } = this.props;
 
 		return (
 			<Grid item className={classes.cont}>
-				<Typography variant="caption" component="p">Nothing to show</Typography>
+				<Typography variant="caption" component="p">
+					Nothing to show
+				</Typography>
 			</Grid>
 		);
 	}

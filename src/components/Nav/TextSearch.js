@@ -1,32 +1,31 @@
 import React, { PureComponent } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { InputBase } from "@material-ui/core";
-import GlobalStorage from "../../models/Helpers/GlobalStorage/GlobalStorage";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
-import { Clear as ClearIcon } from "@material-ui/icons";
+import { InputBase } from '@material-ui/core';
+import GlobalStorage from '../../models/Helpers/GlobalStorage/GlobalStorage';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import { Clear as ClearIcon } from '@material-ui/icons';
 
-const styles = ( theme ) => ({
+const styles = (theme) => ({
 	root: {
 		display: 'flex',
 		background: theme.palette.background.default,
 		borderRadius: 4,
 		height: '100%',
-		padding: '0 3%'
-	}
+		padding: '0 3%',
+	},
 });
 
 /**
  * Search input in top bar
  */
 class TextSearch extends PureComponent {
-
 	state = {
 		/** @type {MediaModel} */
 		mediaModel: null,
 		/** @type {FilterActions} */
 		searchActions: null,
-		text: ''
+		text: '',
 	};
 	/** @type {GlobalStorageObserver} */
 	currentMediaModelObserver;
@@ -35,17 +34,17 @@ class TextSearch extends PureComponent {
 	textKeyStrokeTimer = null;
 
 	componentDidMount() {
-		this.currentMediaModelObserver = GlobalStorage.connect( 'currentMediaModel', ( obj ) => {
-			this.setState( {
-				mediaModel: obj
-			} )
-		} );
+		this.currentMediaModelObserver = GlobalStorage.connect('currentMediaModel', (obj) => {
+			this.setState({
+				mediaModel: obj,
+			});
+		});
 
-		this.searchActionsObserver = GlobalStorage.connect( 'filterActions', ( obj ) => {
-			this.setState( {
-				searchActions: obj
-			} )
-		} );
+		this.searchActionsObserver = GlobalStorage.connect('filterActions', (obj) => {
+			this.setState({
+				searchActions: obj,
+			});
+		});
 	}
 
 	componentWillUnmount() {
@@ -57,31 +56,31 @@ class TextSearch extends PureComponent {
 	 * Handles input value change
 	 * @param {Event} e
 	 */
-	handleChange = ( e ) => {
-		this.setState( {
-			text: e.target.value
-		} );
+	handleChange = (e) => {
+		this.setState({
+			text: e.target.value,
+		});
 	};
 
 	/**
 	 * Handles text change after a user stopped writing
 	 */
 	handleTextChange = () => {
-		clearTimeout( this.textKeyStrokeTimer );
+		clearTimeout(this.textKeyStrokeTimer);
 
-		this.textKeyStrokeTimer = setTimeout( () => {
-			this.state.searchActions.searchByText( this.state.text );
+		this.textKeyStrokeTimer = setTimeout(() => {
+			this.state.searchActions.searchByText(this.state.text);
 			this.state.searchActions.filter();
-		}, 300 );
+		}, 300);
 	};
 
 	/**
 	 * Clears text from input
 	 */
 	handleClear = () => {
-		this.setState( {
-			text: ''
-		} );
+		this.setState({
+			text: '',
+		});
 
 		this.handleTextChange();
 	};
@@ -101,10 +100,7 @@ class TextSearch extends PureComponent {
 				endAdornment={
 					text.length ? (
 						<InputAdornment position="end">
-							<IconButton
-								aria-label="Clear search"
-								onClick={this.handleClear}
-							>
+							<IconButton aria-label="Clear search" onClick={this.handleClear}>
 								<ClearIcon />
 							</IconButton>
 						</InputAdornment>
@@ -113,7 +109,6 @@ class TextSearch extends PureComponent {
 			/>
 		);
 	}
-
 }
 
-export default withStyles( styles )( TextSearch );
+export default withStyles(styles)(TextSearch);

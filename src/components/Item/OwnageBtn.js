@@ -1,37 +1,36 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import IconButton from "@material-ui/core/IconButton/IconButton";
-import Tooltip from "@material-ui/core/Tooltip/Tooltip";
+import IconButton from '@material-ui/core/IconButton/IconButton';
+import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import OwnageStatus from '../../models/Helpers/OwnageStatus';
-import {CheckBox as CheckBoxIcon} from "@material-ui/icons";
-import GlobalStorage from "../../models/Helpers/GlobalStorage/GlobalStorage";
+import { CheckBox as CheckBoxIcon } from '@material-ui/icons';
+import GlobalStorage from '../../models/Helpers/GlobalStorage/GlobalStorage';
 
 const stateData = {
 	DEFAULT: {
 		notReleased: {
 			title: 'Not Released',
-			color: 'disabled'
+			color: 'disabled',
 		},
 		released: {
 			title: 'Released',
-			color: 'inherit'
+			color: 'inherit',
 		},
 	},
 	DOWNLOADABLE: {
 		title: 'Downloadable',
-		color: 'primary'
+		color: 'primary',
 	},
 	OWNED: {
 		title: 'Owned',
-		color: 'secondary'
-	}
+		color: 'secondary',
+	},
 };
 
 /**
  * Item's status button.
  */
 class OwnageBtn extends PureComponent {
-
 	mediaModel;
 
 	constructor(props) {
@@ -47,7 +46,7 @@ class OwnageBtn extends PureComponent {
 	getStateData() {
 		const stateKey = this.props.ownageStatus;
 
-		if ( stateKey === 'DEFAULT' ) {
+		if (stateKey === 'DEFAULT') {
 			const subState = this.props.released ? 'released' : 'notReleased';
 			return stateData[stateKey][subState];
 		} else {
@@ -59,7 +58,7 @@ class OwnageBtn extends PureComponent {
 	 * Changes state.
 	 */
 	handleClick = () => {
-		const {ownageStatus, itemKey} = this.props;
+		const { ownageStatus, itemKey } = this.props;
 
 		const item = this.mediaModel.createItem();
 		item.setId(itemKey);
@@ -83,9 +82,9 @@ class OwnageBtn extends PureComponent {
 
 OwnageBtn.propTypes = {
 	released: PropTypes.bool,
-	ownageStatus: PropTypes.oneOf( ['DEFAULT', 'DOWNLOADABLE', 'OWNED'] ),
+	ownageStatus: PropTypes.oneOf(['DEFAULT', 'DOWNLOADABLE', 'OWNED']),
 	classes: PropTypes.object,
-	itemKey: PropTypes.string.isRequired
+	itemKey: PropTypes.string.isRequired,
 };
 
 export default OwnageBtn;

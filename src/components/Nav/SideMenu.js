@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
-import PropTypes from "prop-types";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import withStyles from "@material-ui/core/es/styles/withStyles";
-import SideMenuItem from "./SideMenuItem";
+import PropTypes from 'prop-types';
+import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/es/styles/withStyles';
+import SideMenuItem from './SideMenuItem';
 import {
 	LocalMovies as LocalMoviesIcon,
 	VideogameAsset as VideogameAssetIcon,
-	Book as BookIcon
-} from "@material-ui/icons";
-import Avatar from "@material-ui/core/Avatar";
-import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+	Book as BookIcon,
+} from '@material-ui/icons';
+import Avatar from '@material-ui/core/Avatar';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 
-const style = theme => ({
+const style = (theme) => ({
 	title: {
-		padding: "2em",
+		padding: '2em',
 		backgroundColor: theme.palette.primary.main,
-		color: theme.palette.primary.contrastText
+		color: theme.palette.primary.contrastText,
 	},
 	logo: {
 		margin: '0 auto 1rem',
@@ -25,16 +25,15 @@ const style = theme => ({
 		background: '#fff',
 		'& img': {
 			maxWidth: '70%',
-			height: 'auto'
-		}
-	}
+			height: 'auto',
+		},
+	},
 });
 
 /**
  * Side menu
  */
 class SideMenu extends Component {
-
 	render() {
 		const { open, handleOpen, handleClose, classes } = this.props;
 
@@ -54,13 +53,12 @@ class SideMenu extends Component {
 			</SwipeableDrawer>
 		);
 	}
-
 }
 
 SideMenu.propTypes = {
 	open: PropTypes.bool,
 	handleOpen: PropTypes.func,
-	handleClose: PropTypes.func
+	handleClose: PropTypes.func,
 };
 
-export default withStyles( style )( SideMenu );
+export default withStyles(style)(SideMenu);
