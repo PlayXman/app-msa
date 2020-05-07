@@ -10,6 +10,8 @@ import WarezBB from '../vendors/WarezBB';
  * Media model for Games
  */
 class GamesMediaModel extends MediaModel {
+	name = 'games';
+
 	/**
 	 * Returns ref to all DB items
 	 * @return {firebase.database.Reference}

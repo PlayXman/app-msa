@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core';
+import ListItem from '@material-ui/core/ListItem';
 
 const style = (theme) => ({
 	root: {
@@ -52,10 +52,14 @@ class SubMenuItem extends Component {
 		const { showConfirm } = this.state;
 
 		return (
-			<MenuItem className={showConfirm ? classes.root : null} onClick={this.handleClick}>
+			<ListItem
+				button
+				className={showConfirm ? classes.root : null}
+				onClick={this.handleClick}
+			>
 				{icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
 				<ListItemText inset primary={showConfirm ? this.confirmationText : text} />
-			</MenuItem>
+			</ListItem>
 		);
 	}
 }
