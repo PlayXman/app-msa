@@ -22,9 +22,6 @@ export const Config = {
 				default: '#f1f1f1',
 			},
 		},
-		typography: {
-			useNextVariants: true,
-		},
 	},
 	muiThemeAddItem: {
 		palette: {
@@ -35,9 +32,6 @@ export const Config = {
 			secondary: {
 				main: '#9ccc65',
 			},
-		},
-		typography: {
-			useNextVariants: true,
 		},
 	},
 	vendors: {
