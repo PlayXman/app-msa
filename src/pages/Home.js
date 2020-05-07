@@ -77,7 +77,7 @@ class Home extends Component {
 		return (
 			<PageContent>
 				<div className={classes.cont}>
-					<Grid container justify="center" spacing={16}>
+					<Grid container justify="center" spacing={4}>
 						{btns.map(renderItem)}
 					</Grid>
 				</div>

@@ -149,7 +149,7 @@ class MediaPageContent extends Component {
 								<Filter filterHandler={this.handleFilter} />
 							</Grid>
 						</Grid>
-						<Grid container spacing={8} justify="center">
+						<Grid container spacing={2} justify="center">
 							{this._renderItems()}
 						</Grid>
 					</Grid>

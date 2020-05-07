@@ -55,9 +55,9 @@ class TopBar extends Component {
 			<div>
 				<AppBar elevation={3}>
 					<Toolbar className={classes.root}>
-						<Grid container justify="space-between" spacing={8}>
+						<Grid container justify="space-between" spacing={2}>
 							<Grid item xs="auto">
-								<Grid container alignItems="center" spacing={8}>
+								<Grid container alignItems="center" spacing={2}>
 									<Grid item xs="auto">
 										<IconButton
 											onClick={sidemenuOpenHandler}
