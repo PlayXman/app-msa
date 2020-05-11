@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import Dialog from '@material-ui/core/Dialog/Dialog';
 import AppBar from '@material-ui/core/AppBar/AppBar';
 import Typography from '@material-ui/core/Typography';
@@ -6,11 +6,11 @@ import IconButton from '@material-ui/core/IconButton/IconButton';
 import withStyles from '@material-ui/core/es/styles/withStyles';
 import Toolbar from '@material-ui/core/Toolbar/Toolbar';
 import Slide from '@material-ui/core/Slide/Slide';
-import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid/Grid';
 import PropTypes from 'prop-types';
-import {Config} from '../../config';
-import {Close as CloseIcon} from '@material-ui/icons';
+import { Config } from '../../config';
+import { Close as CloseIcon } from '@material-ui/icons';
 import GlobalStorage from '../../models/Helpers/GlobalStorage/GlobalStorage';
 import Text from './Text';
 import ItemList from './ItemList';
@@ -68,7 +68,7 @@ class AddItemBar extends PureComponent {
 	 * @param {string} searchText
 	 */
 	handleSearch = (searchText) => {
-		const {currentMediaModel} = this.state;
+		const { currentMediaModel } = this.state;
 
 		if (searchText.length) {
 			currentMediaModel
@@ -89,7 +89,7 @@ class AddItemBar extends PureComponent {
 	};
 
 	render() {
-		const {open, handleClose, classes} = this.props;
+		const { open, handleClose, classes } = this.props;
 
 		return (
 			<Dialog
@@ -129,7 +129,7 @@ class AddItemBar extends PureComponent {
 	 * @private
 	 */
 	_renderItems() {
-		const {hasSearched, items, currentMediaModel} = this.state;
+		const { hasSearched, items, currentMediaModel } = this.state;
 
 		if (!hasSearched) {
 			return <Text text="Start searching" />;

@@ -12,6 +12,8 @@ import GlobalStorage from '../Helpers/GlobalStorage/GlobalStorage';
  * Media model for Movies
  */
 class MoviesMediaModel extends MediaModel {
+	name = 'movies';
+
 	/**
 	 * Returns ref to all DB items
 	 * @return {firebase.database.Reference}

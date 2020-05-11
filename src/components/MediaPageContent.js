@@ -165,6 +165,7 @@ class MediaPageContent extends Component {
 	 * Returns configured Item ready to render
 	 * @param {string} key This object item key ("id-1234")
 	 * @param {{data: Media, isReleased: boolean, show: boolean}} item This object item
+	 * @param anchor
 	 */
 	_renderItem(key, item, anchor) {
 		const obj = item.data;
@@ -179,6 +180,7 @@ class MediaPageContent extends Component {
 				releaseDate={this.mediaModel.getReleaseDate(obj.releaseDate)}
 				isReleased={item.isReleased}
 				ownageStatus={obj.status}
+				labels={obj.labels}
 			>
 				{this.props.itemSubmenu(obj)}
 			</Item>

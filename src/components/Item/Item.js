@@ -6,37 +6,39 @@ import CardActions from '@material-ui/core/CardActions/CardActions';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid/Grid';
-import Released from './Released';
 import OwnageBtn from './OwnageBtn';
-import SubMenu from './SubMenu';
 import Image from './Image';
-import CopyBtn from './CopyBtn';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import Labels from './labels/Labels';
+import SubMenu from './submenu/SubMenu';
+import ReleaseDate from './ReleaseDate';
 
-const style = {
+const style = (theme) => ({
 	cont: {
-		flexBasis: 158,
+		width: 158,
 	},
 	card: {
 		height: '100%',
 		display: 'flex',
 		flexDirection: 'column',
 	},
+	clickableArea: {
+		display: 'flex',
+		width: '100%',
+		flexGrow: 1,
+		flexDirection: 'column',
+		justifyContent: 'flex-start',
+		alignItems: 'stretch',
+	},
 	media: {
 		objectFit: 'cover',
 		height: 208,
 	},
 	textCont: {
-		paddingTop: 10,
-		paddingLeft: 10,
-		paddingRight: 10,
-		paddingBottom: 0,
-		flexGrow: 1,
-	},
-	date: {
-		fontSize: '0.65rem',
+		padding: 10,
 	},
 	buttonsCont: {
-		position: 'relative',
+		padding: `${theme.spacing(0.5)}px ${theme.spacing(1)}px`,
 	},
 	statusIconCont: {
 		display: 'flex',
@@ -49,12 +51,28 @@ const style = {
 	smallIcon: {
 		fontSize: 16,
 	},
-};
+});
 
 /**
  * Main item component.
  */
 class Item extends PureComponent {
+	state = {
+		openSubmenu: false,
+	};
+
+	handleSubmenuOpen = () => {
+		this.setState({
+			openSubmenu: true,
+		});
+	};
+
+	handleSubmenuClose = () => {
+		this.setState({
+			openSubmenu: false,
+		});
+	};
+
 	render() {
 		const {
 			id,
@@ -64,9 +82,12 @@ class Item extends PureComponent {
 			imageUrl,
 			isReleased,
 			ownageStatus,
+			labels,
 			children,
 			classes,
 		} = this.props;
+		const { openSubmenu } = this.state;
+
 		const actionsClasses = {
 			smallBtn: classes.smallBtn,
 			smallIcon: classes.smallIcon,
@@ -75,37 +96,34 @@ class Item extends PureComponent {
 		return (
 			<Grid item className={classes.cont} id={id}>
 				<Card elevation={0} className={classes.card}>
-					<Image src={imageUrl} />
-					<CardContent className={classes.textCont}>
-						<Typography gutterBottom variant="body1">
-							{title}
-						</Typography>
-						<Typography variant="caption" className={classes.date}>
-							{releaseDate}
-						</Typography>
-					</CardContent>
+					<CardActionArea
+						className={classes.clickableArea}
+						onClick={this.handleSubmenuOpen}
+					>
+						<Image src={imageUrl} />
+						<CardContent className={classes.textCont}>
+							<Typography gutterBottom variant="body1">
+								{title}
+							</Typography>
+							<Typography variant="body2">
+								<ReleaseDate date={releaseDate} isReleased={isReleased} />
+							</Typography>
+						</CardContent>
+					</CardActionArea>
 
 					<CardActions className={classes.buttonsCont}>
-						<Released show={isReleased} />
-						<Grid container justify="space-between" alignItems="center">
-							<Grid item className={classes.statusIconCont}>
-								<OwnageBtn
-									classes={actionsClasses}
-									released={isReleased}
-									ownageStatus={ownageStatus}
-									itemKey={itemId}
-								/>
-							</Grid>
-							<Grid item>
-								<CopyBtn classes={actionsClasses} textToCopy={this.props.title} />
-
-								<SubMenu classes={actionsClasses} itemKey={itemId}>
-									{children}
-								</SubMenu>
-							</Grid>
-						</Grid>
+						<OwnageBtn
+							classes={actionsClasses}
+							released={isReleased}
+							ownageStatus={ownageStatus}
+							itemKey={itemId}
+						/>
+						<Labels labels={labels} />
 					</CardActions>
 				</Card>
+				<SubMenu open={openSubmenu} onClose={this.handleSubmenuClose} itemID={itemId}>
+					{children}
+				</SubMenu>
 			</Grid>
 		);
 	}
@@ -119,6 +137,7 @@ Item.propTypes = {
 	releaseDate: PropTypes.string,
 	isReleased: PropTypes.bool,
 	ownageStatus: PropTypes.oneOf(['DEFAULT', 'DOWNLOADABLE', 'OWNED']),
+	labels: PropTypes.array,
 	children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]),
 };
 

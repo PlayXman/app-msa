@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import { database } from 'firebase/app';
 import Url from '../../Helpers/Url';
 
 class Media {
@@ -62,7 +62,7 @@ class Media {
 		}
 
 		const obj = this._prepareDbObj();
-		return firebase.database().ref(`${this._getDbRef()}/${this.getId()}`).update(obj);
+		return database().ref(`${this._getDbRef()}/${this.getId()}`).update(obj);
 	}
 
 	/**
@@ -74,7 +74,7 @@ class Media {
 			throw new Error('Missing id!');
 		}
 
-		return firebase.database().ref(`${this._getDbRef()}/${this.getId()}`).remove();
+		return database().ref(`${this._getDbRef()}/${this.getId()}`).remove();
 	}
 
 	/**

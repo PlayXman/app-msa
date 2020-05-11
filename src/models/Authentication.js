@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import { auth } from 'firebase/app';
 
 /**
  * Deals with user authentication
@@ -11,7 +11,7 @@ class Authentication {
 	 * @return {Promise<firebase.auth.UserCredential>}
 	 */
 	static signIn(email, pass) {
-		return firebase.auth().signInWithEmailAndPassword(email, pass);
+		return auth().signInWithEmailAndPassword(email, pass);
 	}
 
 	/**
@@ -19,7 +19,7 @@ class Authentication {
 	 * @param {function(boolean)} callback Returns true if logged in, false otherwise
 	 */
 	static signInListener(callback) {
-		firebase.auth().onAuthStateChanged((user) => {
+		auth().onAuthStateChanged((user) => {
 			if (user) {
 				callback(true);
 			} else {

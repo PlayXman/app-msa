@@ -8,6 +8,8 @@ import GoogleBooks from '../vendors/GoogleBooks';
  * Media model for Books
  */
 class BooksMediaModel extends MediaModel {
+	name = 'books';
+
 	/**
 	 * Returns ref to all DB items
 	 * @return {firebase.database.Reference}

@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import { database } from 'firebase/app';
 import OwnageStatus from '../../Helpers/OwnageStatus';
 import Media from './Media';
 
@@ -13,8 +13,8 @@ class Movies extends Media {
 	title;
 	/** @type {string} OwnageStatus */
 	status;
-	/** @type {string} */
-	note;
+	/** @type {string[]} */
+	labels;
 	/** @type {string} */
 	imageUrl;
 	/** @type {string} */
@@ -25,7 +25,7 @@ class Movies extends Media {
 	 * @return {firebase.database.Reference}
 	 */
 	static dbRef() {
-		return firebase.database().ref(DB_PATH);
+		return database().ref(DB_PATH);
 	}
 
 	/**
@@ -35,7 +35,7 @@ class Movies extends Media {
 	setDefaults() {
 		this.title = '';
 		this.status = OwnageStatus.getDefault();
-		this.note = '';
+		this.labels = [];
 		this.imageUrl = '';
 		this.releaseDate = '';
 		return this;

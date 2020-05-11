@@ -1,9 +1,13 @@
 import Notification from '../Notification';
+import Labels from '../Db/labels/Labels';
+import Label from '../Db/labels/Label';
 
 /**
  * MediaModel prescription.
  */
 class MediaModel {
+	name = '';
+
 	/**
 	 * Formats date to readable form.
 	 * @param {string} date
@@ -113,6 +117,63 @@ class MediaModel {
 				const ids = Object.keys(snap.val());
 				this._updateDbItems(ids, loader, loaderMsg);
 			});
+	}
+
+	/**
+	 * Adds a label to a item and indexes it in DB
+	 * @param {string} label
+	 * @param {string|number} itemId Media item id
+	 * @returns {Promise<void>}
+	 */
+	async handleAddLabel(label, itemId) {
+		const ref = this.getDbRef().child(itemId);
+		const newLabel = new Label();
+		newLabel.key = label;
+
+		const itemLabelsSnapshot = await ref.child('labels').once('value');
+
+		if (itemLabelsSnapshot.exists()) {
+			const labels = itemLabelsSnapshot.val();
+
+			if (!labels.includes(newLabel.key)) {
+				labels.push(newLabel.key);
+
+				await ref.update({
+					labels: labels,
+				});
+				await Labels.addLabel(newLabel.key, this.name);
+			}
+		} else {
+			await ref.update({
+				labels: [newLabel.key],
+			});
+			await Labels.addLabel(newLabel.key, this.name);
+		}
+	}
+
+	/**
+	 * Removes label from item and index DB table
+	 * @param {string} label
+	 * @param {string|number} itemId Media item id
+	 * @returns {Promise<void>}
+	 */
+	async handleRemoveLabel(label, itemId) {
+		const ref = this.getDbRef().child(itemId);
+		const newLabel = new Label();
+		newLabel.key = label;
+
+		const itemLabelsSnapshot = await ref.child('labels').once('value');
+
+		if (itemLabelsSnapshot.exists()) {
+			const labels = itemLabelsSnapshot.val();
+
+			if (labels.includes(newLabel.key)) {
+				await ref.update({
+					labels: labels.filter((item) => item !== newLabel.key),
+				});
+				await Labels.removeLabel(newLabel.key, this.name);
+			}
+		}
 	}
 
 	/**
