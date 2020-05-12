@@ -5,7 +5,7 @@ import Filter from '../components/Filter/Filter';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core';
 import NoItems from '../components/MediaComponents/NoItems';
-import Item from '../components/Item/Item';
+import MediaItem from '../components/MediaComponents/MediaItem';
 import ListLoader from '../components/MediaComponents/ListLoader';
 import PropTypes from 'prop-types';
 import MediaModel from '../models/MediaModels/MediaModel';
@@ -171,7 +171,7 @@ class MediaPageContent extends Component {
 		const obj = item.data;
 
 		return (
-			<Item
+			<MediaItem
 				key={key}
 				id={anchor}
 				itemId={obj.getId()}
@@ -183,7 +183,7 @@ class MediaPageContent extends Component {
 				labels={obj.labels}
 			>
 				{this.props.itemSubmenu(obj)}
-			</Item>
+			</MediaItem>
 		);
 	}
 

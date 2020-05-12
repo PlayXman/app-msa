@@ -23,17 +23,6 @@ export const Config = {
 			},
 		},
 	},
-	muiThemeAddItem: {
-		palette: {
-			primary: {
-				main: '#42baff',
-				contrastText: '#ffffff',
-			},
-			secondary: {
-				main: '#9ccc65',
-			},
-		},
-	},
 	vendors: {
 		giantBombCom: {
 			apiUrl: 'https://www.giantbomb.com/api/',

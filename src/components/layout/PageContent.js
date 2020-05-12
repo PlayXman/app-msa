@@ -5,7 +5,7 @@ import Wrapper from './Wrapper';
 
 const style = {
 	main: {
-		padding: '70px 0 2em',
+		padding: '70px 0 6em',
 	},
 };
 

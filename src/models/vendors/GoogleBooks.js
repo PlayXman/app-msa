@@ -21,6 +21,7 @@ class GoogleBooks {
 					'volumeInfo/authors',
 					'volumeInfo/imageLinks',
 					'volumeInfo/publishedDate',
+					'volumeInfo/previewLink',
 				].join(',')})`,
 			});
 
