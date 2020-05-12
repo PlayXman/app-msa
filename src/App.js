@@ -9,7 +9,7 @@ import Games from './pages/Games';
 import Books from './pages/Books';
 import { Config } from './config';
 import NotificationContainer from './components/NotificationContainer';
-import AddItemContainer from './components/AddItem/AddItemContainer';
+import NewItemContainer from './components/newItem/NewItemContainer';
 import { CssBaseline } from '@material-ui/core';
 import Trakt from './models/vendors/Trakt';
 import GlobalStorage from './models/Helpers/GlobalStorage/GlobalStorage';
@@ -62,7 +62,7 @@ class App extends PureComponent {
 	_renderSignedInApp() {
 		return (
 			<Router>
-				<AddItemContainer />
+				<NewItemContainer />
 				<Nav />
 
 				<Switch>

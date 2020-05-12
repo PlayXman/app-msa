@@ -4,7 +4,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import PropTypes from 'prop-types';
-import { Menu as MenuIcon, Add as AddIcon, Sync as SyncIcon } from '@material-ui/icons';
+import { Menu as MenuIcon, Sync as SyncIcon } from '@material-ui/icons';
 import Grid from '@material-ui/core/Grid';
 import GlobalStorage from '../../models/Helpers/GlobalStorage/GlobalStorage';
 import { withStyles } from '@material-ui/core';
@@ -26,13 +26,6 @@ class TopBar extends Component {
 		mediaModel: null,
 	};
 	currentMediaModelListener;
-	addItemContainer;
-
-	constructor(props) {
-		super(props);
-
-		this.addItemContainer = GlobalStorage.getState('addItemContainer');
-	}
 
 	componentDidMount() {
 		this.currentMediaModelListener = GlobalStorage.connect('currentMediaModel', (data) => {
@@ -82,15 +75,6 @@ class TopBar extends Component {
 												color="inherit"
 											>
 												<SyncIcon />
-											</IconButton>
-										</Tooltip>
-
-										<Tooltip title="Add item" disableFocusListener>
-											<IconButton
-												color="inherit"
-												onClick={this.addItemContainer.handleOpen}
-											>
-												<AddIcon />
 											</IconButton>
 										</Tooltip>
 									</Grid>
