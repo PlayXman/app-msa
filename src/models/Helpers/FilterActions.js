@@ -10,6 +10,7 @@ class FilterActions {
 		text: '',
 		releasedState: null,
 		ownageStatus: null,
+		label: false
 	};
 
 	/**
@@ -25,21 +26,23 @@ class FilterActions {
 	filter() {
 		const mc = this.mediaContainer;
 		const items = {};
+		const text = Url.slugify(this.conditions.text);
 
 		Object.keys(mc.state.items).forEach((itemId) => {
 			const item = mc.state.items[itemId];
 			let show = true;
 
-			if (this.conditions.text) {
+			if (text && !this.conditions.label) {
 				show &= Url.slugify(item.data.title).includes(this.conditions.text);
 			}
-
 			if (this.conditions.releasedState !== null) {
 				show &= item.isReleased === this.conditions.releasedState;
 			}
-
 			if (this.conditions.ownageStatus) {
 				show &= item.data.status === this.conditions.ownageStatus;
+			}
+			if(this.conditions.label) {
+				show &= item.data.labels.includes(this.conditions.text);
 			}
 
 			item.show = show;
@@ -58,6 +61,7 @@ class FilterActions {
 		this.conditions.text = '';
 		this.conditions.releasedState = null;
 		this.conditions.ownageStatus = null;
+		this.conditions.label = false;
 	}
 
 	/**
@@ -65,7 +69,7 @@ class FilterActions {
 	 * @param {string} text
 	 */
 	searchByText(text) {
-		this.conditions.text = Url.slugify(text);
+		this.conditions.text = text;
 	}
 
 	/**
@@ -82,6 +86,14 @@ class FilterActions {
 	 */
 	searchByOwnageStatus(status) {
 		this.conditions.ownageStatus = status;
+	}
+
+	/**
+	 * Filters media items by label
+	 * @param {boolean} isLabel If true, uses text as label name
+	 */
+	searchByLabel(isLabel) {
+		this.conditions.label = isLabel;
 	}
 }
 

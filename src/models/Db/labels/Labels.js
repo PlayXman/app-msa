@@ -106,6 +106,15 @@ class Labels {
 	static getDbRef(modelName) {
 		return database().ref(`${this.DB_PATH}/${modelName}`);
 	}
+
+	/**
+	 * @param {string} label Key
+	 * @param {Label[]} labels
+	 * @returns {boolean} If the label is in the label array
+	 */
+	static inLabels(label, labels) {
+		return labels.some((item) => item.key === label);
+	}
 }
 
 export default Labels;

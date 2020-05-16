@@ -12,6 +12,8 @@ import MediaModel from '../models/MediaModels/MediaModel';
 import GlobalStorage from '../models/Helpers/GlobalStorage/GlobalStorage';
 import FilterActions from '../models/Helpers/FilterActions';
 import Alphabet from './MediaComponents/Alphabet';
+import NewItemContainer from "./newItem/NewItemContainer";
+import Nav from "./Nav/Nav";
 
 const style = (theme) => ({
 	heading: {
@@ -131,33 +133,37 @@ class MediaPageContent extends Component {
 		const { heading, classes } = this.props;
 
 		return (
-			<PageContent>
-				<Grid container spacing={0}>
-					<Grid item xs>
-						<Grid
-							container
-							justify="space-between"
-							alignItems="center"
-							className={classes.heading}
-						>
-							<Grid item xs>
-								<Typography variant="h4" component="h2" className={classes.title}>
-									{heading}
-								</Typography>
+			<>
+				<NewItemContainer />{/*todo optimize*/}
+				<Nav />
+				<PageContent>
+					<Grid container>
+						<Grid item xs>
+							<Grid
+								container
+								justify="space-between"
+								alignItems="center"
+								className={classes.heading}
+							>
+								<Grid item xs>
+									<Typography variant="h4" component="h2" className={classes.title}>
+										{heading}
+									</Typography>
+								</Grid>
+								<Grid item xs="auto">
+									<Filter filterHandler={this.handleFilter} />
+								</Grid>
 							</Grid>
-							<Grid item xs="auto">
-								<Filter filterHandler={this.handleFilter} />
+							<Grid container spacing={1} justify="center">
+								{this._renderItems()}
 							</Grid>
 						</Grid>
-						<Grid container spacing={2} justify="center">
-							{this._renderItems()}
+						<Grid item className={classes.alphabet}>
+							<Alphabet />
 						</Grid>
 					</Grid>
-					<Grid item className={classes.alphabet}>
-						<Alphabet />
-					</Grid>
-				</Grid>
-			</PageContent>
+				</PageContent>
+			</>
 		);
 	}
 

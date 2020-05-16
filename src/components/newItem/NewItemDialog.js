@@ -23,9 +23,6 @@ const useStyles = makeStyles((theme) => ({
 		paddingLeft: 4,
 		paddingRight: 4,
 	},
-	cont: {
-		padding: `0 ${theme.spacing(3)}px`,
-	},
 	text: {
 		paddingLeft: '1rem',
 		flexGrow: 1,
@@ -43,15 +40,9 @@ const NewItemDialog = ({ open, onClose }) => {
 	const [currentMediaModel, setCurrentMediaModel] = useState(null);
 
 	useEffect(() => {
-		const currentMediaModelListener = GlobalStorage.connect('currentMediaModel', (model) => {
-			setCurrentMediaModel(model);
-			setSearched(false);
-			setItems([]);
-		});
-
-		return () => {
-			currentMediaModelListener.disconnect();
-		};
+		setCurrentMediaModel(GlobalStorage.getState('currentMediaModel'));
+		setSearched(false);
+		setItems([]);
 	}, []);
 
 	const renderItems = () => {
@@ -101,7 +92,7 @@ const NewItemDialog = ({ open, onClose }) => {
 				</Toolbar>
 			</AppBar>
 			<Wrapper>
-				<Grid container justify="center" className={classes.cont}>
+				<Grid container justify="center">
 					<Grid item xs sm={9} lg={6}>
 						<SearchField onSubmit={handleSearch} />
 
