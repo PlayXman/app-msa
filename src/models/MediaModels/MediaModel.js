@@ -128,7 +128,7 @@ class MediaModel {
 	async handleAddLabel(label, itemId) {
 		const ref = this.getDbRef().child(itemId);
 		const newLabel = new Label();
-		newLabel.key = label;
+		newLabel.newKey(label);
 
 		const itemLabelsSnapshot = await ref.child('labels').once('value');
 

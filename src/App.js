@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Nav from './components/Nav/Nav';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import NoMatch from './pages/NoMatch';
 import Home from './pages/Home';
@@ -9,7 +8,6 @@ import Games from './pages/Games';
 import Books from './pages/Books';
 import { Config } from './config';
 import NotificationContainer from './components/NotificationContainer';
-import NewItemContainer from './components/newItem/NewItemContainer';
 import { CssBaseline } from '@material-ui/core';
 import Trakt from './models/vendors/Trakt';
 import GlobalStorage from './models/Helpers/GlobalStorage/GlobalStorage';
@@ -62,9 +60,6 @@ class App extends PureComponent {
 	_renderSignedInApp() {
 		return (
 			<Router>
-				<NewItemContainer />
-				<Nav />
-
 				<Switch>
 					<Route path="/" exact component={Home} />
 					<Route path="/movies" exact component={Movies} />

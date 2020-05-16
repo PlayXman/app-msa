@@ -5,14 +5,9 @@ class Label {
 	};
 
 	/**
-	 * @param {string} name
+	 * @param {string} key
 	 */
-	set key(name) {
-		let key = name.toLowerCase();
-		key = key
-			.split(/[\s-_]/g)
-			.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-			.join('');
+	set key(key) {
 		this.params.key = key;
 	}
 
@@ -35,6 +30,19 @@ class Label {
 	 */
 	get count() {
 		return this.params.count;
+	}
+
+	/**
+	 * Creates a new key from "name"
+	 * @param {string} name
+	 */
+	newKey(name) {
+		let key = name.toLowerCase();
+		key = key
+		.split(/[\s-_]/g)
+		 .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+		 .join('');
+		this.params.key = key;
 	}
 }
 
