@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import Typography from '@material-ui/core/Typography';
 import PageContent from './layout/PageContent';
-import Filter from '../components/Filter/Filter';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core';
 import NoItems from '../components/MediaComponents/NoItems';
@@ -9,18 +7,15 @@ import MediaItem from '../components/MediaComponents/MediaItem';
 import ListLoader from '../components/MediaComponents/ListLoader';
 import PropTypes from 'prop-types';
 import MediaModel from '../models/MediaModels/MediaModel';
-import GlobalStorage from '../models/Helpers/GlobalStorage/GlobalStorage';
+import GlobalStorage, {STORAGE_NAMES} from '../models/Helpers/GlobalStorage/GlobalStorage';
 import FilterActions from '../models/Helpers/FilterActions';
 import Alphabet from './MediaComponents/Alphabet';
 import NewItemContainer from "./newItem/NewItemContainer";
 import Nav from "./Nav/Nav";
 
 const style = (theme) => ({
-	heading: {
-		margin: '0.4em 0 1em',
-	},
-	title: {
-		textAlign: 'center',
+	content: {
+		paddingTop: '4%'
 	},
 	alphabet: {
 		[theme.breakpoints.down(355)]: {
@@ -34,7 +29,7 @@ const style = (theme) => ({
  */
 class MediaPageContent extends Component {
 	state = {
-		items: {},
+		items: new Map(),
 		itemsLoaded: false,
 	};
 	dbRef;
@@ -46,11 +41,11 @@ class MediaPageContent extends Component {
 		this.mediaModel = this.props.mediaModel;
 		this.dbRef = this.mediaModel.getDbRef();
 
-		GlobalStorage.set('filterActions', new FilterActions(this));
+		GlobalStorage.set(STORAGE_NAMES.filterActions, new FilterActions(this));
 	}
 
 	componentDidMount() {
-		this.dbRef.orderByChild('sort').once('value').then(this.handleFirstLoad);
+		this.dbRef.orderByChild('slug').once('value').then(this.handleFirstLoad);
 		this.dbRef.on('child_changed', this.handleItemUpdate);
 		this.dbRef.on('child_removed', this.handleItemRemove);
 	}
@@ -65,7 +60,7 @@ class MediaPageContent extends Component {
 	 */
 	handleFirstLoad = (snap) => {
 		const obj = {
-			items: {},
+			items: new Map(),
 			itemsLoaded: true,
 		};
 
@@ -75,7 +70,7 @@ class MediaPageContent extends Component {
 				.setDefaults()
 				.fillObj(snapItem.val())
 				.setId(snapItem.key);
-			obj.items[this._createKey(snapItem.key)] = this._createItem(item);
+			obj.items.set(this._createKey(snapItem.key), this._createItem(item));
 		});
 
 		this.setState(obj);
@@ -89,24 +84,18 @@ class MediaPageContent extends Component {
 		const data = snap.val();
 		if (data) {
 			const id = snap.key;
+			const uid = this._createKey(id);
 			const item = this.mediaModel.createItem().setDefaults().fillObj(data).setId(id);
+			let items = new Map(this.state.items);
 
-			this.setState((prevState) => {
-				const obj = {};
-				const uid = this._createKey(id);
+			if (items.has(uid)) {
+				items.get(uid).data = item;
+			} else {
+				items = new Map([[uid, this._createItem(item)], ...items]);
+			}
 
-				if (prevState.items[uid]) {
-					prevState.items[uid].data = item;
-				} else {
-					obj[uid] = this._createItem(item);
-				}
-
-				return {
-					items: {
-						...obj,
-						...prevState.items,
-					},
-				};
+			this.setState({
+				items: items
 			});
 		}
 	};
@@ -118,14 +107,12 @@ class MediaPageContent extends Component {
 	handleItemRemove = (snap) => {
 		const data = snap.val();
 		if (data) {
-			this.setState((prevState) => {
-				const obj = {
-					items: prevState.items,
-				};
-				delete obj.items[this._createKey(snap.key)];
+			const items = this.state.items;
+			items.delete(this._createKey(snap.key));
 
-				return obj;
-			});
+			this.setState({
+				items: new Map(items)
+			})
 		}
 	};
 
@@ -134,26 +121,11 @@ class MediaPageContent extends Component {
 
 		return (
 			<>
-				<NewItemContainer />{/*todo optimize*/}
-				<Nav />
+				<NewItemContainer />
+				<Nav title={heading} />
 				<PageContent>
 					<Grid container>
-						<Grid item xs>
-							<Grid
-								container
-								justify="space-between"
-								alignItems="center"
-								className={classes.heading}
-							>
-								<Grid item xs>
-									<Typography variant="h4" component="h2" className={classes.title}>
-										{heading}
-									</Typography>
-								</Grid>
-								<Grid item xs="auto">
-									<Filter filterHandler={this.handleFilter} />
-								</Grid>
-							</Grid>
+						<Grid item xs className={classes.content}>
 							<Grid container spacing={1} justify="center">
 								{this._renderItems()}
 							</Grid>
@@ -207,9 +179,7 @@ class MediaPageContent extends Component {
 		const stateItems = this.state.items;
 		const items = [];
 
-		Object.keys(stateItems).forEach((key) => {
-			const item = stateItems[key];
-
+		stateItems.forEach((item, key) => {
 			if (item.show) {
 				isEmpty = false;
 				let id = null;

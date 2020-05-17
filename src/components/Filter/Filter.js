@@ -1,156 +1,114 @@
-import React, { PureComponent } from 'react';
+import React, {useState} from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import { FilterList as FilterListIcon } from '@material-ui/icons';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import GlobalStorage from '../../models/Helpers/GlobalStorage/GlobalStorage';
+import GlobalStorage, {STORAGE_NAMES} from '../../models/Helpers/GlobalStorage/GlobalStorage';
 import OwnageStatus from '../../models/Helpers/OwnageStatus';
-import { withStyles } from '@material-ui/core';
+import Tooltip from "@material-ui/core/Tooltip/Tooltip";
+import FilterListIcon from '@material-ui/icons/FilterList';
+import {makeStyles} from "@material-ui/core/styles";
+import Modal from "./Modal";
 
-const styles = (theme) => ({
-	selected: {
-		background: theme.palette.secondary.light,
+const useStyles = makeStyles((theme) => ({
+	filtered: {
+		background: theme.palette.text.primary,
 	},
-});
+}));
 
-/**
- * Filters media items
- */
-class Filter extends PureComponent {
-	state = {
-		anchorEl: null,
-		selected: 0,
-	};
+const Filter = () => {
+	const classes = useStyles();
+	const [isOpen, open] = useState(false);
+	const [isFiltered, filtered] = useState(false);
+
 	/** @type {FilterActions} */
-	filterActions;
-	/** @type {*[]} Menu items */
-	items = [
-		{
-			title: 'All',
-			action: () => {
-				this.filterActions.reset();
-				this.filterActions.filter();
-			},
-		},
-		{
-			title: 'Not Released',
-			action: () => {
-				this.filterActions.reset();
-				this.filterActions.searchByRelease(false);
-				this.filterActions.filter();
-			},
-		},
-		{
-			title: 'Released',
-			action: () => {
-				this.filterActions.reset();
-				this.filterActions.searchByRelease(true);
-				this.filterActions.filter();
-			},
-		},
-		{
-			title: 'Downloadable',
-			action: () => {
-				this.filterActions.reset();
-				this.filterActions.searchByOwnageStatus(OwnageStatus.statuses.DOWNLOADABLE);
-				this.filterActions.filter();
-			},
-		},
-		{
-			title: 'Owned',
-			action: () => {
-				this.filterActions.reset();
-				this.filterActions.searchByOwnageStatus(OwnageStatus.statuses.OWNED);
-				this.filterActions.filter();
-			},
-		},
-	];
+	const filterActions = GlobalStorage.getState(STORAGE_NAMES.filterActions);
 
-	constructor(props) {
-		super(props);
+	/** @type {{}} */
+	const filterTypes = {
+		notReleased: {
+			label: 'Not Released',
+			action: () => {
+				filterActions.searchByRelease(false);
+			},
+			group: ['released']
+		},
+		released: {
+			label: 'Released',
+			action: () => {
+				filterActions.searchByRelease(true);
+			},
+			group: ['notReleased']
+		},
+		downloadable: {
+			label: 'Downloadable',
+			action: () => {
+				filterActions.searchByOwnageStatus([OwnageStatus.statuses.DOWNLOADABLE]);
+			},
+			group: ['owned', 'notOwned']
+		},
+		owned: {
+			label: 'Owned',
+			action: () => {
+				filterActions.searchByOwnageStatus([OwnageStatus.statuses.OWNED]);
+			},
+			group: ['downloadable', 'notOwned']
+		},
+		notOwned: {
+			label: 'Not Owned',
+			action: () => {
+				filterActions.searchByOwnageStatus([OwnageStatus.statuses.DEFAULT, OwnageStatus.statuses.DOWNLOADABLE]);
+			},
+			group: ['downloadable', 'owned']
+		},
+	};
 
-		this.filterActions = GlobalStorage.getState('filterActions');
-	}
-
-	/**
-	 * Handles menu open
-	 * @param {Event} event
-	 */
-	handleOpen = (event) => {
-		this.setState({
-			anchorEl: event.currentTarget,
-		});
+	const handleOpen = () => {
+		open(true);
 	};
 
 	/**
-	 * Handles menu close
+	 * @param {Set<string>} activeFilters
 	 */
-	handleClose = () => {
-		this.setState({
-			anchorEl: null,
-		});
-	};
+	const handleUpdate = (activeFilters) => {
+		filterActions.resetParams();
 
-	/**
-	 * Handles menu item click
-	 * @param {number} index Item index
-	 * @param {function} action Item action
-	 * @return {Function}
-	 */
-	handleItemClick(index, action) {
-		return () => {
-			this.setState({
-				selected: index,
-				anchorEl: null,
+		if(activeFilters.size) {
+			activeFilters.forEach((filter) => {
+				filterTypes[filter].action();
 			});
+			filtered(true);
+		} else {
+			filtered(false);
+		}
 
-			action();
-		};
-	}
+		filterActions.filter();
+		open(false);
+	};
 
-	render() {
-		const { classes } = this.props;
-		const { anchorEl, selected } = this.state;
-		const open = !!anchorEl;
-
-		return (
-			<div>
+	return (
+		<>
+			<Tooltip title="Filter" disableFocusListener>
 				<IconButton
 					aria-label="Filter"
 					aria-owns={open ? 'filter-menu' : undefined}
 					aria-haspopup="true"
-					onClick={this.handleOpen}
-					className={selected > 0 ? classes.selected : null}
+					onClick={handleOpen}
+					className={isFiltered ? classes.filtered : null}
+					color="inherit"
 				>
 					<FilterListIcon />
 				</IconButton>
-				<Menu id="filter-menu" anchorEl={anchorEl} open={open} onClose={this.handleClose}>
-					{this._renderItems()}
-				</Menu>
-			</div>
-		);
-	}
+			</Tooltip>
+			<Modal open={isOpen} onClose={handleUpdate} filters={(() => {
+				const obj = {};
+				Object.keys(filterTypes).forEach((key) => {
+					obj[key] = {
+						label: filterTypes[key].label,
+						group: filterTypes[key].group
+					}
+				})
+				return obj;
+			})()} />
+		</>
+	);
+};
 
-	/**
-	 * Renders menu items
-	 * @return {React.Component[]}
-	 * @private
-	 */
-	_renderItems() {
-		const selected = this.state.selected;
-
-		return this.items.map((item, index) => {
-			return (
-				<MenuItem
-					key={index}
-					selected={selected === index}
-					onClick={this.handleItemClick(index, item.action)}
-				>
-					{item.title}
-				</MenuItem>
-			);
-		});
-	}
-}
-
-export default withStyles(styles)(Filter);
+export default Filter;

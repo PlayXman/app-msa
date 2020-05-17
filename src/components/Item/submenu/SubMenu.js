@@ -5,10 +5,10 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import { Delete as DeleteIcon } from '@material-ui/icons';
 import SubMenuItem from './SubMenuItem';
-import GlobalStorage from '../../../models/Helpers/GlobalStorage/GlobalStorage';
+import GlobalStorage, {STORAGE_NAMES} from '../../../models/Helpers/GlobalStorage/GlobalStorage';
 
 const SubMenu = ({ open, onClose, itemID, children }) => {
-	const mediaModel = GlobalStorage.getState('currentMediaModel');
+	const mediaModel = GlobalStorage.getState(STORAGE_NAMES.currentMediaModel);
 
 	const handleRemoveItem = () => {
 		mediaModel.removeItem(itemID);

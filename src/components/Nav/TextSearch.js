@@ -1,7 +1,8 @@
 import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import {InputBase} from '@material-ui/core';
-import GlobalStorage from '../../models/Helpers/GlobalStorage/GlobalStorage';
+import GlobalStorage, {STORAGE_NAMES} from '../../models/Helpers/GlobalStorage/GlobalStorage';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import {Clear as ClearIcon} from '@material-ui/icons';
@@ -42,8 +43,8 @@ class TextSearch extends PureComponent {
 
 	constructor(props) {
 		super(props);
-		this.mediaModel = GlobalStorage.getState('currentMediaModel');
-		this.searchActions = GlobalStorage.getState('filterActions');
+		this.mediaModel = GlobalStorage.getState(STORAGE_NAMES.currentMediaModel);
+		this.searchActions = GlobalStorage.getState(STORAGE_NAMES.filterActions);
 	}
 
 	componentDidMount() {
@@ -96,13 +97,13 @@ class TextSearch extends PureComponent {
 
 	render() {
 		const {text, labels} = this.state;
-		const {classes} = this.props;
+		const {title, classes} = this.props;
 
 		return (
 			<>
 				<InputBase
 					className={classes.root}
-					placeholder="Search..."
+					placeholder={`Search for ${title}...`}
 					onChange={this.handleChange}
 					onKeyUp={this.handleTextChange}
 					value={text}
@@ -131,5 +132,9 @@ class TextSearch extends PureComponent {
 		);
 	}
 }
+
+TextSearch.propTypes = {
+	title: PropTypes.string
+};
 
 export default withStyles(styles)(TextSearch);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import TopBar from './TopBar';
 import SideMenu from './SideMenu';
 
@@ -31,7 +32,7 @@ class Nav extends Component {
 	render() {
 		return (
 			<React.Fragment>
-				<TopBar sidemenuOpenHandler={this.handleSideMenuOpen} />
+				<TopBar title={this.props.title} sidemenuOpenHandler={this.handleSideMenuOpen} />
 				<SideMenu
 					open={this.state.isSideMenuOpen}
 					handleOpen={this.handleSideMenuOpen}
@@ -41,5 +42,9 @@ class Nav extends Component {
 		);
 	}
 }
+
+Nav.propTypes = {
+	title: PropTypes.string
+};
 
 export default Nav;
