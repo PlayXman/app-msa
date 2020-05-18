@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MoviesMediaModel from '../models/MediaModels/MoviesMediaModel';
-import GlobalStorage from '../models/Helpers/GlobalStorage/GlobalStorage';
+import GlobalStorage, {STORAGE_NAMES} from '../models/Helpers/GlobalStorage/GlobalStorage';
 import SubMenuItem from '../components/Item/submenu/SubMenuItem';
 import { Info as InfoIcon, CloudDownload as CloudDownloadIcon } from '@material-ui/icons';
 import MediaPageContent from '../components/MediaPageContent';
@@ -20,9 +20,9 @@ class Movies extends Component {
 		super(props);
 
 		this.mediaModel = new MoviesMediaModel();
-		GlobalStorage.set('currentMediaModel', this.mediaModel);
+		GlobalStorage.set(STORAGE_NAMES.currentMediaModel, this.mediaModel);
 
-		this.traktObserver = GlobalStorage.connect('trakt', (val) => {
+		this.traktObserver = GlobalStorage.connect(STORAGE_NAMES.filterActions, (val) => {
 			if (val) {
 				this.mediaModel.syncItems();
 			}

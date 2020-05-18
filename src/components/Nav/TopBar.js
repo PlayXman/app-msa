@@ -6,9 +6,10 @@ import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import PropTypes from 'prop-types';
 import {Menu as MenuIcon, Sync as SyncIcon} from '@material-ui/icons';
 import Grid from '@material-ui/core/Grid';
-import GlobalStorage from '../../models/Helpers/GlobalStorage/GlobalStorage';
+import GlobalStorage, {STORAGE_NAMES} from '../../models/Helpers/GlobalStorage/GlobalStorage';
 import {withStyles} from '@material-ui/core';
 import TextSearch from './TextSearch';
+import Filter from "../Filter/Filter";
 
 const style = {
 	root: {
@@ -28,11 +29,11 @@ class TopBar extends Component {
 	constructor(props) {
 		super(props);
 
-		this.mediaModel = GlobalStorage.getState('currentMediaModel');
+		this.mediaModel = GlobalStorage.getState(STORAGE_NAMES.currentMediaModel);
 	}
 
 	render() {
-		const {sidemenuOpenHandler, classes} = this.props;
+		const {sidemenuOpenHandler, title, classes} = this.props;
 
 		return (
 			<div>
@@ -49,10 +50,13 @@ class TopBar extends Component {
 								</IconButton>
 							</Grid>
 							<Grid item xs="auto" sm={4}>
-								<TextSearch />
+								<TextSearch title={title} />
 							</Grid>
 							<Grid item xs="auto" sm={2}>
-								<Grid container justify="flex-end">
+								<Grid container justify="flex-end" wrap="nowrap">
+									<Grid item>
+										<Filter />
+									</Grid>
 									<Grid item>
 										<Tooltip title="Refresh items" disableFocusListener>
 											<IconButton
@@ -75,6 +79,7 @@ class TopBar extends Component {
 
 TopBar.propTypes = {
 	sidemenuOpenHandler: PropTypes.func.isRequired,
+	title: PropTypes.string
 };
 
 export default withStyles(style)(TopBar);

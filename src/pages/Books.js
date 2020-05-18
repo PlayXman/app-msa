@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BooksMediaModel from '../models/MediaModels/BooksMediaModel';
-import GlobalStorage from '../models/Helpers/GlobalStorage/GlobalStorage';
+import GlobalStorage, {STORAGE_NAMES} from '../models/Helpers/GlobalStorage/GlobalStorage';
 import SubMenuItem from '../components/Item/submenu/SubMenuItem';
 import { Info as InfoIcon } from '@material-ui/icons';
 import MediaPageContent from '../components/MediaPageContent';
@@ -17,7 +17,7 @@ class Books extends Component {
 		super(props);
 
 		this.mediaModel = new BooksMediaModel();
-		GlobalStorage.set('currentMediaModel', this.mediaModel);
+		GlobalStorage.set(STORAGE_NAMES.currentMediaModel, this.mediaModel);
 	}
 
 	render() {

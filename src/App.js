@@ -10,7 +10,7 @@ import { Config } from './config';
 import NotificationContainer from './components/NotificationContainer';
 import { CssBaseline } from '@material-ui/core';
 import Trakt from './models/vendors/Trakt';
-import GlobalStorage from './models/Helpers/GlobalStorage/GlobalStorage';
+import GlobalStorage, {STORAGE_NAMES} from './models/Helpers/GlobalStorage/GlobalStorage';
 import Authentication from './models/Authentication';
 import AppLoader from './components/layout/AppLoader';
 import Form from './components/Login/Form';
@@ -36,7 +36,7 @@ class App extends PureComponent {
 		Authentication.signInListener((isSignedIn) => {
 			if (isSignedIn) {
 				trakt.authenticate().then(() => {
-					GlobalStorage.set('trakt', trakt);
+					GlobalStorage.set(STORAGE_NAMES.trakt, trakt);
 				});
 
 				this.setState({

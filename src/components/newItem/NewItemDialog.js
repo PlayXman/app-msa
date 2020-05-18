@@ -13,7 +13,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import Text from './Text';
 import ItemList from './ItemList';
-import GlobalStorage from '../../models/Helpers/GlobalStorage/GlobalStorage';
+import GlobalStorage, {STORAGE_NAMES} from '../../models/Helpers/GlobalStorage/GlobalStorage';
 
 const useStyles = makeStyles((theme) => ({
 	dialog: {
@@ -40,7 +40,7 @@ const NewItemDialog = ({ open, onClose }) => {
 	const [currentMediaModel, setCurrentMediaModel] = useState(null);
 
 	useEffect(() => {
-		setCurrentMediaModel(GlobalStorage.getState('currentMediaModel'));
+		setCurrentMediaModel(GlobalStorage.getState(STORAGE_NAMES.currentMediaModel));
 		setSearched(false);
 		setItems([]);
 	}, []);

@@ -3,7 +3,7 @@ import NewItemDialog from './NewItemDialog';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
-import GlobalStorage from '../../models/Helpers/GlobalStorage/GlobalStorage';
+import GlobalStorage, {STORAGE_NAMES} from '../../models/Helpers/GlobalStorage/GlobalStorage';
 
 const useStyles = makeStyles((theme) => ({
 	cont: {
@@ -32,7 +32,7 @@ const NewItemContainer = () => {
 	const [isMediaModelSet, mediaModel] = useState(false);
 
 	useEffect(() => {
-		const mediaModelListener = GlobalStorage.connect('currentMediaModel', (model) => {
+		const mediaModelListener = GlobalStorage.connect(STORAGE_NAMES.currentMediaModel, (model) => {
 			if (model) {
 				mediaModel(true);
 			}
