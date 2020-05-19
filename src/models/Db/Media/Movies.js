@@ -1,4 +1,4 @@
-import { database } from 'firebase/app';
+import firebase from 'firebase/app';
 import OwnageStatus from '../../Helpers/OwnageStatus';
 import Media from './Media';
 
@@ -25,7 +25,7 @@ class Movies extends Media {
 	 * @return {firebase.database.Reference}
 	 */
 	static dbRef() {
-		return database().ref(DB_PATH);
+		return firebase.database().ref(DB_PATH);
 	}
 
 	/**
