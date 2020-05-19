@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	button: (props) => ({
-		position: 'absolute',
+		position: 'fixed',
 		bottom: theme.spacing(1),
 		right: theme.spacing(5),
 		[theme.breakpoints.down(props.sm)]: {
