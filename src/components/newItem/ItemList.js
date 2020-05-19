@@ -14,12 +14,12 @@ const ItemList = ({ items, currentMediaModel }) => {
 	const classes = useStyles();
 
 	return (
-		<Grid container spacing={1} justify="center">
-			{items.map((item) => {
+		<Grid container spacing={1} justify="flex-start">
+			{items.map((item, index) => {
 				const key = item.getId();
 
 				return (
-					<Grid key={key} item className={classes.item}>
+					<Grid key={`${index}-${key}`} item className={classes.item}>
 						<NewItem
 							id={key}
 							title={item.title}

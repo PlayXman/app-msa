@@ -15,6 +15,15 @@ import Text from './Text';
 import ItemList from './ItemList';
 import GlobalStorage, {STORAGE_NAMES} from '../../models/Helpers/GlobalStorage/GlobalStorage';
 
+const ITEM_SIZE = 158;
+function contentBreakpoints(count, theme) {
+	return {
+		[theme.breakpoints.up(ITEM_SIZE * count + 8)]: {
+			maxWidth: ITEM_SIZE * count - 8
+		},
+	}
+}
+
 const useStyles = makeStyles((theme) => ({
 	dialog: {
 		backgroundColor: theme.palette.background.default,
@@ -27,6 +36,14 @@ const useStyles = makeStyles((theme) => ({
 		paddingLeft: '1rem',
 		flexGrow: 1,
 	},
+	content: {
+		width: '100%',
+		paddingBottom: '3rem',
+		maxWidth: ITEM_SIZE * 2 - 8,
+		...contentBreakpoints(3, theme),
+		...contentBreakpoints(4, theme),
+		...contentBreakpoints(5, theme),
+	}
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -93,7 +110,7 @@ const NewItemDialog = ({ open, onClose }) => {
 			</AppBar>
 			<Wrapper>
 				<Grid container justify="center">
-					<Grid item xs sm={9} lg={6}>
+					<Grid item className={classes.content}>
 						<SearchField onSubmit={handleSearch} />
 
 						{renderItems()}
