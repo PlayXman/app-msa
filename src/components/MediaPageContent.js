@@ -15,21 +15,26 @@ import Nav from './Nav/Nav';
 
 const STYLE_HELPERS = {
 	itemSize: 158,
-	alphabetBp: 365,
+	alphabetBp: 360,
 	contentBreakpoints: (count, theme) => {
 		return {
 			[theme.breakpoints.up(STYLE_HELPERS.itemSize * count + 48)]: {
-				maxWidth: STYLE_HELPERS.itemSize * count,
+				maxWidth: STYLE_HELPERS.itemSize * count - 8,
 			},
 		};
 	},
 };
 
 const style = (theme) => ({
+	wrapper: {
+		[theme.breakpoints.up(STYLE_HELPERS.alphabetBp)]: {
+			paddingRight: 22,
+		},
+	},
 	content: {
 		paddingTop: '4%',
 		margin: '0 auto',
-		maxWidth: STYLE_HELPERS.itemSize * 2,
+		maxWidth: STYLE_HELPERS.itemSize * 2 - 8,
 		...STYLE_HELPERS.contentBreakpoints(3, theme),
 		...STYLE_HELPERS.contentBreakpoints(4, theme),
 		...STYLE_HELPERS.contentBreakpoints(5, theme),
@@ -142,10 +147,12 @@ class MediaPageContent extends Component {
 				<NewItemContainer sm={STYLE_HELPERS.alphabetBp} />
 				<Nav title={heading} />
 				<PageContent>
-					<div className={classes.content}>
-						<Grid container spacing={1} justify="flex-start">
-							{this._renderItems()}
-						</Grid>
+					<div className={classes.wrapper}>
+						<div className={classes.content}>
+							<Grid container spacing={1} justify="flex-start">
+								{this._renderItems()}
+							</Grid>
+						</div>
 					</div>
 					<Alphabet className={classes.alphabet} />
 				</PageContent>
