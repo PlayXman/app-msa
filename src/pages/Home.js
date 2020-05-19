@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '../../node_modules/@material-ui/core/Grid/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -15,7 +15,7 @@ import {
 const style = (theme) => ({
 	cont: {
 		padding: 20,
-		minHeight: '100vh'
+		minHeight: '100vh',
 	},
 	cardIconWrapper: {
 		background: theme.palette.primary.light,
@@ -25,16 +25,16 @@ const style = (theme) => ({
 		height: '100%',
 		display: 'flex',
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
 	},
 	items: {
-		paddingBottom: '3rem'
-	}
+		paddingBottom: '3rem',
+	},
 });
 
 class Home extends Component {
 	_renderItem = (item) => {
-		const {classes} = this.props;
+		const { classes } = this.props;
 
 		return (
 			<Grid item key={item.link} xs={12} sm="auto">
@@ -59,7 +59,7 @@ class Home extends Component {
 	};
 
 	render() {
-		const {classes} = this.props;
+		const { classes } = this.props;
 
 		const btns = [
 			{
@@ -89,7 +89,9 @@ class Home extends Component {
 				className={classes.cont}
 			>
 				<Grid item>
-					<Typography variant="h5" align="center" gutterBottom>MediaStorage App</Typography>
+					<Typography variant="h5" align="center" gutterBottom>
+						MediaStorage App
+					</Typography>
 					<Grid container justify="center" spacing={4} className={classes.items}>
 						{btns.map(renderItem)}
 					</Grid>

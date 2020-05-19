@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton/IconButton';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import OwnageStatus from '../../models/Helpers/OwnageStatus';
 import { CheckBox as CheckBoxIcon } from '@material-ui/icons';
-import GlobalStorage, {STORAGE_NAMES} from '../../models/Helpers/GlobalStorage/GlobalStorage';
+import GlobalStorage, { STORAGE_NAMES } from '../../models/Helpers/GlobalStorage/GlobalStorage';
 
 const stateData = {
 	DEFAULT: {

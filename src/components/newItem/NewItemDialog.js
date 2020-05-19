@@ -13,15 +13,15 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import Text from './Text';
 import ItemList from './ItemList';
-import GlobalStorage, {STORAGE_NAMES} from '../../models/Helpers/GlobalStorage/GlobalStorage';
+import GlobalStorage, { STORAGE_NAMES } from '../../models/Helpers/GlobalStorage/GlobalStorage';
 
 const ITEM_SIZE = 158;
 function contentBreakpoints(count, theme) {
 	return {
 		[theme.breakpoints.up(ITEM_SIZE * count + 8)]: {
-			maxWidth: ITEM_SIZE * count - 8
+			maxWidth: ITEM_SIZE * count - 8,
 		},
-	}
+	};
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 		...contentBreakpoints(3, theme),
 		...contentBreakpoints(4, theme),
 		...contentBreakpoints(5, theme),
-	}
+	},
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {

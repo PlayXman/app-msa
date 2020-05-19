@@ -44,7 +44,7 @@ class Nav extends Component {
 }
 
 Nav.propTypes = {
-	title: PropTypes.string
+	title: PropTypes.string,
 };
 
 export default Nav;

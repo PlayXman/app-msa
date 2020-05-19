@@ -3,7 +3,7 @@ import GlobalStorageObserver from './GlobalStorageObserver';
 export const STORAGE_NAMES = {
 	currentMediaModel: 'currentMediaModel',
 	filterActions: 'filterActions',
-	trakt: 'trakt'
+	trakt: 'trakt',
 };
 
 /**

@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogActions from "@material-ui/core/DialogActions";
-import Button from "@material-ui/core/Button";
-import DialogContent from "@material-ui/core/DialogContent";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+import Button from '@material-ui/core/Button';
+import DialogContent from '@material-ui/core/DialogContent';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
-const Modal = ({open, onClose, filters}) => {
+const Modal = ({ open, onClose, filters }) => {
 	const [fields, setFields] = useState(new Set());
 
 	const handleChange = (filterKey) => {
@@ -25,12 +25,7 @@ const Modal = ({open, onClose, filters}) => {
 	};
 
 	return (
-		<Dialog
-			disableBackdropClick
-			disableEscapeKeyDown
-			open={open}
-			aria-label="Filter"
-		>
+		<Dialog disableBackdropClick disableEscapeKeyDown open={open} aria-label="Filter">
 			<DialogTitle>Filter</DialogTitle>
 			<DialogContent dividers>
 				<FormGroup>
@@ -68,7 +63,7 @@ const Modal = ({open, onClose, filters}) => {
 Modal.propTypes = {
 	open: PropTypes.bool,
 	onClose: PropTypes.func.isRequired,
-	filters: PropTypes.object.isRequired
+	filters: PropTypes.object.isRequired,
 };
 
 export default Modal;

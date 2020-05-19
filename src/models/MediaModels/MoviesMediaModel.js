@@ -6,7 +6,7 @@ import { Config } from '../../config';
 import WarezBB from '../vendors/WarezBB';
 import MovieDb from 'moviedb-promise';
 import TmdbDb from '../Db/Vendors/Tmdb';
-import GlobalStorage, {STORAGE_NAMES} from '../Helpers/GlobalStorage/GlobalStorage';
+import GlobalStorage, { STORAGE_NAMES } from '../Helpers/GlobalStorage/GlobalStorage';
 
 /**
  * Media model for Movies

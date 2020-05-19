@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import PropTypes from 'prop-types';
-import {Menu as MenuIcon, Sync as SyncIcon} from '@material-ui/icons';
+import { Menu as MenuIcon, Sync as SyncIcon } from '@material-ui/icons';
 import Grid from '@material-ui/core/Grid';
-import GlobalStorage, {STORAGE_NAMES} from '../../models/Helpers/GlobalStorage/GlobalStorage';
-import {withStyles} from '@material-ui/core';
+import GlobalStorage, { STORAGE_NAMES } from '../../models/Helpers/GlobalStorage/GlobalStorage';
+import { withStyles } from '@material-ui/core';
 import TextSearch from './TextSearch';
-import Filter from "../Filter/Filter";
+import Filter from '../Filter/Filter';
 
 const style = {
 	root: {
@@ -22,7 +22,6 @@ const style = {
  * App top navigation bar
  */
 class TopBar extends Component {
-
 	/** @type {MediaModel} */
 	mediaModel = null;
 
@@ -33,7 +32,7 @@ class TopBar extends Component {
 	}
 
 	render() {
-		const {sidemenuOpenHandler, title, classes} = this.props;
+		const { sidemenuOpenHandler, title, classes } = this.props;
 
 		return (
 			<div>
@@ -79,7 +78,7 @@ class TopBar extends Component {
 
 TopBar.propTypes = {
 	sidemenuOpenHandler: PropTypes.func.isRequired,
-	title: PropTypes.string
+	title: PropTypes.string,
 };
 
 export default withStyles(style)(TopBar);

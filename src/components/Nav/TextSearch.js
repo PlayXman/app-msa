@@ -1,12 +1,12 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {withStyles} from '@material-ui/core/styles';
-import {InputBase} from '@material-ui/core';
-import GlobalStorage, {STORAGE_NAMES} from '../../models/Helpers/GlobalStorage/GlobalStorage';
+import { withStyles } from '@material-ui/core/styles';
+import { InputBase } from '@material-ui/core';
+import GlobalStorage, { STORAGE_NAMES } from '../../models/Helpers/GlobalStorage/GlobalStorage';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
-import {Clear as ClearIcon} from '@material-ui/icons';
-import Labels from "../../models/Db/labels/Labels";
+import { Clear as ClearIcon } from '@material-ui/icons';
+import Labels from '../../models/Db/labels/Labels';
 
 const styles = (theme) => ({
 	root: {
@@ -16,15 +16,15 @@ const styles = (theme) => ({
 		padding: '0.2rem 5%',
 		color: theme.palette.primary.contrastText,
 		'& input::placeholder': {
-			opacity: 0.8
+			opacity: 0.8,
 		},
 		'& input::-webkit-calendar-picker-indicator': {
-			display: 'none'
-		}
+			display: 'none',
+		},
 	},
 	reset: {
-		color: theme.palette.primary.contrastText
-	}
+		color: theme.palette.primary.contrastText,
+	},
 });
 
 /**
@@ -33,13 +33,12 @@ const styles = (theme) => ({
 class TextSearch extends PureComponent {
 	state = {
 		text: '',
-		labels: []
+		labels: [],
 	};
 	/** @type {MediaModel} */
 	mediaModel = null;
 	/** @type {FilterActions} */
 	searchActions = null;
-
 
 	constructor(props) {
 		super(props);
@@ -52,8 +51,8 @@ class TextSearch extends PureComponent {
 			const labels = snap.exists() ? Object.keys(snap.val()) : [];
 
 			this.setState({
-				labels: labels
-			})
+				labels: labels,
+			});
 		});
 	}
 
@@ -75,7 +74,7 @@ class TextSearch extends PureComponent {
 	 * Handles text change after a user stopped writing
 	 */
 	handleTextChange = () => {
-		const {text, labels} = this.state;
+		const { text, labels } = this.state;
 
 		if (text.length > 2 || text.length === 0) {
 			this.searchActions.searchByText(text);
@@ -88,16 +87,19 @@ class TextSearch extends PureComponent {
 	 * Clears text from input
 	 */
 	handleClear = () => {
-		this.setState({
-			text: '',
-		}, () => {
-			this.handleTextChange();
-		});
+		this.setState(
+			{
+				text: '',
+			},
+			() => {
+				this.handleTextChange();
+			}
+		);
 	};
 
 	render() {
-		const {text, labels} = this.state;
-		const {title, classes} = this.props;
+		const { text, labels } = this.state;
+		const { title, classes } = this.props;
 
 		return (
 			<>
@@ -122,11 +124,13 @@ class TextSearch extends PureComponent {
 						) : null
 					}
 					inputProps={{
-						list: "searchLabelsList"
+						list: 'searchLabelsList',
 					}}
 				/>
 				<datalist id="searchLabelsList">
-					{labels.map((label) => <option key={label}>{label}</option>)}
+					{labels.map((label) => (
+						<option key={label}>{label}</option>
+					))}
 				</datalist>
 			</>
 		);
@@ -134,7 +138,7 @@ class TextSearch extends PureComponent {
 }
 
 TextSearch.propTypes = {
-	title: PropTypes.string
+	title: PropTypes.string,
 };
 
 export default withStyles(styles)(TextSearch);

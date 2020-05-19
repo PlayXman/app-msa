@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BooksMediaModel from '../models/MediaModels/BooksMediaModel';
-import GlobalStorage, {STORAGE_NAMES} from '../models/Helpers/GlobalStorage/GlobalStorage';
+import GlobalStorage, { STORAGE_NAMES } from '../models/Helpers/GlobalStorage/GlobalStorage';
 import SubMenuItem from '../components/Item/submenu/SubMenuItem';
 import { Info as InfoIcon } from '@material-ui/icons';
 import MediaPageContent from '../components/MediaPageContent';

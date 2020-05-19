@@ -10,7 +10,7 @@ class FilterActions {
 		text: '',
 		releasedState: null,
 		ownageStatus: null,
-		label: false
+		label: false,
 	};
 
 	/**
@@ -40,7 +40,7 @@ class FilterActions {
 			if (this.conditions.ownageStatus) {
 				show &= this.conditions.ownageStatus.includes(item.data.status);
 			}
-			if(this.conditions.label) {
+			if (this.conditions.label) {
 				show &= item.data.labels.includes(this.conditions.text);
 			}
 

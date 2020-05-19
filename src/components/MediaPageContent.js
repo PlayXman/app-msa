@@ -7,11 +7,11 @@ import MediaItem from '../components/MediaComponents/MediaItem';
 import ListLoader from '../components/MediaComponents/ListLoader';
 import PropTypes from 'prop-types';
 import MediaModel from '../models/MediaModels/MediaModel';
-import GlobalStorage, {STORAGE_NAMES} from '../models/Helpers/GlobalStorage/GlobalStorage';
+import GlobalStorage, { STORAGE_NAMES } from '../models/Helpers/GlobalStorage/GlobalStorage';
 import FilterActions from '../models/Helpers/FilterActions';
 import Alphabet from './MediaComponents/Alphabet';
-import NewItemContainer from "./newItem/NewItemContainer";
-import Nav from "./Nav/Nav";
+import NewItemContainer from './newItem/NewItemContainer';
+import Nav from './Nav/Nav';
 
 const STYLE_HELPERS = {
 	itemSize: 158,
@@ -19,10 +19,10 @@ const STYLE_HELPERS = {
 	contentBreakpoints: (count, theme) => {
 		return {
 			[theme.breakpoints.up(STYLE_HELPERS.itemSize * count + 48)]: {
-				maxWidth: STYLE_HELPERS.itemSize * count
+				maxWidth: STYLE_HELPERS.itemSize * count,
 			},
-		}
-	}
+		};
+	},
 };
 
 const style = (theme) => ({
@@ -113,7 +113,7 @@ class MediaPageContent extends Component {
 			}
 
 			this.setState({
-				items: items
+				items: items,
 			});
 		}
 	};
@@ -129,8 +129,8 @@ class MediaPageContent extends Component {
 			items.delete(this._createKey(snap.key));
 
 			this.setState({
-				items: new Map(items)
-			})
+				items: new Map(items),
+			});
 		}
 	};
 

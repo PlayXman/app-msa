@@ -9,7 +9,7 @@ const styles = (theme) => ({
 		fontSize: '1em',
 		position: 'fixed',
 		right: 0,
-		bottom: 0
+		bottom: 0,
 	},
 	wrapper: {
 		height: 'calc(100vh - 70px)',
@@ -91,7 +91,7 @@ class Alphabet extends PureComponent {
 		const { classes, className } = this.props;
 
 		return (
-			<div className={classes.root + (className ? ' '+ className : '')}>
+			<div className={classes.root + (className ? ' ' + className : '')}>
 				<div className={classes.wrapper}>
 					{chars.map((char) => this._renderLetter(char))}
 				</div>
@@ -122,7 +122,7 @@ class Alphabet extends PureComponent {
 }
 
 Alphabet.propTypes = {
-	className: PropTypes.string
-}
+	className: PropTypes.string,
+};
 
 export default withStyles(styles)(Alphabet);

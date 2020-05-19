@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import GlobalStorage, {STORAGE_NAMES} from '../../models/Helpers/GlobalStorage/GlobalStorage';
+import GlobalStorage, { STORAGE_NAMES } from '../../models/Helpers/GlobalStorage/GlobalStorage';
 import OwnageStatus from '../../models/Helpers/OwnageStatus';
-import Tooltip from "@material-ui/core/Tooltip/Tooltip";
+import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import {makeStyles} from "@material-ui/core/styles";
-import Modal from "./Modal";
+import { makeStyles } from '@material-ui/core/styles';
+import Modal from './Modal';
 
 const useStyles = makeStyles((theme) => ({
 	filtered: {
@@ -28,35 +28,38 @@ const Filter = () => {
 			action: () => {
 				filterActions.searchByRelease(false);
 			},
-			group: ['released']
+			group: ['released'],
 		},
 		released: {
 			label: 'Released',
 			action: () => {
 				filterActions.searchByRelease(true);
 			},
-			group: ['notReleased']
+			group: ['notReleased'],
 		},
 		downloadable: {
 			label: 'Downloadable',
 			action: () => {
 				filterActions.searchByOwnageStatus([OwnageStatus.statuses.DOWNLOADABLE]);
 			},
-			group: ['owned', 'notOwned']
+			group: ['owned', 'notOwned'],
 		},
 		owned: {
 			label: 'Owned',
 			action: () => {
 				filterActions.searchByOwnageStatus([OwnageStatus.statuses.OWNED]);
 			},
-			group: ['downloadable', 'notOwned']
+			group: ['downloadable', 'notOwned'],
 		},
 		notOwned: {
 			label: 'Not Owned',
 			action: () => {
-				filterActions.searchByOwnageStatus([OwnageStatus.statuses.DEFAULT, OwnageStatus.statuses.DOWNLOADABLE]);
+				filterActions.searchByOwnageStatus([
+					OwnageStatus.statuses.DEFAULT,
+					OwnageStatus.statuses.DOWNLOADABLE,
+				]);
 			},
-			group: ['downloadable', 'owned']
+			group: ['downloadable', 'owned'],
 		},
 	};
 
@@ -70,7 +73,7 @@ const Filter = () => {
 	const handleUpdate = (activeFilters) => {
 		filterActions.resetParams();
 
-		if(activeFilters.size) {
+		if (activeFilters.size) {
 			activeFilters.forEach((filter) => {
 				filterTypes[filter].action();
 			});
@@ -97,16 +100,20 @@ const Filter = () => {
 					<FilterListIcon />
 				</IconButton>
 			</Tooltip>
-			<Modal open={isOpen} onClose={handleUpdate} filters={(() => {
-				const obj = {};
-				Object.keys(filterTypes).forEach((key) => {
-					obj[key] = {
-						label: filterTypes[key].label,
-						group: filterTypes[key].group
-					}
-				})
-				return obj;
-			})()} />
+			<Modal
+				open={isOpen}
+				onClose={handleUpdate}
+				filters={(() => {
+					const obj = {};
+					Object.keys(filterTypes).forEach((key) => {
+						obj[key] = {
+							label: filterTypes[key].label,
+							group: filterTypes[key].group,
+						};
+					});
+					return obj;
+				})()}
+			/>
 		</>
 	);
 };
