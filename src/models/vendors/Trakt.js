@@ -13,7 +13,7 @@ class Trakt {
 	redirectUri = '';
 
 	constructor() {
-		this.redirectUri = window.location.origin;
+		this.redirectUri = window.location.origin + window.location.pathname;
 	}
 
 	/**

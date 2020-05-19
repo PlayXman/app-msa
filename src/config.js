@@ -22,23 +22,6 @@ export const Config = {
 				default: '#f1f1f1',
 			},
 		},
-		typography: {
-			useNextVariants: true,
-		},
-	},
-	muiThemeAddItem: {
-		palette: {
-			primary: {
-				main: '#42baff',
-				contrastText: '#ffffff',
-			},
-			secondary: {
-				main: '#9ccc65',
-			},
-		},
-		typography: {
-			useNextVariants: true,
-		},
 	},
 	vendors: {
 		giantBombCom: {

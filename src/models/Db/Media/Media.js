@@ -1,11 +1,11 @@
-import firebase from 'firebase/app';
+import { database } from 'firebase/app';
 import Url from '../../Helpers/Url';
 
 class Media {
 	/** @type {string} */
 	_id = '';
 	/** @type {string} */
-	sort = '';
+	slug;
 	/** @type {string} */
 	title;
 
@@ -41,7 +41,7 @@ class Media {
 	fillObj(dbObj) {
 		Object.keys(dbObj).forEach((paramName) => {
 			if (paramName === 'title') {
-				this._setSort(dbObj[paramName]);
+				this._setSlug(dbObj[paramName]);
 			}
 			this[paramName] = dbObj[paramName];
 		});
@@ -58,11 +58,11 @@ class Media {
 			throw new Error('Missing id!');
 		}
 		if (this.title) {
-			this._setSort(this.title);
+			this._setSlug(this.title);
 		}
 
 		const obj = this._prepareDbObj();
-		return firebase.database().ref(`${this._getDbRef()}/${this.getId()}`).update(obj);
+		return database().ref(`${this._getDbRef()}/${this.getId()}`).update(obj);
 	}
 
 	/**
@@ -74,16 +74,16 @@ class Media {
 			throw new Error('Missing id!');
 		}
 
-		return firebase.database().ref(`${this._getDbRef()}/${this.getId()}`).remove();
+		return database().ref(`${this._getDbRef()}/${this.getId()}`).remove();
 	}
 
 	/**
-	 * Sets sort param
+	 * Sets slug param
 	 * @param {string} text
 	 * @private
 	 */
-	_setSort(text) {
-		this.sort = Url.slugify(text);
+	_setSlug(text) {
+		this.slug = Url.slugify(text);
 	}
 
 	/**

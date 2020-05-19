@@ -6,12 +6,14 @@ import { Config } from '../../config';
 import WarezBB from '../vendors/WarezBB';
 import MovieDb from 'moviedb-promise';
 import TmdbDb from '../Db/Vendors/Tmdb';
-import GlobalStorage from '../Helpers/GlobalStorage/GlobalStorage';
+import GlobalStorage, { STORAGE_NAMES } from '../Helpers/GlobalStorage/GlobalStorage';
 
 /**
  * Media model for Movies
  */
 class MoviesMediaModel extends MediaModel {
+	name = 'movies';
+
 	/**
 	 * Returns ref to all DB items
 	 * @return {firebase.database.Reference}
@@ -151,7 +153,7 @@ class MoviesMediaModel extends MediaModel {
 						newMovie.setDefaults();
 						newMovie.push().then(() => {
 							this._updateDbItems([itemId], loader, 'Saved');
-							const trakt = GlobalStorage.getState('trakt');
+							const trakt = GlobalStorage.getState(STORAGE_NAMES.trakt);
 							trakt.addToWatchlist([itemId]).then(() => {
 								resolve({
 									alreadySaved: false,
@@ -177,7 +179,7 @@ class MoviesMediaModel extends MediaModel {
 		loader.setText('Removing from watchlist...');
 		loader.show();
 
-		const trakt = GlobalStorage.getState('trakt');
+		const trakt = GlobalStorage.getState(STORAGE_NAMES.trakt);
 		trakt
 			.removeFromWatchlist([id])
 			.then(() => {
@@ -199,7 +201,7 @@ class MoviesMediaModel extends MediaModel {
 		loader.setText(loaderMsg);
 		loader.show();
 
-		const trakt = GlobalStorage.getState('trakt');
+		const trakt = GlobalStorage.getState(STORAGE_NAMES.trakt);
 		trakt
 			.getAllMoviesFromWatchlist()
 			.then((traktItems) => {

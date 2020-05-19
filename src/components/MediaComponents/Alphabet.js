@@ -1,22 +1,23 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 const styles = (theme) => ({
 	root: {
-		position: 'relative',
-		width: '2em',
+		width: '2.5em',
 		fontSize: '1em',
+		position: 'fixed',
+		right: 0,
+		bottom: 0,
 	},
 	wrapper: {
-		position: 'fixed',
 		height: 'calc(100vh - 70px)',
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'space-evenly',
 	},
 	char: {
-		width: '2em',
 		display: 'block',
 		textAlign: 'center',
 	},
@@ -87,10 +88,10 @@ class Alphabet extends PureComponent {
 	};
 
 	render() {
-		const { classes } = this.props;
+		const { classes, className } = this.props;
 
 		return (
-			<div className={classes.root}>
+			<div className={classes.root + (className ? ' ' + className : '')}>
 				<div className={classes.wrapper}>
 					{chars.map((char) => this._renderLetter(char))}
 				</div>
@@ -119,5 +120,9 @@ class Alphabet extends PureComponent {
 		);
 	}
 }
+
+Alphabet.propTypes = {
+	className: PropTypes.string,
+};
 
 export default withStyles(styles)(Alphabet);

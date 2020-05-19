@@ -10,6 +10,7 @@ class FilterActions {
 		text: '',
 		releasedState: null,
 		ownageStatus: null,
+		label: false,
 	};
 
 	/**
@@ -24,26 +25,27 @@ class FilterActions {
 	 */
 	filter() {
 		const mc = this.mediaContainer;
-		const items = {};
+		const items = new Map();
+		const text = Url.slugify(this.conditions.text);
 
-		Object.keys(mc.state.items).forEach((itemId) => {
-			const item = mc.state.items[itemId];
+		mc.state.items.forEach((item, itemId) => {
 			let show = true;
 
-			if (this.conditions.text) {
-				show &= Url.slugify(item.data.title).includes(this.conditions.text);
+			if (text && !this.conditions.label) {
+				show &= item.data.slug.includes(text);
 			}
-
 			if (this.conditions.releasedState !== null) {
 				show &= item.isReleased === this.conditions.releasedState;
 			}
-
 			if (this.conditions.ownageStatus) {
-				show &= item.data.status === this.conditions.ownageStatus;
+				show &= this.conditions.ownageStatus.includes(item.data.status);
+			}
+			if (this.conditions.label) {
+				show &= item.data.labels.includes(this.conditions.text);
 			}
 
 			item.show = show;
-			items[itemId] = item;
+			items.set(itemId, item);
 		});
 
 		mc.setState({
@@ -52,12 +54,19 @@ class FilterActions {
 	}
 
 	/**
-	 * Sets all conditions to default settings
+	 * Resets filter by media item params
 	 */
-	reset() {
-		this.conditions.text = '';
+	resetParams() {
 		this.conditions.releasedState = null;
 		this.conditions.ownageStatus = null;
+	}
+
+	/**
+	 * Resets filter by text search bar
+	 */
+	resetSearch() {
+		this.conditions.text = '';
+		this.conditions.label = false;
 	}
 
 	/**
@@ -65,7 +74,7 @@ class FilterActions {
 	 * @param {string} text
 	 */
 	searchByText(text) {
-		this.conditions.text = Url.slugify(text);
+		this.conditions.text = text;
 	}
 
 	/**
@@ -78,10 +87,18 @@ class FilterActions {
 
 	/**
 	 * Filters media items by ownage status
-	 * @param {OwnageStatus.statuses} status
+	 * @param {string[]} statuses From "OwnageStatus.statuses"
 	 */
-	searchByOwnageStatus(status) {
-		this.conditions.ownageStatus = status;
+	searchByOwnageStatus(statuses) {
+		this.conditions.ownageStatus = statuses;
+	}
+
+	/**
+	 * Filters media items by label
+	 * @param {boolean} isLabel If true, uses text as label name
+	 */
+	searchByLabel(isLabel) {
+		this.conditions.label = isLabel;
 	}
 }
 

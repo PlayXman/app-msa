@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import { database } from 'firebase/app';
 
 /** @type {string} DB path */
 const DB_PATH = '/Vendors/traktTv';
@@ -9,11 +9,10 @@ const DB_PATH = '/Vendors/traktTv';
 class Trakt {
 	/**
 	 * Gets api key from DB
-	 * @return {Promise<{clientId: string, clientSecret: string, refreshToken: string}>} Param is api keys or null
+	 * @returns {Promise<firebase.database.DataSnapshot>} Param is api keys or null ({clientId: string, clientSecret: string, refreshToken: string})
 	 */
 	static getApiKeys() {
-		return firebase
-			.database()
+		return database()
 			.ref(`${DB_PATH}/key`)
 			.once('value')
 			.then((traktSnap) => {
@@ -27,11 +26,10 @@ class Trakt {
 
 	/**
 	 * Gets refresh token from DB
-	 * @return {Promise<string>} Param is token or null
+	 * @returns {Promise<firebase.database.DataSnapshot>} Param is token or null
 	 */
 	static getRefreshToken() {
-		return firebase
-			.database()
+		return database()
 			.ref(`${DB_PATH}/key/refreshToken`)
 			.once('value')
 			.then((traktSnap) => {
@@ -49,7 +47,7 @@ class Trakt {
 	 * @return {Promise<any>}
 	 */
 	static setRefreshToken(refreshToken) {
-		return firebase.database().ref(`${DB_PATH}/key/refreshToken`).set(refreshToken);
+		return database().ref(`${DB_PATH}/key/refreshToken`).set(refreshToken);
 	}
 }
 

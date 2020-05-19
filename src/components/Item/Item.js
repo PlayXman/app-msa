@@ -5,121 +5,70 @@ import CardContent from '@material-ui/core/CardContent/CardContent';
 import CardActions from '@material-ui/core/CardActions/CardActions';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Grid from '@material-ui/core/Grid/Grid';
-import Released from './Released';
-import OwnageBtn from './OwnageBtn';
-import SubMenu from './SubMenu';
 import Image from './Image';
-import CopyBtn from './CopyBtn';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import ReleaseDate from './ReleaseDate';
 
-const style = {
-	cont: {
-		flexBasis: 158,
-	},
+const style = (theme) => ({
 	card: {
 		height: '100%',
 		display: 'flex',
 		flexDirection: 'column',
+	},
+	clickableArea: {
+		display: 'flex',
+		width: '100%',
+		flexGrow: 1,
+		flexDirection: 'column',
+		justifyContent: 'flex-start',
+		alignItems: 'stretch',
 	},
 	media: {
 		objectFit: 'cover',
 		height: 208,
 	},
 	textCont: {
-		paddingTop: 10,
-		paddingLeft: 10,
-		paddingRight: 10,
-		paddingBottom: 0,
-		flexGrow: 1,
-	},
-	date: {
-		fontSize: '0.65rem',
+		padding: 10,
 	},
 	buttonsCont: {
-		position: 'relative',
+		padding: `${theme.spacing(0.5)}px ${theme.spacing(1)}px`,
 	},
-	statusIconCont: {
-		display: 'flex',
-		alignItems: 'center',
-		color: '#bdbdbd',
-	},
-	smallBtn: {
-		padding: 8,
-	},
-	smallIcon: {
-		fontSize: 16,
-	},
-};
+});
 
 /**
  * Main item component.
  */
 class Item extends PureComponent {
 	render() {
-		const {
-			id,
-			itemId,
-			title,
-			releaseDate,
-			imageUrl,
-			isReleased,
-			ownageStatus,
-			children,
-			classes,
-		} = this.props;
-		const actionsClasses = {
-			smallBtn: classes.smallBtn,
-			smallIcon: classes.smallIcon,
-		};
+		const { title, releaseDate, imageUrl, isReleased, children, classes, onClick } = this.props;
 
 		return (
-			<Grid item className={classes.cont} id={id}>
-				<Card elevation={0} className={classes.card}>
+			<Card elevation={0} className={classes.card}>
+				<CardActionArea className={classes.clickableArea} onClick={onClick}>
 					<Image src={imageUrl} />
 					<CardContent className={classes.textCont}>
 						<Typography gutterBottom variant="body1">
 							{title}
 						</Typography>
-						<Typography variant="caption" className={classes.date}>
-							{releaseDate}
+						<Typography variant="body2">
+							<ReleaseDate date={releaseDate} isReleased={isReleased} />
 						</Typography>
 					</CardContent>
+				</CardActionArea>
 
-					<CardActions className={classes.buttonsCont}>
-						<Released show={isReleased} />
-						<Grid container justify="space-between" alignItems="center">
-							<Grid item className={classes.statusIconCont}>
-								<OwnageBtn
-									classes={actionsClasses}
-									released={isReleased}
-									ownageStatus={ownageStatus}
-									itemKey={itemId}
-								/>
-							</Grid>
-							<Grid item>
-								<CopyBtn classes={actionsClasses} textToCopy={this.props.title} />
-
-								<SubMenu classes={actionsClasses} itemKey={itemId}>
-									{children}
-								</SubMenu>
-							</Grid>
-						</Grid>
-					</CardActions>
-				</Card>
-			</Grid>
+				<CardActions className={classes.buttonsCont}>{children}</CardActions>
+			</Card>
 		);
 	}
 }
 
 Item.propTypes = {
-	id: PropTypes.string,
-	itemId: PropTypes.string.isRequired,
 	title: PropTypes.string,
 	imageUrl: PropTypes.string,
 	releaseDate: PropTypes.string,
 	isReleased: PropTypes.bool,
-	ownageStatus: PropTypes.oneOf(['DEFAULT', 'DOWNLOADABLE', 'OWNED']),
 	children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]),
+	onClick: PropTypes.func,
 };
 
 export default withStyles(style)(Item);

@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Nav from './components/Nav/Nav';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import NoMatch from './pages/NoMatch';
 import Home from './pages/Home';
@@ -9,10 +8,7 @@ import Games from './pages/Games';
 import Books from './pages/Books';
 import { Config } from './config';
 import NotificationContainer from './components/NotificationContainer';
-import AddItemContainer from './components/AddItem/AddItemContainer';
 import { CssBaseline } from '@material-ui/core';
-import Trakt from './models/vendors/Trakt';
-import GlobalStorage from './models/Helpers/GlobalStorage/GlobalStorage';
 import Authentication from './models/Authentication';
 import AppLoader from './components/layout/AppLoader';
 import Form from './components/Login/Form';
@@ -23,7 +19,6 @@ import 'firebase/database';
 // settings
 const theme = createMuiTheme(Config.muiThemeMain);
 firebase.initializeApp(Config.firebase);
-const trakt = new Trakt();
 
 /**
  * Root app component.
@@ -37,10 +32,6 @@ class App extends PureComponent {
 	componentDidMount() {
 		Authentication.signInListener((isSignedIn) => {
 			if (isSignedIn) {
-				trakt.authenticate().then(() => {
-					GlobalStorage.set('trakt', trakt);
-				});
-
 				this.setState({
 					isLoading: false,
 					isSignedIn: true,
@@ -62,9 +53,6 @@ class App extends PureComponent {
 	_renderSignedInApp() {
 		return (
 			<Router>
-				<AddItemContainer />
-				<Nav />
-
 				<Switch>
 					<Route path="/" exact component={Home} />
 					<Route path="/movies" exact component={Movies} />

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import MoviesMediaModel from '../models/MediaModels/MoviesMediaModel';
-import GlobalStorage from '../models/Helpers/GlobalStorage/GlobalStorage';
-import SubMenuItem from '../components/Item/SubMenuItem';
+import GlobalStorage, { STORAGE_NAMES } from '../models/Helpers/GlobalStorage/GlobalStorage';
+import SubMenuItem from '../components/Item/submenu/SubMenuItem';
 import { Info as InfoIcon, CloudDownload as CloudDownloadIcon } from '@material-ui/icons';
 import MediaPageContent from '../components/MediaPageContent';
+import SubMenuItemCopy from '../components/Item/submenu/SubMenuItemCopy';
+import SubMenuItemLabels from '../components/Item/labels/SubMenuItemLabels';
+import Trakt from '../models/vendors/Trakt';
 
 /**
  * Page about movies
@@ -18,11 +21,18 @@ class Movies extends Component {
 		super(props);
 
 		this.mediaModel = new MoviesMediaModel();
-		GlobalStorage.set('currentMediaModel', this.mediaModel);
+		GlobalStorage.set(STORAGE_NAMES.currentMediaModel, this.mediaModel);
+	}
 
-		this.traktObserver = GlobalStorage.connect('trakt', (val) => {
+	componentDidMount() {
+		this.traktObserver = GlobalStorage.connect(STORAGE_NAMES.trakt, (val) => {
 			if (val) {
 				this.mediaModel.syncItems();
+			} else {
+				const trakt = new Trakt();
+				trakt.authenticate().then(() => {
+					GlobalStorage.set(STORAGE_NAMES.trakt, trakt);
+				});
 			}
 		});
 	}
@@ -44,6 +54,17 @@ class Movies extends Component {
 							icon={<InfoIcon />}
 							onClick={() => {
 								this.mediaModel.showItemInfo(itemObj.title);
+							}}
+						/>,
+						<SubMenuItemCopy key="copy" textToCopy={itemObj.title} />,
+						<SubMenuItemLabels
+							key="labels"
+							labels={itemObj.labels}
+							onNewLabel={(name) => {
+								return this.mediaModel.handleAddLabel(name, itemObj.getId());
+							}}
+							onRemoveLabel={(name) => {
+								return this.mediaModel.handleRemoveLabel(name, itemObj.getId());
 							}}
 						/>,
 						<SubMenuItem

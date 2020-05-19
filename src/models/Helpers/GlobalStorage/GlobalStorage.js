@@ -1,5 +1,11 @@
 import GlobalStorageObserver from './GlobalStorageObserver';
 
+export const STORAGE_NAMES = {
+	currentMediaModel: 'currentMediaModel',
+	filterActions: 'filterActions',
+	trakt: 'trakt',
+};
+
 /**
  * Lite version of Redux. Serves as global storage. Data are saved as ket-data pair and functions listen for particular
  * data changes

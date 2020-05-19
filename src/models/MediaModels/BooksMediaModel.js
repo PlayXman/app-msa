@@ -8,6 +8,8 @@ import GoogleBooks from '../vendors/GoogleBooks';
  * Media model for Books
  */
 class BooksMediaModel extends MediaModel {
+	name = 'books';
+
 	/**
 	 * Returns ref to all DB items
 	 * @return {firebase.database.Reference}
@@ -143,8 +145,6 @@ class BooksMediaModel extends MediaModel {
 			GoogleBooks.getBook(bookId)
 				.then((bookData) => {
 					const book = this._createBookItem(bookData);
-					book.infoUrl = bookData.volumeInfo.previewLink || '';
-					book.infoUrl = book.infoUrl.replace(/^http:/, 'https:');
 					book.push();
 				})
 				.finally(() => {
@@ -175,6 +175,8 @@ class BooksMediaModel extends MediaModel {
 			info.imageLinks && info.imageLinks.smallThumbnail ? info.imageLinks.smallThumbnail : '';
 		book.imageUrl = book.imageUrl.replace(/^http:/, 'https:');
 		book.releaseDate = info.publishedDate || '';
+		book.infoUrl = info.previewLink || '';
+		book.infoUrl = book.infoUrl.replace(/^http:/, 'https:');
 
 		return book;
 	}

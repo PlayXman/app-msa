@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
-import PageContent from '../components/layout/PageContent';
 import Grid from '../../node_modules/@material-ui/core/Grid/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
@@ -16,6 +15,7 @@ import {
 const style = (theme) => ({
 	cont: {
 		padding: 20,
+		minHeight: '100vh',
 	},
 	cardIconWrapper: {
 		background: theme.palette.primary.light,
@@ -23,6 +23,12 @@ const style = (theme) => ({
 		color: theme.palette.background.default,
 		textShadow: '0 1px 3px rgba(0, 0, 0, 0.29)',
 		height: '100%',
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	items: {
+		paddingBottom: '3rem',
 	},
 });
 
@@ -75,13 +81,22 @@ class Home extends Component {
 		const renderItem = this._renderItem;
 
 		return (
-			<PageContent>
-				<div className={classes.cont}>
-					<Grid container justify="center" spacing={16}>
+			<Grid
+				container
+				justify="center"
+				direction="column"
+				alignItems="center"
+				className={classes.cont}
+			>
+				<Grid item>
+					<Typography variant="h5" align="center" gutterBottom>
+						MediaStorage App
+					</Typography>
+					<Grid container justify="center" spacing={4} className={classes.items}>
 						{btns.map(renderItem)}
 					</Grid>
-				</div>
-			</PageContent>
+				</Grid>
+			</Grid>
 		);
 	}
 }
