@@ -1,4 +1,4 @@
-import { database } from 'firebase';
+import firebase from 'firebase/app';
 import Label from './Label';
 
 class Labels {
@@ -104,7 +104,7 @@ class Labels {
 	 * @returns {firebase.database.Reference}
 	 */
 	static getDbRef(modelName) {
-		return database().ref(`${this.DB_PATH}/${modelName}`);
+		return firebase.database().ref(`${this.DB_PATH}/${modelName}`);
 	}
 
 	/**

@@ -1,4 +1,4 @@
-import { database } from 'firebase/app';
+import firebase from 'firebase/app';
 
 /** @type {string} DB path */
 const DB_PATH = '/Vendors/tmdb';
@@ -12,7 +12,8 @@ class Tmdb {
 	 * @return {Promise<firebase.database.DataSnapshot>} Param is api key or null
 	 */
 	static getApiKey() {
-		return database()
+		return firebase
+			.database()
 			.ref(`${DB_PATH}/key`)
 			.once('value')
 			.then((tmdbSnap) => {
