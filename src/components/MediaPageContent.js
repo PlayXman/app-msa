@@ -13,12 +13,30 @@ import Alphabet from './MediaComponents/Alphabet';
 import NewItemContainer from "./newItem/NewItemContainer";
 import Nav from "./Nav/Nav";
 
+const STYLE_HELPERS = {
+	itemSize: 158,
+	alphabetBp: 365,
+	contentBreakpoints: (count, theme) => {
+		return {
+			[theme.breakpoints.up(STYLE_HELPERS.itemSize * count + 48)]: {
+				maxWidth: STYLE_HELPERS.itemSize * count
+			},
+		}
+	}
+};
+
 const style = (theme) => ({
 	content: {
-		paddingTop: '4%'
+		paddingTop: '4%',
+		margin: '0 auto',
+		maxWidth: STYLE_HELPERS.itemSize * 2,
+		...STYLE_HELPERS.contentBreakpoints(3, theme),
+		...STYLE_HELPERS.contentBreakpoints(4, theme),
+		...STYLE_HELPERS.contentBreakpoints(5, theme),
+		...STYLE_HELPERS.contentBreakpoints(6, theme),
 	},
 	alphabet: {
-		[theme.breakpoints.down(355)]: {
+		[theme.breakpoints.down(STYLE_HELPERS.alphabetBp)]: {
 			display: 'none',
 		},
 	},
@@ -121,19 +139,15 @@ class MediaPageContent extends Component {
 
 		return (
 			<>
-				<NewItemContainer />
+				<NewItemContainer sm={STYLE_HELPERS.alphabetBp} />
 				<Nav title={heading} />
 				<PageContent>
-					<Grid container>
-						<Grid item xs className={classes.content}>
-							<Grid container spacing={1} justify="center">
-								{this._renderItems()}
-							</Grid>
+					<div className={classes.content}>
+						<Grid container spacing={1} justify="flex-start">
+							{this._renderItems()}
 						</Grid>
-						<Grid item className={classes.alphabet}>
-							<Alphabet />
-						</Grid>
-					</Grid>
+					</div>
+					<Alphabet className={classes.alphabet} />
 				</PageContent>
 			</>
 		);

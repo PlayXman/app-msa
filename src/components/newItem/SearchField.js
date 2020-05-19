@@ -4,17 +4,9 @@ import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import { Clear as ClearIcon } from '@material-ui/icons';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import {makeStyles} from "@material-ui/core/styles";
-
-const useStyles = makeStyles((theme) => ({
-	form: {
-		padding: `0 ${theme.spacing(3)}px`
-	}
-}));
 
 const SearchField = ({ onSubmit }) => {
 	const [text, setText] = useState('');
-	const classes = useStyles();
 
 	return (
 		<form
@@ -22,7 +14,6 @@ const SearchField = ({ onSubmit }) => {
 				e.preventDefault();
 				onSubmit(text);
 			}}
-			className={classes.form}
 		>
 			<TextField
 				placeholder="Type the name..."
