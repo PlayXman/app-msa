@@ -9,8 +9,6 @@ import Books from './pages/Books';
 import { Config } from './config';
 import NotificationContainer from './components/NotificationContainer';
 import { CssBaseline } from '@material-ui/core';
-import Trakt from './models/vendors/Trakt';
-import GlobalStorage, {STORAGE_NAMES} from './models/Helpers/GlobalStorage/GlobalStorage';
 import Authentication from './models/Authentication';
 import AppLoader from './components/layout/AppLoader';
 import Form from './components/Login/Form';
@@ -21,7 +19,6 @@ import 'firebase/database';
 // settings
 const theme = createMuiTheme(Config.muiThemeMain);
 firebase.initializeApp(Config.firebase);
-const trakt = new Trakt();
 
 /**
  * Root app component.
@@ -35,10 +32,6 @@ class App extends PureComponent {
 	componentDidMount() {
 		Authentication.signInListener((isSignedIn) => {
 			if (isSignedIn) {
-				trakt.authenticate().then(() => {
-					GlobalStorage.set(STORAGE_NAMES.trakt, trakt);
-				});
-
 				this.setState({
 					isLoading: false,
 					isSignedIn: true,

@@ -6,6 +6,7 @@ import { Info as InfoIcon, CloudDownload as CloudDownloadIcon } from '@material-
 import MediaPageContent from '../components/MediaPageContent';
 import SubMenuItemCopy from '../components/Item/submenu/SubMenuItemCopy';
 import SubMenuItemLabels from '../components/Item/labels/SubMenuItemLabels';
+import Trakt from "../models/vendors/Trakt";
 
 /**
  * Page about movies
@@ -21,10 +22,17 @@ class Movies extends Component {
 
 		this.mediaModel = new MoviesMediaModel();
 		GlobalStorage.set(STORAGE_NAMES.currentMediaModel, this.mediaModel);
+	}
 
-		this.traktObserver = GlobalStorage.connect(STORAGE_NAMES.filterActions, (val) => {
+	componentDidMount() {
+		this.traktObserver = GlobalStorage.connect(STORAGE_NAMES.trakt, (val) => {
 			if (val) {
 				this.mediaModel.syncItems();
+			} else {
+				const trakt = new Trakt();
+				trakt.authenticate().then(() => {
+					GlobalStorage.set(STORAGE_NAMES.trakt, trakt);
+				});
 			}
 		});
 	}
