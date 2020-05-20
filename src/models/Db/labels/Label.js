@@ -37,12 +37,10 @@ class Label {
 	 * @param {string} name
 	 */
 	newKey(name) {
-		let key = name.toLowerCase();
-		key = key
+		this.params.key = name
 			.split(/[\s-_]/g)
 			.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 			.join('');
-		this.params.key = key;
 	}
 }
 

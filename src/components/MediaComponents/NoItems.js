@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
+import Text from '../Text';
 
 const styles = {
 	cont: {
@@ -17,10 +17,8 @@ class NoItems extends Component {
 		const { classes } = this.props;
 
 		return (
-			<Grid item className={classes.cont}>
-				<Typography variant="caption" component="p">
-					Nothing to show
-				</Typography>
+			<Grid item xs className={classes.cont}>
+				<Text text="Nothing to show" />
 			</Grid>
 		);
 	}
