@@ -11,7 +11,7 @@ import SearchField from './SearchField';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
-import Text from './Text';
+import Text from '../Text';
 import ItemList from './ItemList';
 import GlobalStorage, { STORAGE_NAMES } from '../../models/Helpers/GlobalStorage/GlobalStorage';
 

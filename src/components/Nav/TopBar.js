@@ -48,7 +48,7 @@ class TopBar extends Component {
 									<MenuIcon />
 								</IconButton>
 							</Grid>
-							<Grid item xs="auto" sm={4}>
+							<Grid item xs sm={4}>
 								<TextSearch title={title} />
 							</Grid>
 							<Grid item xs="auto" sm={2}>

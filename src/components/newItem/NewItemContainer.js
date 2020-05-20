@@ -19,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	button: (props) => ({
 		position: 'fixed',
-		bottom: theme.spacing(1),
-		right: theme.spacing(5),
+		bottom: theme.spacing(2),
+		right: theme.spacing(4),
 		[theme.breakpoints.down(props.sm)]: {
 			right: theme.spacing(1),
 		},
