@@ -32,6 +32,7 @@ const styles = (theme) => ({
 	},
 	text: {
 		lineHeight: '1',
+		fontSize: '0.7rem',
 	},
 });
 

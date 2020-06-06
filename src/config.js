@@ -28,7 +28,7 @@ export const Config = {
 			apiUrl: 'https://www.giantbomb.com/api/',
 		},
 		gamesCz: {
-			searchUrl: 'https://hledej.tiscali.cz/games/?typeId=7&sort=relevancy&q=',
+			searchUrl: 'https://games.tiscali.cz/hledani/game/?q=',
 		},
 		warezBbOrg: {
 			searchUrl: 'https://www.warez-bb.org/search.php?mode=results',
