@@ -1,6 +1,6 @@
 {
 	"name": "app-msa",
-	"version": "5.9.1",
+	"version": "5.10.1",
 	"private": true,
 	"license": "GPL-3.0-or-later",
 	"bugs": {
@@ -37,8 +37,7 @@
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"deploy": "npm run build && firebase deploy",
-		"format:check": "echo Files to change: && prettier --list-different \"src/**/*.js\" --config ./.prettierrc.js",
-		"format:fix": "prettier --write \"src/**/*.js\" --config ./.prettierrc.js"
+		"lint": "prettier --write \"src/**/*.js\" --config ./.prettierrc.js"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
