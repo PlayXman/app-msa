@@ -7,6 +7,7 @@ import WarezBB from '../vendors/WarezBB';
 import MovieDb from 'moviedb-promise';
 import TmdbDb from '../Db/Vendors/Tmdb';
 import GlobalStorage, { STORAGE_NAMES } from '../Helpers/GlobalStorage/GlobalStorage';
+import OwnageStatus from '../Helpers/OwnageStatus';
 
 /**
  * Media model for Movies
@@ -245,11 +246,13 @@ class MoviesMediaModel extends MediaModel {
 										if (done >= total) {
 											// get metadata
 											this._updateDbItems(toAdd, loader, loaderMsg);
+											this._updateCollectedItems(snap.val());
 										}
 									});
 							});
 						} else {
 							// nothing to add
+							this._updateCollectedItems(snap.val());
 							loader.hide();
 						}
 					});
@@ -305,6 +308,25 @@ class MoviesMediaModel extends MediaModel {
 					});
 			});
 		});
+	}
+
+	_updateCollectedItems(allDbItems) {
+		GlobalStorage.getState(STORAGE_NAMES.trakt)
+			.getAllCollectedMovies()
+			.then((traktItems) => {
+				traktItems.forEach((traktItem) => {
+					const id = traktItem.movie.ids.tmdb;
+					if (allDbItems[id] && allDbItems[id].status !== OwnageStatus.statuses.OWNED) {
+						const movie = this.createItem();
+						movie.setId(id);
+						movie.status = OwnageStatus.statuses.OWNED;
+						movie.push();
+					}
+				});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	}
 }
 

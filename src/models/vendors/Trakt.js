@@ -160,6 +160,24 @@ class Trakt {
 	}
 
 	/**
+	 * Fetches all movies from user's Trakt collection
+	 * @returns {Promise<any>}
+	 */
+	getAllCollectedMovies() {
+		return fetch(`${Config.vendors.traktTv.apiUrl}sync/collection/movies`, {
+			method: 'GET',
+			headers: this._getHeader(),
+			cache: 'no-cache',
+		}).then((response) => {
+			if (!response.ok) {
+				throw new Error('Trakt connection error');
+			}
+
+			return response.json();
+		});
+	}
+
+	/**
 	 * Fetches refresh token from Trakt using "code"
 	 * @return {Promise<string>} Returns refresh token if fetched
 	 * @private
