@@ -44,10 +44,23 @@ class MoviesMediaModel extends MediaModel {
 
 	/**
 	 * Shows info about movie
+	 * @param {string} vendor ("csfd" | "imdb" | "trakt")
 	 * @param {string} title Movie title
 	 */
-	showItemInfo(title) {
-		Url.openNewTab(Config.vendors.csfdCz.searchUrl + Url.encodeText(title));
+	showItemInfo(vendor, title) {
+		let searchUrl = '';
+
+		if (vendor === 'csfd') {
+			searchUrl = Config.vendors.csfdCz.searchUrl;
+		} else if (vendor === 'imdb') {
+			searchUrl = Config.vendors.imdbCom.searchUrl;
+		} else if (vendor === 'trakt') {
+			searchUrl = Config.vendors.traktTv.searchUrl;
+		}
+
+		if (searchUrl.length) {
+			Url.openNewTab(searchUrl + Url.encodeText(title));
+		}
 	}
 
 	/**

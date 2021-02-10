@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import MoviesMediaModel from '../models/MediaModels/MoviesMediaModel';
 import GlobalStorage, { STORAGE_NAMES } from '../models/Helpers/GlobalStorage/GlobalStorage';
 import SubMenuItem from '../components/Item/submenu/SubMenuItem';
-import { Info as InfoIcon, CloudDownload as CloudDownloadIcon } from '@material-ui/icons';
+import { CloudDownload as CloudDownloadIcon } from '@material-ui/icons';
 import MediaPageContent from '../components/MediaPageContent';
 import SubMenuItemCopy from '../components/Item/submenu/SubMenuItemCopy';
 import SubMenuItemLabels from '../components/Item/labels/SubMenuItemLabels';
 import Trakt from '../models/vendors/Trakt';
+import SubMenuItemCustom from '../components/Item/submenu/SubMenuItemCustom';
+import SubmenuCustomButton from '../components/Item/submenu/SubmenuCustomButton';
 
 /**
  * Page about movies
@@ -48,13 +50,28 @@ class Movies extends Component {
 				mediaModel={this.mediaModel}
 				itemSubmenu={(itemObj) => {
 					return [
-						<SubMenuItem
+						<SubMenuItemCustom
 							key="info"
-							text="Info"
-							icon={<InfoIcon />}
-							onClick={() => {
-								this.mediaModel.showItemInfo(itemObj.title);
-							}}
+							items={[
+								<SubmenuCustomButton
+									variant="trakt"
+									onClick={() => {
+										this.mediaModel.showItemInfo('trakt', itemObj.title);
+									}}
+								/>,
+								<SubmenuCustomButton
+									variant="imdb"
+									onClick={() => {
+										this.mediaModel.showItemInfo('imdb', itemObj.title);
+									}}
+								/>,
+								<SubmenuCustomButton
+									variant="csfd"
+									onClick={() => {
+										this.mediaModel.showItemInfo('csfd', itemObj.title);
+									}}
+								/>,
+							]}
 						/>,
 						<SubMenuItemCopy key="copy" textToCopy={itemObj.title} />,
 						<SubMenuItemLabels
