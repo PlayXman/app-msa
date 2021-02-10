@@ -41,6 +41,9 @@ export const Config = {
 		csfdCz: {
 			searchUrl: 'https://www.csfd.cz/hledat/?q=',
 		},
+		imdbCom: {
+			searchUrl: 'https://www.imdb.com/find?s=tt&q=',
+		},
 		tmdbOrg: {
 			imageUrl: {
 				icon: 'https://image.tmdb.org/t/p/w92',
@@ -51,6 +54,7 @@ export const Config = {
 		traktTv: {
 			apiUrl: 'https://api.trakt.tv/',
 			traktUrl: 'https://trakt.tv/',
+			searchUrl: 'https://trakt.tv/search?query=',
 		},
 		googleBooks: {
 			apiUrl: 'https://www.googleapis.com/books/v1/volumes',
