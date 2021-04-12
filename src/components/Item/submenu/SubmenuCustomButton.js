@@ -4,9 +4,9 @@ import { Button, withStyles } from '@material-ui/core';
 import CsfdIcon from './icons/CsfdIcon';
 import ImdbIcon from './icons/ImdbIcon';
 import TraktIcon from './icons/TraktIcon';
-import SteamIcon from "./icons/SteamIcon";
-import GamespotIcon from "./icons/GamespotIcon";
-import GamesIcon from "./icons/GamesIcon";
+import SteamIcon from './icons/SteamIcon';
+import GamespotIcon from './icons/GamespotIcon';
+import GamesIcon from './icons/GamesIcon';
 
 const style = (theme) => ({
 	root: {

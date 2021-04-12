@@ -4,8 +4,8 @@ import GlobalStorage, { STORAGE_NAMES } from '../models/Helpers/GlobalStorage/Gl
 import MediaPageContent from '../components/MediaPageContent';
 import SubMenuItemCopy from '../components/Item/submenu/SubMenuItemCopy';
 import SubMenuItemLabels from '../components/Item/labels/SubMenuItemLabels';
-import SubMenuItemCustom from "../components/Item/submenu/SubMenuItemCustom";
-import SubmenuCustomButton from "../components/Item/submenu/SubmenuCustomButton";
+import SubMenuItemCustom from '../components/Item/submenu/SubMenuItemCustom';
+import SubmenuCustomButton from '../components/Item/submenu/SubmenuCustomButton';
 
 /**
  * Page about games
@@ -48,7 +48,10 @@ class Games extends Component {
 								<SubmenuCustomButton
 									variant="steam"
 									onClick={() => {
-										this.mediaModel.showItemInfo('steampoweredCom', itemObj.title);
+										this.mediaModel.showItemInfo(
+											'steampoweredCom',
+											itemObj.title
+										);
 									}}
 								/>,
 							]}
@@ -63,7 +66,7 @@ class Games extends Component {
 							onRemoveLabel={(name) => {
 								return this.mediaModel.handleRemoveLabel(name, itemObj.getId());
 							}}
-						/>
+						/>,
 					];
 				}}
 			/>

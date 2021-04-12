@@ -81,7 +81,7 @@ class Movies extends Component {
 							onRemoveLabel={(name) => {
 								return this.mediaModel.handleRemoveLabel(name, itemObj.getId());
 							}}
-						/>
+						/>,
 					];
 				}}
 			/>
