@@ -4,6 +4,9 @@ import { Button, withStyles } from '@material-ui/core';
 import CsfdIcon from './icons/CsfdIcon';
 import ImdbIcon from './icons/ImdbIcon';
 import TraktIcon from './icons/TraktIcon';
+import SteamIcon from "./icons/SteamIcon";
+import GamespotIcon from "./icons/GamespotIcon";
+import GamesIcon from "./icons/GamesIcon";
 
 const style = (theme) => ({
 	root: {
@@ -15,6 +18,9 @@ const style = (theme) => ({
 		'& svg': {
 			width: 'auto',
 			height: '100%',
+			display: 'block',
+			maxWidth: '100%',
+			maxHeight: '100%',
 		},
 	},
 	csfd: {
@@ -44,6 +50,34 @@ const style = (theme) => ({
 			backgroundColor: '#b80f14',
 		},
 	},
+	steam: {
+		background: '#1b2838',
+		'&:hover': {
+			backgroundColor: '#243447',
+		},
+		'&:active': {
+			backgroundColor: '#121b26',
+		},
+	},
+	gamespot: {
+		fill: '#FFDD00',
+		background: '#2b2d31',
+		'&:hover': {
+			backgroundColor: '#3e4045',
+		},
+		'&:active': {
+			backgroundColor: '#191c1d',
+		},
+	},
+	games: {
+		background: '#161616',
+		'&:hover': {
+			backgroundColor: '#313131',
+		},
+		'&:active': {
+			backgroundColor: '#070707',
+		},
+	},
 });
 
 class SubmenuCustomButton extends Component {
@@ -68,6 +102,12 @@ class SubmenuCustomButton extends Component {
 				return <ImdbIcon />;
 			case 'trakt':
 				return <TraktIcon />;
+			case 'steam':
+				return <SteamIcon />;
+			case 'gamespot':
+				return <GamespotIcon />;
+			case 'games':
+				return <GamesIcon />;
 			default:
 				return null;
 		}
@@ -75,7 +115,7 @@ class SubmenuCustomButton extends Component {
 }
 
 SubmenuCustomButton.propTypes = {
-	variant: PropTypes.oneOf(['csfd', 'imdb', 'trakt']).isRequired,
+	variant: PropTypes.oneOf(['csfd', 'imdb', 'trakt', 'steam', 'gamespot', 'games']).isRequired,
 	onClick: PropTypes.func,
 };
 

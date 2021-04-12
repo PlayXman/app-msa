@@ -30,13 +30,11 @@ export const Config = {
 		gamesCz: {
 			searchUrl: 'https://games.tiscali.cz/hledani/game/?q=',
 		},
-		warezBbOrg: {
-			searchUrl: 'https://www.warez-bb.org/search.php?mode=results',
-			forumId: {
-				movies: 4,
-				games: 5,
-				books: 8,
-			},
+		gamespotCom: {
+			searchUrl: 'https://www.gamespot.com/search/?header=1&i=site&q=',
+		},
+		steampoweredCom: {
+			searchUrl: 'https://store.steampowered.com/search/?term=',
 		},
 		csfdCz: {
 			searchUrl: 'https://www.csfd.cz/hledat/?q=',

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import MoviesMediaModel from '../models/MediaModels/MoviesMediaModel';
 import GlobalStorage, { STORAGE_NAMES } from '../models/Helpers/GlobalStorage/GlobalStorage';
-import SubMenuItem from '../components/Item/submenu/SubMenuItem';
-import { CloudDownload as CloudDownloadIcon } from '@material-ui/icons';
 import MediaPageContent from '../components/MediaPageContent';
 import SubMenuItemCopy from '../components/Item/submenu/SubMenuItemCopy';
 import SubMenuItemLabels from '../components/Item/labels/SubMenuItemLabels';
@@ -83,15 +81,7 @@ class Movies extends Component {
 							onRemoveLabel={(name) => {
 								return this.mediaModel.handleRemoveLabel(name, itemObj.getId());
 							}}
-						/>,
-						<SubMenuItem
-							key="download"
-							text="Download"
-							icon={<CloudDownloadIcon />}
-							onClick={() => {
-								this.mediaModel.downloadItem(itemObj.title);
-							}}
-						/>,
+						/>
 					];
 				}}
 			/>

@@ -3,7 +3,6 @@ import Movies from '../Db/Media/Movies';
 import Notification from '../Notification';
 import Url from '../Helpers/Url';
 import { Config } from '../../config';
-import WarezBB from '../vendors/WarezBB';
 import MovieDb from 'moviedb-promise';
 import TmdbDb from '../Db/Vendors/Tmdb';
 import GlobalStorage, { STORAGE_NAMES } from '../Helpers/GlobalStorage/GlobalStorage';
@@ -44,7 +43,7 @@ class MoviesMediaModel extends MediaModel {
 
 	/**
 	 * Shows info about movie
-	 * @param {string} vendor ("csfd" | "imdb" | "trakt")
+	 * @param {"csfd" | "imdb" | "trakt"} vendor
 	 * @param {string} title Movie title
 	 */
 	showItemInfo(vendor, title) {
@@ -61,14 +60,6 @@ class MoviesMediaModel extends MediaModel {
 		if (searchUrl.length) {
 			Url.openNewTab(searchUrl + Url.encodeText(title));
 		}
-	}
-
-	/**
-	 * Opens warez-bb.org forum with pre-searched item
-	 * @param {string} title
-	 */
-	downloadItem(title) {
-		WarezBB.searchFor(title, Config.vendors.warezBbOrg.forumId.movies);
 	}
 
 	/**
