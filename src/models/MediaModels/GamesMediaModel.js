@@ -4,7 +4,6 @@ import GiantBomb from '../vendors/GiantBomb';
 import Notification from '../Notification';
 import Url from '../Helpers/Url';
 import { Config } from '../../config';
-import WarezBB from '../vendors/WarezBB';
 
 /**
  * Media model for Games
@@ -41,18 +40,23 @@ class GamesMediaModel extends MediaModel {
 
 	/**
 	 * Shows info about game
+	 * @param {"gamesCz" | "gamespotCom" | "steampoweredCom"} vendor
 	 * @param {string} title Game title
 	 */
-	showItemInfo(title) {
-		Url.openNewTab(Config.vendors.gamesCz.searchUrl + Url.encodeText(title));
-	}
+	showItemInfo(vendor, title) {
+		let searchUrl = '';
 
-	/**
-	 * Opens warez-bb.org forum with pre-searched item
-	 * @param {string} title
-	 */
-	downloadItem(title) {
-		WarezBB.searchFor(title, Config.vendors.warezBbOrg.forumId.games);
+		if (vendor === 'gamesCz') {
+			searchUrl = Config.vendors.gamesCz.searchUrl;
+		} else if (vendor === 'gamespotCom') {
+			searchUrl = Config.vendors.gamespotCom.searchUrl;
+		} else if (vendor === 'steampoweredCom') {
+			searchUrl = Config.vendors.steampoweredCom.searchUrl;
+		}
+
+		if (searchUrl.length) {
+			Url.openNewTab(searchUrl + Url.encodeText(title));
+		}
 	}
 
 	/**

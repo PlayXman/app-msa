@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import GamesMediaModel from '../models/MediaModels/GamesMediaModel';
 import GlobalStorage, { STORAGE_NAMES } from '../models/Helpers/GlobalStorage/GlobalStorage';
-import SubMenuItem from '../components/Item/submenu/SubMenuItem';
-import { Info as InfoIcon, CloudDownload as CloudDownloadIcon } from '@material-ui/icons';
 import MediaPageContent from '../components/MediaPageContent';
 import SubMenuItemCopy from '../components/Item/submenu/SubMenuItemCopy';
 import SubMenuItemLabels from '../components/Item/labels/SubMenuItemLabels';
+import SubMenuItemCustom from "../components/Item/submenu/SubMenuItemCustom";
+import SubmenuCustomButton from "../components/Item/submenu/SubmenuCustomButton";
 
 /**
  * Page about games
  */
 class Games extends Component {
-	mediaModel;
+	/**
+	 * @type {GamesMediaModel}
+	 */
+	mediaModel = null;
 
 	constructor(props) {
 		super(props);
@@ -27,13 +30,28 @@ class Games extends Component {
 				mediaModel={this.mediaModel}
 				itemSubmenu={(itemObj) => {
 					return [
-						<SubMenuItem
+						<SubMenuItemCustom
 							key="info"
-							text="Info"
-							icon={<InfoIcon />}
-							onClick={() => {
-								this.mediaModel.showItemInfo(itemObj.title);
-							}}
+							items={[
+								<SubmenuCustomButton
+									variant="games"
+									onClick={() => {
+										this.mediaModel.showItemInfo('gamesCz', itemObj.title);
+									}}
+								/>,
+								<SubmenuCustomButton
+									variant="gamespot"
+									onClick={() => {
+										this.mediaModel.showItemInfo('gamespotCom', itemObj.title);
+									}}
+								/>,
+								<SubmenuCustomButton
+									variant="steam"
+									onClick={() => {
+										this.mediaModel.showItemInfo('steampoweredCom', itemObj.title);
+									}}
+								/>,
+							]}
 						/>,
 						<SubMenuItemCopy key="copy" textToCopy={itemObj.title} />,
 						<SubMenuItemLabels
@@ -45,15 +63,7 @@ class Games extends Component {
 							onRemoveLabel={(name) => {
 								return this.mediaModel.handleRemoveLabel(name, itemObj.getId());
 							}}
-						/>,
-						<SubMenuItem
-							key="download"
-							text="Download"
-							icon={<CloudDownloadIcon />}
-							onClick={() => {
-								this.mediaModel.downloadItem(itemObj.title);
-							}}
-						/>,
+						/>
 					];
 				}}
 			/>

@@ -76,7 +76,12 @@ class MediaItem extends PureComponent {
 					/>
 					<Labels labels={labels} />
 				</Item>
-				<SubMenu open={openSubmenu} onClose={this.handleSubmenuClose} itemID={itemId}>
+				<SubMenu
+					open={openSubmenu}
+					onClose={this.handleSubmenuClose}
+					itemID={itemId}
+					itemTitle={title}
+				>
 					{children}
 				</SubMenu>
 			</Grid>
