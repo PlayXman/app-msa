@@ -17,7 +17,7 @@ class SubMenuItemCustom extends Component {
 			<ListItem>
 				<Grid container spacing={1}>
 					{items.map((child, index) => (
-						<Grid item xs sm="auto" key={`submenuItem.${index}`}>
+						<Grid item xs key={`submenuItem.${index}`}>
 							{child}
 						</Grid>
 					))}
