@@ -10,6 +10,7 @@ import {
 	LocalMovies as LocalMoviesIcon,
 	VideogameAsset as VideogameAssetIcon,
 	Book as BookIcon,
+	LiveTv as LiveTvIcon,
 } from '@material-ui/icons';
 
 const style = (theme) => ({
@@ -37,7 +38,7 @@ class Home extends Component {
 		const { classes } = this.props;
 
 		return (
-			<Grid item key={item.link} xs={12} sm="auto">
+			<Grid item key={item.link} xs={12} sm>
 				<Card>
 					<CardActionArea component={Link} to={item.link}>
 						<Grid container>
@@ -76,6 +77,11 @@ class Home extends Component {
 				title: 'Books',
 				link: 'books',
 				icon: <BookIcon />,
+			},
+			{
+				title: 'Tv Shows',
+				link: 'tv-shows',
+				icon: <LiveTvIcon />,
 			},
 		];
 		const renderItem = this._renderItem;

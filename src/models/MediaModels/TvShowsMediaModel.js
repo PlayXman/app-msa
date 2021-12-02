@@ -1,5 +1,4 @@
 import MediaModel from './MediaModel';
-import Movies from '../Db/Media/Movies';
 import Notification from '../Notification';
 import Url from '../Helpers/Url';
 import { Config } from '../../config';
@@ -7,27 +6,28 @@ import MovieDb from 'moviedb-promise';
 import TmdbDb from '../Db/Vendors/Tmdb';
 import GlobalStorage, { STORAGE_NAMES } from '../Helpers/GlobalStorage/GlobalStorage';
 import OwnageStatus from '../Helpers/OwnageStatus';
+import TvShows from "../Db/Media/TvShows";
 
 /**
- * Media model for Movies
+ * Media model for TvShows
  */
-class MoviesMediaModel extends MediaModel {
-	name = 'movies';
+class TvShowsMediaModel extends MediaModel {
+	name = 'tvShows';
 
 	/**
 	 * Returns ref to all DB items
 	 * @return {firebase.database.Reference}
 	 */
 	getDbRef() {
-		return Movies.dbRef();
+		return TvShows.dbRef();
 	}
 
 	/**
-	 * New instance of Movies db item
-	 * @return {Movies}
+	 * New instance of TvShows db item
+	 * @return {TvShows}
 	 */
 	createItem() {
-		return new Movies();
+		return new TvShows();
 	}
 
 	/**
@@ -42,9 +42,9 @@ class MoviesMediaModel extends MediaModel {
 	}
 
 	/**
-	 * Shows info about movie
+	 * Shows info about tv show
 	 * @param {"csfd" | "imdb" | "trakt"} vendor
-	 * @param {string} title Movie title
+	 * @param {string} title Tv Show title
 	 */
 	showItemInfo(vendor, title) {
 		let searchUrl = '';
@@ -66,7 +66,7 @@ class MoviesMediaModel extends MediaModel {
 	 * Refreshes all items meta data. Downloads images, gets titles etc.
 	 */
 	handleItemsRefresh = () => {
-		const loaderMsg = 'Refreshing movies...';
+		const loaderMsg = 'Refreshing tv shows...';
 
 		super.handleItemsRefresh(loaderMsg);
 	};
@@ -74,7 +74,7 @@ class MoviesMediaModel extends MediaModel {
 	/**
 	 * Search items with name similar as searched text
 	 * @param {string} title Game title
-	 * @return {Promise<Movies[]>}
+	 * @return {Promise<TvShows[]>}
 	 */
 	searchItem = (title) => {
 		return new Promise((resolve, reject) => {
@@ -89,7 +89,7 @@ class MoviesMediaModel extends MediaModel {
 				}
 
 				const tmdb = new MovieDb(apiKey);
-				tmdb.searchMovie({
+				tmdb.searchTv({
 					query: title,
 				})
 					.then((response) => {
@@ -100,15 +100,15 @@ class MoviesMediaModel extends MediaModel {
 
 							for (let i = 0; i < length; i++) {
 								const item = searchItems[i];
-								const movie = this.createItem();
-								movie.setId(item.id);
-								movie.title = item.title;
-								movie.imageUrl = item.poster_path
+								const tvShow = this.createItem();
+								tvShow.setId(item.id);
+								tvShow.title = item.name;
+								tvShow.imageUrl = item.poster_path
 									? Config.vendors.tmdbOrg.imageUrl.icon + item.poster_path
 									: '';
-								movie.releaseDate = item.release_date;
+								tvShow.releaseDate = item.first_air_date || '';
 
-								items.push(movie);
+								items.push(tvShow);
 							}
 
 							resolve(items);
@@ -140,7 +140,7 @@ class MoviesMediaModel extends MediaModel {
 	addItem = (itemId) => {
 		return new Promise((resolve, reject) => {
 			const loader = new Notification(true);
-			loader.setText('Saving movie...');
+			loader.setText('Saving tv show...');
 			loader.show();
 
 			this.getDbRef()
@@ -153,13 +153,13 @@ class MoviesMediaModel extends MediaModel {
 							alreadySaved: true,
 						});
 					} else {
-						const newMovie = this.createItem();
-						newMovie.setId(itemId);
-						newMovie.setDefaults();
-						newMovie.push().then(() => {
+						const newTvShow = this.createItem();
+						newTvShow.setId(itemId);
+						newTvShow.setDefaults();
+						newTvShow.push().then(() => {
 							this._updateDbItems([itemId], loader, 'Saved');
 							const trakt = GlobalStorage.getState(STORAGE_NAMES.trakt);
-							trakt.addToWatchlist([itemId], "movies").then(() => {
+							trakt.addToWatchlist([itemId], "shows").then(() => {
 								resolve({
 									alreadySaved: false,
 								});
@@ -186,7 +186,7 @@ class MoviesMediaModel extends MediaModel {
 
 		const trakt = GlobalStorage.getState(STORAGE_NAMES.trakt);
 		trakt
-			.removeFromWatchlist([id], "movies")
+			.removeFromWatchlist([id], "shows")
 			.then(() => {
 				loader.hide();
 				super.removeItem(id);
@@ -208,7 +208,7 @@ class MoviesMediaModel extends MediaModel {
 
 		const trakt = GlobalStorage.getState(STORAGE_NAMES.trakt);
 		trakt
-			.getAllItemsFromWatchlist("movies")
+			.getAllItemsFromWatchlist("shows")
 			.then((traktItems) => {
 				this.getDbRef()
 					.once('value')
@@ -219,18 +219,20 @@ class MoviesMediaModel extends MediaModel {
 
 						// find synced items
 						for (let i = 0; i < count; i++) {
-							const tmdbId = traktItems[i].movie.ids.tmdb;
-							if (dbItems[tmdbId]) {
-								delete dbItems[tmdbId];
-							} else {
-								toAdd.push(tmdbId);
+							const tmdbId = traktItems[i].show.ids.tmdb;
+							if(tmdbId != null) {
+								if (dbItems[tmdbId]) {
+									delete dbItems[tmdbId];
+								} else {
+									toAdd.push(tmdbId);
+								}
 							}
 						}
 
 						// remove what's not in watchlist
 						Object.keys(dbItems).forEach((id) => {
-							const movie = this.createItem();
-							movie.setId(id).remove();
+							const tvShow = this.createItem();
+							tvShow.setId(id).remove();
 						});
 
 						// add what's only in watchlist
@@ -240,8 +242,8 @@ class MoviesMediaModel extends MediaModel {
 							const total = toAdd.length;
 
 							toAdd.forEach((id) => {
-								const movie = this.createItem();
-								movie
+								const tvShow = this.createItem();
+								tvShow
 									.setDefaults()
 									.setId(id)
 									.push()
@@ -271,15 +273,15 @@ class MoviesMediaModel extends MediaModel {
 	}
 
 	/**
-	 * Updates metadata of all movies by id in DB
-	 * @param {string[]} moviesIds Movie ids which should be updated
+	 * Updates metadata of all tv shows by id in DB
+	 * @param {string[]} tvShowIds Tv show ids which should be updated
 	 * @param {Notification} loader Loader to changed/close
 	 * @param {string} loaderMsg Loader message
 	 * @private
 	 */
-	_updateDbItems(moviesIds, loader, loaderMsg) {
+	_updateDbItems(tvShowIds, loader, loaderMsg) {
 		let done = 0;
-		const total = moviesIds.length;
+		const total = tvShowIds.length;
 
 		TmdbDb.getApiKey().then((apiKey) => {
 			if (!apiKey) {
@@ -288,19 +290,19 @@ class MoviesMediaModel extends MediaModel {
 
 			const tmdb = new MovieDb(apiKey);
 
-			moviesIds.forEach((movieId) => {
-				tmdb.movieInfo({
-					id: movieId,
+			tvShowIds.forEach((tvShowId) => {
+				tmdb.tvInfo({
+					id: tvShowId,
 				})
-					.then((movieData) => {
-						const movie = this.createItem();
-						movie.setId(movieId);
-						movie.title = movieData.title;
-						movie.imageUrl = movieData.poster_path
-							? Config.vendors.tmdbOrg.imageUrl.thumb + movieData.poster_path
+					.then((tvShowData) => {
+						const tvShow = this.createItem();
+						tvShow.setId(tvShowId);
+						tvShow.title = tvShowData.name;
+						tvShow.imageUrl = tvShowData.poster_path
+							? Config.vendors.tmdbOrg.imageUrl.thumb + tvShowData.poster_path
 							: '';
-						movie.releaseDate = movieData.release_date || '';
-						movie.push();
+						tvShow.releaseDate = tvShowData.first_air_date || '';
+						tvShow.push();
 					})
 					.finally(() => {
 						done++;
@@ -316,15 +318,15 @@ class MoviesMediaModel extends MediaModel {
 
 	_updateCollectedItems(allDbItems) {
 		GlobalStorage.getState(STORAGE_NAMES.trakt)
-			.getAllCollectedItems("movies")
+			.getAllCollectedItems("shows")
 			.then((traktItems) => {
 				traktItems.forEach((traktItem) => {
-					const id = traktItem.movie.ids.tmdb;
+					const id = traktItem.show.ids.tmdb;
 					if (allDbItems[id] && allDbItems[id].status !== OwnageStatus.statuses.OWNED) {
-						const movie = this.createItem();
-						movie.setId(id);
-						movie.status = OwnageStatus.statuses.OWNED;
-						movie.push();
+						const tvShow = this.createItem();
+						tvShow.setId(id);
+						tvShow.status = OwnageStatus.statuses.OWNED;
+						tvShow.push();
 					}
 				});
 			})
@@ -334,4 +336,4 @@ class MoviesMediaModel extends MediaModel {
 	}
 }
 
-export default MoviesMediaModel;
+export default TvShowsMediaModel;
