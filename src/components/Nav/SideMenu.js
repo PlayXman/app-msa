@@ -8,6 +8,7 @@ import {
 	LocalMovies as LocalMoviesIcon,
 	VideogameAsset as VideogameAssetIcon,
 	Book as BookIcon,
+	LiveTv as LiveTvIcon,
 } from '@material-ui/icons';
 import Avatar from '@material-ui/core/Avatar';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -49,6 +50,7 @@ class SideMenu extends Component {
 					<SideMenuItem to="/movies" icon={<LocalMoviesIcon />} text="Movies" />
 					<SideMenuItem to="/games" icon={<VideogameAssetIcon />} text="Games" />
 					<SideMenuItem to="/books" icon={<BookIcon />} text="Books" />
+					<SideMenuItem to="/tv-shows" icon={<LiveTvIcon />} text="Tv Shows" />
 				</List>
 			</SwipeableDrawer>
 		);

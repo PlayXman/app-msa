@@ -68,15 +68,16 @@ class Trakt {
 	}
 
 	/**
-	 * Saves movie(s) by id in Trakt user watchlist
+	 * Saves movie(s) or tv show(s) by id in Trakt user watchlist
 	 * @param {string[]|number[]} tmdbId Tmdb ids
+	 * @param {'movies' | 'shows'} mediaType
 	 * @return {Promise}
 	 */
-	addToWatchlist(tmdbId) {
+	addToWatchlist(tmdbId, mediaType) {
 		return new Promise((resolve, reject) => {
-			const movies = [];
+			const items = [];
 			tmdbId.forEach((id) => {
-				movies.push({
+				items.push({
 					ids: {
 						tmdb: id,
 					},
@@ -87,7 +88,7 @@ class Trakt {
 				headers: this._getHeader(),
 				method: 'POST',
 				body: JSON.stringify({
-					movies: movies,
+					[mediaType]: items,
 				}),
 				cache: 'no-cache',
 			})
@@ -107,13 +108,14 @@ class Trakt {
 	/**
 	 * Removes movie(s) by id from Trakt user watchlist
 	 * @param {string[]|number[]} tmdbId Tmdb ids
+	 * @param {'movies' | 'shows'} mediaType
 	 * @return {Promise}
 	 */
-	removeFromWatchlist(tmdbId) {
+	removeFromWatchlist(tmdbId, mediaType) {
 		return new Promise((resolve, reject) => {
-			const movies = [];
+			const items = [];
 			tmdbId.forEach((id) => {
-				movies.push({
+				items.push({
 					ids: {
 						tmdb: id,
 					},
@@ -124,7 +126,7 @@ class Trakt {
 				headers: this._getHeader(),
 				method: 'POST',
 				body: JSON.stringify({
-					movies: movies,
+					[mediaType]: items,
 				}),
 				cache: 'no-cache',
 			})
@@ -142,11 +144,12 @@ class Trakt {
 	}
 
 	/**
-	 * Fetches all movies from user's Trakt watchlist
+	 * Fetches all movies or tv shows from user's Trakt watchlist
+	 * @param {'movies' | 'shows'} mediaType
 	 * @return {Promise<Array>}
 	 */
-	getAllMoviesFromWatchlist() {
-		return fetch(`${Config.vendors.traktTv.apiUrl}sync/watchlist/movies`, {
+	getAllItemsFromWatchlist(mediaType) {
+		return fetch(`${Config.vendors.traktTv.apiUrl}sync/watchlist/${mediaType}`, {
 			method: 'GET',
 			headers: this._getHeader(),
 			cache: 'no-cache',
@@ -160,11 +163,12 @@ class Trakt {
 	}
 
 	/**
-	 * Fetches all movies from user's Trakt collection
+	 * Fetches all movies or tv shows from user's Trakt collection
+	 * @param {'movies' | 'shows'} mediaType
 	 * @returns {Promise<any>}
 	 */
-	getAllCollectedMovies() {
-		return fetch(`${Config.vendors.traktTv.apiUrl}sync/collection/movies`, {
+	getAllCollectedItems(mediaType) {
+		return fetch(`${Config.vendors.traktTv.apiUrl}sync/collection/${mediaType}`, {
 			method: 'GET',
 			headers: this._getHeader(),
 			cache: 'no-cache',

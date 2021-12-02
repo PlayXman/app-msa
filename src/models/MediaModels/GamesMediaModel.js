@@ -40,18 +40,22 @@ class GamesMediaModel extends MediaModel {
 
 	/**
 	 * Shows info about game
-	 * @param {"gamesCz" | "gamespotCom" | "steampoweredCom"} vendor
+	 * @param {"gamesCz" | "gamespotCom" | "steampoweredCom" | string} vendor
 	 * @param {string} title Game title
 	 */
 	showItemInfo(vendor, title) {
 		let searchUrl = '';
 
-		if (vendor === 'gamesCz') {
-			searchUrl = Config.vendors.gamesCz.searchUrl;
-		} else if (vendor === 'gamespotCom') {
-			searchUrl = Config.vendors.gamespotCom.searchUrl;
-		} else if (vendor === 'steampoweredCom') {
-			searchUrl = Config.vendors.steampoweredCom.searchUrl;
+		switch (vendor) {
+			case 'steampoweredCom':
+				searchUrl = Config.vendors.steampoweredCom.searchUrl;
+				break;
+			case 'gamespotCom':
+				searchUrl = Config.vendors.gamespotCom.searchUrl;
+				break;
+			case 'gamesCz':
+			default:
+				searchUrl = Config.vendors.gamesCz.searchUrl;
 		}
 
 		if (searchUrl.length) {

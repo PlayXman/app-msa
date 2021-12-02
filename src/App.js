@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Movies from './pages/Movies';
 import Games from './pages/Games';
 import Books from './pages/Books';
+import TvShows from './pages/TvShows';
 import { Config } from './config';
 import NotificationContainer from './components/NotificationContainer';
 import { CssBaseline } from '@material-ui/core';
@@ -58,6 +59,7 @@ class App extends PureComponent {
 					<Route path="/movies" exact component={Movies} />
 					<Route path="/games" exact component={Games} />
 					<Route path="/books" exact component={Books} />
+					<Route path="/tv-shows" exact component={TvShows} />
 					<Route component={NoMatch} />
 				</Switch>
 			</Router>
