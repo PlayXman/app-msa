@@ -39,9 +39,10 @@ class BooksMediaModel extends MediaModel {
 
 	/**
 	 * Shows info about book
+	 * @param {string} vendor Currently not used
 	 * @param {string} infoUrl Info url. It's saved in DB
 	 */
-	showItemInfo(infoUrl) {
+	showItemInfo(vendor, infoUrl) {
 		Url.openNewTab(infoUrl);
 	}
 
