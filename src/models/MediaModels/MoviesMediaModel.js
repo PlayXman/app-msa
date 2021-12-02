@@ -50,13 +50,13 @@ class MoviesMediaModel extends MediaModel {
 		let searchUrl = '';
 
 		switch (vendor) {
-			case "trakt":
+			case 'trakt':
 				searchUrl = Config.vendors.traktTv.searchUrl;
 				break;
-			case "csfd":
+			case 'csfd':
 				searchUrl = Config.vendors.csfdCz.searchUrl;
 				break;
-			case "imdb":
+			case 'imdb':
 			default:
 				searchUrl = Config.vendors.imdbCom.searchUrl;
 		}
@@ -163,7 +163,7 @@ class MoviesMediaModel extends MediaModel {
 						newMovie.push().then(() => {
 							this._updateDbItems([itemId], loader, 'Saved');
 							const trakt = GlobalStorage.getState(STORAGE_NAMES.trakt);
-							trakt.addToWatchlist([itemId], "movies").then(() => {
+							trakt.addToWatchlist([itemId], 'movies').then(() => {
 								resolve({
 									alreadySaved: false,
 								});
@@ -190,7 +190,7 @@ class MoviesMediaModel extends MediaModel {
 
 		const trakt = GlobalStorage.getState(STORAGE_NAMES.trakt);
 		trakt
-			.removeFromWatchlist([id], "movies")
+			.removeFromWatchlist([id], 'movies')
 			.then(() => {
 				loader.hide();
 				super.removeItem(id);
@@ -212,7 +212,7 @@ class MoviesMediaModel extends MediaModel {
 
 		const trakt = GlobalStorage.getState(STORAGE_NAMES.trakt);
 		trakt
-			.getAllItemsFromWatchlist("movies")
+			.getAllItemsFromWatchlist('movies')
 			.then((traktItems) => {
 				this.getDbRef()
 					.once('value')
@@ -320,7 +320,7 @@ class MoviesMediaModel extends MediaModel {
 
 	_updateCollectedItems(allDbItems) {
 		GlobalStorage.getState(STORAGE_NAMES.trakt)
-			.getAllCollectedItems("movies")
+			.getAllCollectedItems('movies')
 			.then((traktItems) => {
 				traktItems.forEach((traktItem) => {
 					const id = traktItem.movie.ids.tmdb;

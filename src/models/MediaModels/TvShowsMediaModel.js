@@ -6,7 +6,7 @@ import MovieDb from 'moviedb-promise';
 import TmdbDb from '../Db/Vendors/Tmdb';
 import GlobalStorage, { STORAGE_NAMES } from '../Helpers/GlobalStorage/GlobalStorage';
 import OwnageStatus from '../Helpers/OwnageStatus';
-import TvShows from "../Db/Media/TvShows";
+import TvShows from '../Db/Media/TvShows';
 
 /**
  * Media model for TvShows
@@ -50,13 +50,13 @@ class TvShowsMediaModel extends MediaModel {
 		let searchUrl = '';
 
 		switch (vendor) {
-			case "trakt":
+			case 'trakt':
 				searchUrl = Config.vendors.traktTv.searchUrl;
 				break;
-			case "csfd":
+			case 'csfd':
 				searchUrl = Config.vendors.csfdCz.searchUrl;
 				break;
-			case "imdb":
+			case 'imdb':
 			default:
 				searchUrl = Config.vendors.imdbCom.searchUrl;
 		}
@@ -163,7 +163,7 @@ class TvShowsMediaModel extends MediaModel {
 						newTvShow.push().then(() => {
 							this._updateDbItems([itemId], loader, 'Saved');
 							const trakt = GlobalStorage.getState(STORAGE_NAMES.trakt);
-							trakt.addToWatchlist([itemId], "shows").then(() => {
+							trakt.addToWatchlist([itemId], 'shows').then(() => {
 								resolve({
 									alreadySaved: false,
 								});
@@ -190,7 +190,7 @@ class TvShowsMediaModel extends MediaModel {
 
 		const trakt = GlobalStorage.getState(STORAGE_NAMES.trakt);
 		trakt
-			.removeFromWatchlist([id], "shows")
+			.removeFromWatchlist([id], 'shows')
 			.then(() => {
 				loader.hide();
 				super.removeItem(id);
@@ -212,7 +212,7 @@ class TvShowsMediaModel extends MediaModel {
 
 		const trakt = GlobalStorage.getState(STORAGE_NAMES.trakt);
 		trakt
-			.getAllItemsFromWatchlist("shows")
+			.getAllItemsFromWatchlist('shows')
 			.then((traktItems) => {
 				this.getDbRef()
 					.once('value')
@@ -224,7 +224,7 @@ class TvShowsMediaModel extends MediaModel {
 						// find synced items
 						for (let i = 0; i < count; i++) {
 							const tmdbId = traktItems[i].show.ids.tmdb;
-							if(tmdbId != null) {
+							if (tmdbId != null) {
 								if (dbItems[tmdbId]) {
 									delete dbItems[tmdbId];
 								} else {
@@ -322,7 +322,7 @@ class TvShowsMediaModel extends MediaModel {
 
 	_updateCollectedItems(allDbItems) {
 		GlobalStorage.getState(STORAGE_NAMES.trakt)
-			.getAllCollectedItems("shows")
+			.getAllCollectedItems('shows')
 			.then((traktItems) => {
 				traktItems.forEach((traktItem) => {
 					const id = traktItem.show.ids.tmdb;

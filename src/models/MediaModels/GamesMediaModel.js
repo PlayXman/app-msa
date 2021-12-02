@@ -47,13 +47,13 @@ class GamesMediaModel extends MediaModel {
 		let searchUrl = '';
 
 		switch (vendor) {
-			case "steampoweredCom":
+			case 'steampoweredCom':
 				searchUrl = Config.vendors.steampoweredCom.searchUrl;
 				break;
-			case "gamespotCom":
+			case 'gamespotCom':
 				searchUrl = Config.vendors.gamespotCom.searchUrl;
 				break;
-			case "gamesCz":
+			case 'gamesCz':
 			default:
 				searchUrl = Config.vendors.gamesCz.searchUrl;
 		}
