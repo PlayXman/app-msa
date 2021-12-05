@@ -6,7 +6,7 @@ MediaStorage-App
 ================
 App for managing your personal lists of all sorts of media - books, movies, games etc. It connects the media with favorite services like _Trakt_, _Giantbomb_ and _Tmdb_.
 
-It's meant for personal use only. There's no durable account management system right now. It suppose to run on personal **Firebase** hosting.
+It's meant for personal use only. There's no durable account management system right now. It's supposed to run on personal **Firebase** hosting.
 
 The app is utterly serverless. It connects directly to services from its frontend. It's basically hard client after all assets are downloaded.
 
@@ -49,7 +49,7 @@ The app can be developed purely on localhost. There's no need to start any kind 
     }
     ```
 
-> **INFO:** There are no test right now. This project is personal and kinda serves as a playground. I made the mistake creating ones before for PHP version and it only slowed me down.
+> **INFO:** There are no test right now. This project is personal and kinda serves as a playground. I made the mistake creating ones for PHP version before, and it only ended up killing all the fun.
 
 ### Graphical sources
 They can be found in `/_graphic` folder.
