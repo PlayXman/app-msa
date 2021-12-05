@@ -1,8 +1,8 @@
 {
 	"name": "app-msa",
-	"version": "5.11.1",
+	"version": "5.13.2",
 	"private": true,
-	"license": "GPL-3.0-or-later",
+	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/PlayXman/app-msa/issues",
 		"email": "play.man.life@seznam.cz"

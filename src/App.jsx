@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import NoMatch from './pages/NoMatch';
 import Home from './pages/Home';
@@ -18,7 +18,7 @@ import 'firebase/auth';
 import 'firebase/database';
 
 // settings
-const theme = createMuiTheme(Config.muiThemeMain);
+const theme = createTheme(Config.muiThemeMain);
 firebase.initializeApp(Config.firebase);
 
 /**

@@ -38,7 +38,7 @@ class TopBar extends Component {
 			<div>
 				<AppBar elevation={3}>
 					<Toolbar className={classes.root}>
-						<Grid container justify="space-between" alignItems="center" wrap="nowrap">
+						<Grid container justifyContent="space-between" alignItems="center" wrap="nowrap">
 							<Grid item xs="auto" sm={2}>
 								<IconButton
 									onClick={sidemenuOpenHandler}
@@ -52,7 +52,7 @@ class TopBar extends Component {
 								<TextSearch title={title} />
 							</Grid>
 							<Grid item xs="auto" sm={2}>
-								<Grid container justify="flex-end" wrap="nowrap">
+								<Grid container justifyContent="flex-end" wrap="nowrap">
 									<Grid item>
 										<Filter />
 									</Grid>

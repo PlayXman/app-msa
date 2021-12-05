@@ -81,6 +81,7 @@ class MediaItem extends PureComponent {
 					onClose={this.handleSubmenuClose}
 					itemID={itemId}
 					itemTitle={title}
+					labels={labels}
 				>
 					{children}
 				</SubMenu>

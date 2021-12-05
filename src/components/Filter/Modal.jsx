@@ -25,7 +25,11 @@ const Modal = ({ open, onClose, filters }) => {
 	};
 
 	return (
-		<Dialog disableBackdropClick disableEscapeKeyDown open={open} aria-label="Filter">
+		<Dialog
+			disableEscapeKeyDown
+			open={open}
+			aria-label="Filter"
+		>
 			<DialogTitle>Filter</DialogTitle>
 			<DialogContent dividers>
 				<FormGroup>

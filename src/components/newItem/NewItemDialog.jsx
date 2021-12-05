@@ -109,7 +109,7 @@ const NewItemDialog = ({ open, onClose }) => {
 				</Toolbar>
 			</AppBar>
 			<Wrapper>
-				<Grid container justify="center">
+				<Grid container justifyContent="center">
 					<Grid item className={classes.content}>
 						<SearchField onSubmit={handleSearch} />
 

@@ -9,6 +9,7 @@ import GlobalStorage, { STORAGE_NAMES } from '../../../models/Helpers/GlobalStor
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import SubMenuLabels from "./SubMenuLabels";
 
 const useStyles = makeStyles((theme) => ({
 	title: {
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const SubMenu = ({ open, onClose, itemID, itemTitle, children }) => {
+const SubMenu = ({ open, onClose, itemID, itemTitle, children, labels }) => {
 	const classes = useStyles();
 	const mediaModel = GlobalStorage.getState(STORAGE_NAMES.currentMediaModel);
 
@@ -26,11 +27,12 @@ const SubMenu = ({ open, onClose, itemID, itemTitle, children }) => {
 
 	return (
 		<Drawer anchor="bottom" open={open} onClose={onClose}>
-			<Grid container justify="center">
+			<Grid container justifyContent="center">
 				<Grid item xs sm={6} md={4} lg={3} xl={2}>
 					<Typography variant="h5" className={classes.title}>
 						{itemTitle}
 					</Typography>
+					<SubMenuLabels labels={labels} />
 					<Divider />
 					<List>{children}</List>
 					<Divider />
@@ -54,6 +56,7 @@ SubMenu.propTypes = {
 	itemID: PropTypes.string.isRequired,
 	itemTitle: PropTypes.string,
 	children: PropTypes.node,
+	labels: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default SubMenu;

@@ -149,7 +149,7 @@ class MediaPageContent extends Component {
 				<PageContent>
 					<div className={classes.wrapper}>
 						<div className={classes.content}>
-							<Grid container spacing={1} justify="flex-start">
+							<Grid container spacing={1} justifyContent="flex-start">
 								{this._renderItems()}
 							</Grid>
 						</div>

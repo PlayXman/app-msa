@@ -19,7 +19,7 @@ class PageContent extends PureComponent {
 		return (
 			<main className={classes.main}>
 				<Wrapper>
-					<Grid container justify="center">
+					<Grid container justifyContent="center">
 						<Grid item xs>
 							{children}
 						</Grid>
