@@ -89,7 +89,7 @@ class Home extends Component {
 		return (
 			<Grid
 				container
-				justify="center"
+				justifyContent="center"
 				direction="column"
 				alignItems="center"
 				className={classes.cont}
@@ -98,7 +98,7 @@ class Home extends Component {
 					<Typography variant="h5" align="center" gutterBottom>
 						MediaStorage App
 					</Typography>
-					<Grid container justify="center" spacing={4} className={classes.items}>
+					<Grid container justifyContent="center" spacing={4} className={classes.items}>
 						{btns.map(renderItem)}
 					</Grid>
 				</Grid>

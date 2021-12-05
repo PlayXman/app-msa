@@ -26,7 +26,7 @@ const SubMenu = ({ open, onClose, itemID, itemTitle, children }) => {
 
 	return (
 		<Drawer anchor="bottom" open={open} onClose={onClose}>
-			<Grid container justify="center">
+			<Grid container justifyContent="center">
 				<Grid item xs sm={6} md={4} lg={3} xl={2}>
 					<Typography variant="h5" className={classes.title}>
 						{itemTitle}
