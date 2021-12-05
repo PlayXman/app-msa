@@ -53,10 +53,25 @@ const AddLabelDialog = ({ isOpen, onClose, labels, onLabelAdd, onLabelRemove }) 
 	return (
 		<Dialog open={isOpen} onClose={onClose} aria-label="Labels" fullWidth maxWidth="xs">
 			<DialogContent>
+				<div>
+					{labels.map((label) => (
+						<Chip
+							key={label}
+							className={classes.chip}
+							label={label}
+							onDelete={() => {
+								if (!isLoading) {
+									onLabelRemove(label);
+								}
+							}}
+						/>
+					))}
+				</div>
 				<form onSubmit={handleSubmit}>
 					<Autocomplete
 						freeSolo
 						fullWidth
+						openOnFocus
 						options={allLabels}
 						onChange={handleChange}
 						value={value}
@@ -73,20 +88,6 @@ const AddLabelDialog = ({ isOpen, onClose, labels, onLabelAdd, onLabelRemove }) 
 						)}
 					/>
 				</form>
-				<div>
-					{labels.map((label) => (
-						<Chip
-							key={label}
-							className={classes.chip}
-							label={label}
-							onDelete={() => {
-								if (!isLoading) {
-									onLabelRemove(label);
-								}
-							}}
-						/>
-					))}
-				</div>
 			</DialogContent>
 		</Dialog>
 	);
