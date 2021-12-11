@@ -67,25 +67,7 @@ class MediaModel {
 	 * @param {string|number} id Media item id
 	 */
 	removeItem(id) {
-		const loader = new Notification(true);
-		loader.setText('Removing...');
-		loader.show();
-		const msg = new Notification();
-
-		this.getDbRef()
-			.child(id)
-			.remove()
-			.then(() => {
-				msg.setText('Removed');
-			})
-			.catch((err) => {
-				console.log('Remove failed: ' + err);
-				msg.setText("Couldn't remove");
-			})
-			.finally(() => {
-				loader.hide();
-				msg.showAndHide();
-			});
+		this._removeItemFromDb(id);
 	}
 
 	/**
@@ -185,6 +167,29 @@ class MediaModel {
 	 */
 	_updateDbItems(moviesIds, loader, loaderMsg) {
 		//@OVERRIDE should be defined
+	}
+
+	/**
+	 * Removes media item from DB
+	 * @param {string|number} id Media item id
+	 * @return {Promise<void>}
+	 */
+	async _removeItemFromDb(id) {
+		const loader = new Notification(true);
+		loader.setText('Removing...');
+		loader.show();
+		const msg = new Notification();
+
+		try {
+			await this.getDbRef().child(id).remove();
+			msg.setText('Removed');
+		} catch (err) {
+			console.error('Remove failed: ' + err);
+			msg.setText("Couldn't remove");
+		} finally {
+			loader.hide();
+			msg.showAndHide();
+		}
 	}
 }
 

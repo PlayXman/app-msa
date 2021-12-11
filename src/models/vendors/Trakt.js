@@ -144,6 +144,44 @@ class Trakt {
 	}
 
 	/**
+	 * Marks movie(s) in Trakt as watched
+	 * @param {string[]|number[]} tmdbId Tmdb ids
+	 * @param {'movies' | 'shows'} mediaType
+	 * @return {Promise}
+	 */
+	async markAsWatched(tmdbId, mediaType) {
+		const items = [];
+		tmdbId.forEach((id) => {
+			items.push({
+				ids: {
+					tmdb: id,
+				},
+				watched_at: new Date().toUTCString(),
+			});
+		});
+
+		let response;
+
+		try {
+			response = await fetch(`${Config.vendors.traktTv.apiUrl}sync/history`, {
+				headers: this._getHeader(),
+				method: 'POST',
+				body: JSON.stringify({
+					[mediaType]: items,
+				}),
+				cache: 'no-cache',
+			});
+		} catch (e) {
+			console.error(e);
+			throw new Error('Could not connect to Trakt');
+		}
+
+		if (response && !response.ok) {
+			throw new Error('Not marked as watched');
+		}
+	}
+
+	/**
 	 * Fetches all movies or tv shows from user's Trakt watchlist
 	 * @param {'movies' | 'shows'} mediaType
 	 * @return {Promise<Array>}

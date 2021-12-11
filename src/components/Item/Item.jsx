@@ -36,7 +36,7 @@ const style = (theme) => ({
 		padding: 10,
 	},
 	buttonsCont: {
-		padding: `${theme.spacing(0.5)}px ${theme.spacing(1)}px`,
+		padding: `0 ${theme.spacing(0.5)}px ${theme.spacing(0.5)}px`,
 	},
 });
 
@@ -66,7 +66,7 @@ class Item extends PureComponent {
 					</CardContent>
 				</CardActionArea>
 
-				<CardActions className={classes.buttonsCont}>{children}</CardActions>
+				<CardActions className={classes.buttonsCont} disableSpacing>{children}</CardActions>
 			</Card>
 		);
 	}

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid/Grid';
-import OwnageBtn from '../Item/OwnageBtn';
+import OwnageBtn from '../Item/actions/OwnageBtn';
 import Labels from '../Item/labels/Labels';
 import SubMenu from '../Item/submenu/SubMenu';
 import Item from '../Item/Item';
@@ -10,12 +10,6 @@ import Item from '../Item/Item';
 const style = {
 	cont: {
 		width: 158,
-	},
-	smallBtn: {
-		padding: 8,
-	},
-	smallIcon: {
-		fontSize: 16,
 	},
 };
 
@@ -54,11 +48,6 @@ class MediaItem extends PureComponent {
 		} = this.props;
 		const { openSubmenu } = this.state;
 
-		const actionsClasses = {
-			smallBtn: classes.smallBtn,
-			smallIcon: classes.smallIcon,
-		};
-
 		return (
 			<Grid item className={classes.cont} id={id}>
 				<Item
@@ -70,7 +59,6 @@ class MediaItem extends PureComponent {
 					highlight={openSubmenu}
 				>
 					<OwnageBtn
-						classes={actionsClasses}
 						released={isReleased}
 						ownageStatus={ownageStatus}
 						itemKey={itemId}

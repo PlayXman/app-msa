@@ -6,7 +6,7 @@ import SubMenuItemCopy from '../components/Item/submenu/SubMenuItemCopy';
 import SubMenuItemLabels from '../components/Item/labels/SubMenuItemLabels';
 import Trakt from '../models/vendors/Trakt';
 import SubMenuItemCustom from '../components/Item/submenu/SubMenuItemCustom';
-import SubmenuCustomButton from '../components/Item/submenu/SubmenuCustomButton';
+import SubMenuCustomButton from '../components/Item/submenu/SubMenuCustomButton';
 
 /**
  * Page about movies
@@ -51,19 +51,19 @@ class TvShows extends Component {
 						<SubMenuItemCustom
 							key="info"
 							items={[
-								<SubmenuCustomButton
+								<SubMenuCustomButton
 									variant="trakt"
 									onClick={() => {
 										this.mediaModel.showItemInfo('trakt', itemObj.title);
 									}}
 								/>,
-								<SubmenuCustomButton
+								<SubMenuCustomButton
 									variant="imdb"
 									onClick={() => {
 										this.mediaModel.showItemInfo('imdb', itemObj.title);
 									}}
 								/>,
-								<SubmenuCustomButton
+								<SubMenuCustomButton
 									variant="csfd"
 									onClick={() => {
 										this.mediaModel.showItemInfo('csfd', itemObj.title);
