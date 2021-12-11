@@ -67,6 +67,7 @@ class MediaItem extends PureComponent {
 					imageUrl={imageUrl}
 					isReleased={isReleased}
 					onClick={this.handleSubmenuOpen}
+					highlight={openSubmenu}
 				>
 					<OwnageBtn
 						classes={actionsClasses}
