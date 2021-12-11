@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import StarIcon from '@material-ui/icons/Star';
-import { makeStyles } from '@material-ui/core/styles';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import {makeStyles} from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
@@ -15,18 +15,18 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const ReleaseDate = ({ date, isReleased }) => {
+const ReleaseDate = ({date, isReleased}) => {
 	const classes = useStyles();
 
 	return (
-		<React.Fragment>
-			<span className={classes.date}>{date}</span>{' '}
-			{isReleased ? (
-				<Tooltip disableFocusListener title="Released">
-					<StarIcon className={classes.icon} />
-				</Tooltip>
-			) : null}
-		</React.Fragment>
+		<Tooltip disableFocusListener title={isReleased ? "Released" : "Not released"}>
+			<span>
+				<span className={classes.date}>{date}</span>{' '}
+				{!isReleased ? (
+					<ScheduleIcon className={classes.icon}/>
+				) : null}
+			</span>
+		</Tooltip>
 	);
 };
 
