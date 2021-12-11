@@ -10,6 +10,7 @@ const useStyles = makeStyles({
 		whiteSpace: 'nowrap',
 		fontFamily: 'Roboto Mono, sans-serif',
 		fontSize: '0.5rem',
+		padding: '0 2px'
 	},
 });
 

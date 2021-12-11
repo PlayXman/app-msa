@@ -30,6 +30,10 @@ const styles = (theme) => ({
 			color: theme.palette.text.primary,
 		},
 	},
+	disabledLink: {
+		color: theme.palette.grey['300'],
+		pointerEvents: 'none'
+	},
 	text: {
 		lineHeight: '1',
 		fontSize: '0.7rem',
@@ -103,17 +107,22 @@ class Alphabet extends PureComponent {
 	/**
 	 * Renders one letter
 	 * @param {string} char Which char
-	 * @return {React}
+	 * @return {JSX.Element}
 	 * @private
 	 */
 	_renderLetter(char) {
-		const { classes } = this.props;
+		const { classes, activeLetters } = this.props;
 		const id = char === '#' ? 'no' : char;
+
+		let linkClassNames = classes.link;
+		if(!activeLetters.includes(id)) {
+			linkClassNames += ` ${classes.disabledLink}`;
+		}
 
 		return (
 			<div key={id} className={classes.char}>
 				<Typography variant="body2" className={classes.text}>
-					<a href={`#${id}`} className={classes.link} onClick={this.handleClick}>
+					<a href={`#${id}`} className={linkClassNames} onClick={this.handleClick}>
 						{char.toUpperCase()}
 					</a>
 				</Typography>
@@ -124,6 +133,7 @@ class Alphabet extends PureComponent {
 
 Alphabet.propTypes = {
 	className: PropTypes.string,
+	activeLetters: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default withStyles(styles)(Alphabet);

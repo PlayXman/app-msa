@@ -201,6 +201,30 @@ class MoviesMediaModel extends MediaModel {
 	}
 
 	/**
+	 * Marks the item in Trakt as watched and removes it from DB. The item is auto removed from Trakt's watchlist if marked as watched
+	 * @param {string|number} id Media item id
+	 * @return {Promise<void>}
+	 */
+	async markItemAsWatched(id) {
+		const loader = new Notification(true);
+		loader.setText('Adding to watched history...');
+		loader.show();
+
+		const trakt = GlobalStorage.getState(STORAGE_NAMES.trakt);
+
+		try {
+			await trakt.markAsWatched([id], 'movies');
+			loader.hide();
+			await this._removeItemFromDb(id);
+		} catch (e) {
+			loader.hide();
+			const msg = new Notification();
+			msg.setText('Failed to set item as watched');
+			msg.showAndHide();
+		}
+	}
+
+	/**
 	 * Synchronizes Trakt watchlist with DB. Removes DB items if they're not in watchlist. Adds new items which are not
 	 * in DB
 	 */

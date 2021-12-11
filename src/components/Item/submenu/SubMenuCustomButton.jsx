@@ -80,7 +80,7 @@ const style = (theme) => ({
 	},
 });
 
-class SubmenuCustomButton extends Component {
+class SubMenuCustomButton extends Component {
 	render() {
 		const { classes, variant, onClick } = this.props;
 
@@ -114,9 +114,9 @@ class SubmenuCustomButton extends Component {
 	}
 }
 
-SubmenuCustomButton.propTypes = {
+SubMenuCustomButton.propTypes = {
 	variant: PropTypes.oneOf(['csfd', 'imdb', 'trakt', 'steam', 'gamespot', 'games']).isRequired,
 	onClick: PropTypes.func,
 };
 
-export default withStyles(style)(SubmenuCustomButton);
+export default withStyles(style)(SubMenuCustomButton);

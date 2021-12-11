@@ -5,7 +5,7 @@ import MediaPageContent from '../components/MediaPageContent';
 import SubMenuItemCopy from '../components/Item/submenu/SubMenuItemCopy';
 import SubMenuItemLabels from '../components/Item/labels/SubMenuItemLabels';
 import SubMenuItemCustom from '../components/Item/submenu/SubMenuItemCustom';
-import SubmenuCustomButton from '../components/Item/submenu/SubmenuCustomButton';
+import SubMenuCustomButton from '../components/Item/submenu/SubMenuCustomButton';
 
 /**
  * Page about games
@@ -33,19 +33,19 @@ class Games extends Component {
 						<SubMenuItemCustom
 							key="info"
 							items={[
-								<SubmenuCustomButton
+								<SubMenuCustomButton
 									variant="games"
 									onClick={() => {
 										this.mediaModel.showItemInfo('gamesCz', itemObj.title);
 									}}
 								/>,
-								<SubmenuCustomButton
+								<SubMenuCustomButton
 									variant="gamespot"
 									onClick={() => {
 										this.mediaModel.showItemInfo('gamespotCom', itemObj.title);
 									}}
 								/>,
-								<SubmenuCustomButton
+								<SubMenuCustomButton
 									variant="steam"
 									onClick={() => {
 										this.mediaModel.showItemInfo(

@@ -1,29 +1,33 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import IconButton from '@material-ui/core/IconButton/IconButton';
-import Tooltip from '@material-ui/core/Tooltip/Tooltip';
-import OwnageStatus from '../../models/Helpers/OwnageStatus';
-import { CheckBox as CheckBoxIcon } from '@material-ui/icons';
-import GlobalStorage, { STORAGE_NAMES } from '../../models/Helpers/GlobalStorage/GlobalStorage';
+import OwnageStatus from '../../../models/Helpers/OwnageStatus';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+import GlobalStorage, { STORAGE_NAMES } from '../../../models/Helpers/GlobalStorage/GlobalStorage';
+import BaseBtn from "./BaseBtn";
 
 const stateData = {
 	DEFAULT: {
 		notReleased: {
 			title: 'Not Released',
 			color: 'disabled',
+			icon: BookmarkBorderIcon
 		},
 		released: {
 			title: 'Released',
 			color: 'inherit',
+			icon: BookmarkIcon
 		},
 	},
 	DOWNLOADABLE: {
 		title: 'Downloadable',
 		color: 'primary',
+		icon: BookmarkIcon
 	},
 	OWNED: {
 		title: 'Owned',
 		color: 'secondary',
+		icon: BookmarkIcon
 	},
 };
 
@@ -67,23 +71,24 @@ class OwnageBtn extends PureComponent {
 	};
 
 	render() {
-		const { classes } = this.props;
 		const stateData = this.getStateData();
 
 		return (
-			<Tooltip disableFocusListener title={stateData.title}>
-				<IconButton className={classes.smallBtn} onClick={this.handleClick}>
-					<CheckBoxIcon className={classes.smallIcon} color={stateData.color} />
-				</IconButton>
-			</Tooltip>
-		);
+			<BaseBtn
+				label={stateData.title}
+				Icon={stateData.icon}
+				IconProps={{
+					color: stateData.color
+				}}
+				onClick={this.handleClick}
+			/>
+		)
 	}
 }
 
 OwnageBtn.propTypes = {
 	released: PropTypes.bool,
 	ownageStatus: PropTypes.oneOf(['DEFAULT', 'DOWNLOADABLE', 'OWNED']),
-	classes: PropTypes.object,
 	itemKey: PropTypes.string.isRequired,
 };
 

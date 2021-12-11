@@ -14,6 +14,11 @@ const style = (theme) => ({
 		height: '100%',
 		display: 'flex',
 		flexDirection: 'column',
+		outline: 'transparent 4px solid',
+		transition: theme.transitions.create('outline-color')
+	},
+	cardHighlight: {
+		outlineColor: theme.palette.secondary.main
 	},
 	clickableArea: {
 		display: 'flex',
@@ -31,7 +36,7 @@ const style = (theme) => ({
 		padding: 10,
 	},
 	buttonsCont: {
-		padding: `${theme.spacing(0.5)}px ${theme.spacing(1)}px`,
+		padding: `0 ${theme.spacing(0.5)}px ${theme.spacing(0.5)}px`,
 	},
 });
 
@@ -40,14 +45,19 @@ const style = (theme) => ({
  */
 class Item extends PureComponent {
 	render() {
-		const { title, releaseDate, imageUrl, isReleased, children, classes, onClick } = this.props;
+		const { title, releaseDate, imageUrl, isReleased, children, classes, onClick, highlight } = this.props;
+
+		let cardClassNames = classes.card;
+		if(highlight) {
+			cardClassNames += ` ${classes.cardHighlight}`;
+		}
 
 		return (
-			<Card elevation={0} className={classes.card}>
+			<Card elevation={0} className={cardClassNames}>
 				<CardActionArea className={classes.clickableArea} onClick={onClick}>
 					<Image src={imageUrl} />
 					<CardContent className={classes.textCont}>
-						<Typography gutterBottom variant="body1">
+						<Typography gutterBottom variant="body2">
 							{title}
 						</Typography>
 						<Typography variant="body2">
@@ -56,7 +66,7 @@ class Item extends PureComponent {
 					</CardContent>
 				</CardActionArea>
 
-				<CardActions className={classes.buttonsCont}>{children}</CardActions>
+				<CardActions className={classes.buttonsCont} disableSpacing>{children}</CardActions>
 			</Card>
 		);
 	}
@@ -69,6 +79,7 @@ Item.propTypes = {
 	isReleased: PropTypes.bool,
 	children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]),
 	onClick: PropTypes.func,
+	highlight: PropTypes.bool,
 };
 
 export default withStyles(style)(Item);

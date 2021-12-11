@@ -109,16 +109,21 @@ class MediaPageContent extends Component {
 			const id = snap.key;
 			const uid = this._createKey(id);
 			const item = this.mediaModel.createItem().setDefaults().fillObj(data).setId(id);
-			let items = new Map(this.state.items);
 
-			if (items.has(uid)) {
-				items.get(uid).data = item;
-			} else {
-				items = new Map([[uid, this._createItem(item)], ...items]);
-			}
+			this.setState( prevState => {
+				const prevItems = prevState.items;
+				let items;
 
-			this.setState({
-				items: items,
+				if (prevItems.has(uid)) {
+					items = new Map(prevItems);
+					items.get(uid).data = item;
+				} else {
+					items = new Map([[uid, this._createItem(item)], ...prevItems]);
+				}
+
+				return {
+					items,
+				}
 			});
 		}
 	};
@@ -130,17 +135,21 @@ class MediaPageContent extends Component {
 	handleItemRemove = (snap) => {
 		const data = snap.val();
 		if (data) {
-			const items = this.state.items;
-			items.delete(this._createKey(snap.key));
+			this.setState(prevState => {
+				const items = new Map(prevState.items);
+				items.delete(this._createKey(snap.key));
 
-			this.setState({
-				items: new Map(items),
+				return {
+					items,
+				};
 			});
 		}
 	};
 
 	render() {
 		const { heading, classes } = this.props;
+
+		const preparedItems = this._prepareItemComponents();
 
 		return (
 			<>
@@ -150,11 +159,11 @@ class MediaPageContent extends Component {
 					<div className={classes.wrapper}>
 						<div className={classes.content}>
 							<Grid container spacing={1} justifyContent="flex-start">
-								{this._renderItems()}
+								{preparedItems.items}
 							</Grid>
 						</div>
 					</div>
-					<Alphabet className={classes.alphabet} />
+					<Alphabet className={classes.alphabet} activeLetters={preparedItems.activeLetters} />
 				</PageContent>
 			</>
 		);
@@ -187,40 +196,50 @@ class MediaPageContent extends Component {
 	}
 
 	/**
-	 * Renders items or sorry text
-	 * @return {Component|PureComponent}
+	 * Prepares item components for rendering. Moreover, prepares the alphabet data, so it knows what are the active letters. If not items the sorry text is rendered instead. If the items are not loaded yet the loader is displayed
+	 * @return {{items: JSX.Element[], activeLetters: string[]}}
 	 */
-	_renderItems() {
-		if (!this.state.itemsLoaded) {
-			return <ListLoader />;
-		}
-
-		let isEmpty = true;
-		let currentAnchor = '';
-		const stateItems = this.state.items;
+	_prepareItemComponents() {
+		const anchors = [];
 		const items = [];
 
-		stateItems.forEach((item, key) => {
-			if (item.show) {
-				isEmpty = false;
-				let id = null;
+		if (!this.state.itemsLoaded) {
+			items.push(<ListLoader key="loader" />);
+		} else {
+			let isEmpty = true;
+			let currentAnchor = '';
+			const stateItems = this.state.items;
 
-				// letter anchors
-				let firstLetter = item.data.title ? item.data.title.substr(0, 1).toLowerCase() : '';
-				if (Boolean(parseInt(firstLetter))) {
-					firstLetter = 'no';
-				}
-				if (firstLetter !== currentAnchor) {
-					id = firstLetter;
-					currentAnchor = firstLetter;
-				}
+			stateItems.forEach((item, key) => {
+				if (item.show) {
+					isEmpty = false;
+					let id = null;
 
-				// item
-				items.push(this._renderItem(key, item, id));
+					// letter anchors
+					let firstLetter = item.data.title ? item.data.title.substr(0, 1).toLowerCase() : '';
+					if (Boolean(parseInt(firstLetter))) {
+						firstLetter = 'no';
+					}
+					if (firstLetter !== currentAnchor) {
+						id = firstLetter;
+						currentAnchor = firstLetter;
+						anchors.push(firstLetter);
+					}
+
+					// item
+					items.push(this._renderItem(key, item, id));
+				}
+			});
+
+			if(isEmpty) {
+				items.push(<NoItems key="noItems" />);
 			}
-		});
+		}
 
-		return isEmpty ? <NoItems /> : items;
+		return {
+			items,
+			activeLetters: anchors
+		}
 	}
 
 	/**
