@@ -61,7 +61,13 @@ const NewItem = ({ id, currentMediaModel, title, releaseDate, imageUrl, infoUrl 
 	};
 
 	return (
-		<Item title={title} releaseDate={releaseDate} imageUrl={imageUrl} onClick={handleClick}>
+		<Item
+			title={title}
+			releaseDate={currentMediaModel.getReleaseDate(releaseDate)}
+			isReleased={currentMediaModel.isReleased(releaseDate)}
+			imageUrl={imageUrl}
+			onClick={handleClick}
+		>
 			<Tooltip disableFocusListener title="Save" className={isAdded ? classes.hide : ''}>
 				<IconButton className={classes.smallBtn} onClick={handleAdd}>
 					<AddIcon className={classes.smallIcon} />

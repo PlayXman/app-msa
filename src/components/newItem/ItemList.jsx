@@ -23,7 +23,7 @@ const ItemList = ({ items, currentMediaModel }) => {
 						<NewItem
 							id={key}
 							title={item.title}
-							releaseDate={currentMediaModel.getReleaseDate(item.releaseDate)}
+							releaseDate={item.releaseDate}
 							imageUrl={item.imageUrl}
 							currentMediaModel={currentMediaModel}
 							infoUrl={item.infoUrl}
