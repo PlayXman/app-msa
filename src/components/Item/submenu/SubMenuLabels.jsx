@@ -13,6 +13,10 @@ const useStyles = makeStyles((theme) => ({
 const SubMenuLabels = ({labels}) => {
 	const classes = useStyles();
 
+	if(labels.length === 0) {
+		return null;
+	}
+
 	return (
 		<div className={classes.root}>
 			<Grid container spacing={1}>
