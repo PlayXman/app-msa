@@ -47,7 +47,7 @@ class Item extends PureComponent {
 				<CardActionArea className={classes.clickableArea} onClick={onClick}>
 					<Image src={imageUrl} />
 					<CardContent className={classes.textCont}>
-						<Typography gutterBottom variant="body1">
+						<Typography gutterBottom variant="body2">
 							{title}
 						</Typography>
 						<Typography variant="body2">
