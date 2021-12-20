@@ -36,8 +36,8 @@
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
-		"test": "react-scripts test --env=node",
-		"test:ci": "react-scripts test --env=node --watchAll=false",
+		"test": "react-scripts test",
+		"test:ci": "react-scripts test --watchAll=false",
 		"deploy": "npm run build && firebase deploy",
 		"lint": "prettier --write \"src/**/*.js\" --config ./.prettierrc.js"
 	},
