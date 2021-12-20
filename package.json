@@ -1,18 +1,17 @@
 {
 	"name": "app-msa",
-	"version": "5.15.5",
+	"version": "5.15.6",
 	"private": true,
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/PlayXman/app-msa/issues",
-		"email": "play.man.life@seznam.cz"
+		"url": "https://github.com/PlayXman/app-msa/issues"
 	},
 	"repository": {
 		"type": "github",
 		"url": "https://github.com/PlayXman/app-msa"
 	},
 	"engines": {
-		"node": ">=10"
+		"node": ">=14"
 	},
 	"dependencies": {
 		"@material-ui/core": "^4.9.13",
@@ -31,11 +30,14 @@
 	"devDependencies": {
 		"prettier": "^2.0.1"
 	},
+	"peerDependencies": {
+		"jest": "^24"
+	},
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject",
+		"test": "react-scripts test --env=node",
+		"test:ci": "react-scripts test --env=node --watchAll=false",
 		"deploy": "npm run build && firebase deploy",
 		"lint": "prettier --write \"src/**/*.js\" --config ./.prettierrc.js"
 	},
