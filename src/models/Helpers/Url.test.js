@@ -1,7 +1,7 @@
 import Url from "./Url";
 
 describe('Url', () => {
-	test('openNewTab', () => {
+	test('.openNewTab', () => {
 		window.open = jest.fn();
 
 		Url.openNewTab('http://dummy.url');
