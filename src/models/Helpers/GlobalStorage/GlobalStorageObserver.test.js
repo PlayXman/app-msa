@@ -1,4 +1,4 @@
-import GlobalStorageObserver from "./GlobalStorageObserver";
+import GlobalStorageObserver from './GlobalStorageObserver';
 
 describe('GlobalStorageObserver', () => {
 	const mockCallback = jest.fn();
@@ -11,7 +11,7 @@ describe('GlobalStorageObserver', () => {
 		let observer = new GlobalStorageObserver(mockCallback);
 		const eventKey = 'key1';
 		const event = new CustomEvent(eventKey, {
-			detail: 'Payload'
+			detail: 'Payload',
 		});
 
 		observer.listen(eventKey);
@@ -34,7 +34,7 @@ describe('GlobalStorageObserver', () => {
 		let observer = new GlobalStorageObserver(mockCallback);
 		const eventKey = 'key2';
 		const event = new CustomEvent(eventKey, {
-			detail: 'Payload'
+			detail: 'Payload',
 		});
 
 		observer.listen(eventKey);

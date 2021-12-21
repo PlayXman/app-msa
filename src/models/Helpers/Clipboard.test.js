@@ -1,15 +1,15 @@
-import Clipboard from "./Clipboard";
+import Clipboard from './Clipboard';
 
 describe('Clipboard', () => {
 	test.each`
-	text
-	${''}
-	${'something'}
-	${'Some Text 1'}
-	${'Some-Advanced text with Spěčíal+cháračters'}
-	`('.copy($text)', async ({text}) => {
+		text
+		${''}
+		${'something'}
+		${'Some Text 1'}
+		${'Some-Advanced text with Spěčíal+cháračters'}
+	`('.copy($text)', async ({ text }) => {
 		window.navigator.clipboard = {
-			writeText: jest.fn()
+			writeText: jest.fn(),
 		};
 
 		await Clipboard.copy(text);

@@ -23,7 +23,7 @@ class GlobalStorage {
 	 * @param {*} data
 	 */
 	static set(key, data) {
-		if(key) {
+		if (key) {
 			this._storage[key] = data;
 
 			const event = new CustomEvent(this._createEventKey(key), {

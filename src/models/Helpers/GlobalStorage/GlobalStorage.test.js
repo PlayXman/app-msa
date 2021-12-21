@@ -78,18 +78,22 @@ describe('GlobalStorage', () => {
 
 		// First set of data
 		GlobalStorage.set(key1, 'Payload');
-		expect(mockCallback1).toHaveBeenCalledTimes(2);
-		expect(mockCallback1).toHaveBeenLastCalledWith('Payload');
+		setTimeout(() => {
+			expect(mockCallback1).toHaveBeenCalledTimes(2);
+			expect(mockCallback1).toHaveBeenLastCalledWith('Payload');
+		}, 100);
 
 		// --- Second key ---
 		const mockCallback2 = jest.fn();
 		const key2 = 'key2';
 		const observer2 = GlobalStorage.connect(key2, mockCallback2);
 
-		// Not have been called
-		expect(mockCallback1).toHaveBeenCalledTimes(2);
-		// Called once
-		expect(mockCallback2).toHaveBeenCalledTimes(1);
+		setTimeout(() => {
+			// Not have been called
+			expect(mockCallback1).toHaveBeenCalledTimes(2);
+			// Called once
+			expect(mockCallback2).toHaveBeenCalledTimes(1);
+		}, 100);
 
 		// --- First key ---
 		const mockCallback3 = jest.fn();
@@ -97,14 +101,15 @@ describe('GlobalStorage', () => {
 
 		GlobalStorage.set(key1, 'Payload 2');
 
-		// Not have been called
-		expect(mockCallback2).toHaveBeenCalledTimes(1);
-		// Called
-		expect(mockCallback1).toHaveBeenCalledTimes(3);
-		expect(mockCallback1).toHaveBeenLastCalledWith('Payload 2');
-		expect(mockCallback3).toHaveBeenCalledTimes(2);
-		expect(mockCallback3).toHaveBeenLastCalledWith('Payload 2');
-
+		setTimeout(() => {
+			// Not have been called
+			expect(mockCallback2).toHaveBeenCalledTimes(1);
+			// Called
+			expect(mockCallback1).toHaveBeenCalledTimes(3);
+			expect(mockCallback1).toHaveBeenLastCalledWith('Payload 2');
+			expect(mockCallback3).toHaveBeenCalledTimes(2);
+			expect(mockCallback3).toHaveBeenLastCalledWith('Payload 2');
+		}, 100);
 
 		// --- Clean up ---
 		observer1.disconnect();

@@ -195,7 +195,7 @@ describe('FilterActions', () => {
 	describe('.searchByRelease', () => {
 		test('no items', () => {
 			mediaContainer.state.items = new Map();
-			filterActions.searchByRelease(true)
+			filterActions.searchByRelease(true);
 			filterActions.filter();
 
 			expect(mediaContainer.setState).toHaveBeenCalledWith({
@@ -276,10 +276,10 @@ describe('FilterActions', () => {
 		});
 
 		test.each`
-		status | available
-		${OwnageStatus.statuses.DEFAULT} | ${'i2'}
-		${OwnageStatus.statuses.DOWNLOADABLE} | ${'i3'}
-		`('single status $status', ({status, available}) => {
+			status                                | available
+			${OwnageStatus.statuses.DEFAULT}      | ${'i2'}
+			${OwnageStatus.statuses.DOWNLOADABLE} | ${'i3'}
+		`('single status $status', ({ status, available }) => {
 			filterActions.searchByOwnageStatus([status]);
 			filterActions.filter();
 
@@ -296,10 +296,10 @@ describe('FilterActions', () => {
 		});
 
 		test.each`
-		statuses | available
-		${[OwnageStatus.statuses.DEFAULT, OwnageStatus.statuses.DOWNLOADABLE]} | ${['i2', 'i3']}
-		${[OwnageStatus.statuses.OWNED, OwnageStatus.statuses.DOWNLOADABLE]} | ${['i1', 'i3']}
-		`('multiple statuses $statuses', ({statuses, available}) => {
+			statuses                                                               | available
+			${[OwnageStatus.statuses.DEFAULT, OwnageStatus.statuses.DOWNLOADABLE]} | ${['i2', 'i3']}
+			${[OwnageStatus.statuses.OWNED, OwnageStatus.statuses.DOWNLOADABLE]}   | ${['i1', 'i3']}
+		`('multiple statuses $statuses', ({ statuses, available }) => {
 			filterActions.searchByOwnageStatus(statuses);
 			filterActions.filter();
 
