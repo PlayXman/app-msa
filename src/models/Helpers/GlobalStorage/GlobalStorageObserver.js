@@ -21,8 +21,10 @@ class GlobalStorageObserver {
 	 * @param {string} key Event name
 	 */
 	listen(key) {
-		this.key = key;
-		document.addEventListener(key, this.callback);
+		if(key) {
+			this.key = key;
+			document.addEventListener(key, this.callback);
+		}
 	}
 
 	/**

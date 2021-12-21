@@ -23,12 +23,14 @@ class GlobalStorage {
 	 * @param {*} data
 	 */
 	static set(key, data) {
-		this._storage[key] = data;
+		if(key) {
+			this._storage[key] = data;
 
-		const event = new CustomEvent(this._createEventKey(key), {
-			detail: this.getState(key),
-		});
-		document.dispatchEvent(event);
+			const event = new CustomEvent(this._createEventKey(key), {
+				detail: this.getState(key),
+			});
+			document.dispatchEvent(event);
+		}
 	}
 
 	/**
