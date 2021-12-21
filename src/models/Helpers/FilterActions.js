@@ -44,7 +44,7 @@ class FilterActions {
 				show &= item.data.labels.includes(this.conditions.text);
 			}
 
-			item.show = show;
+			item.show = Boolean(show);
 			items.set(itemId, item);
 		});
 

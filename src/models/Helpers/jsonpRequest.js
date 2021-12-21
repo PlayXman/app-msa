@@ -5,7 +5,7 @@ class Jsonp {
 	/**
 	 * Makes http request for jsonp source data. Deals with CORS problem
 	 * @param {string} url Requested URL
-	 * @return {Promise<{}><{}>} Returns parsed data or err
+	 * @return {Promise<{},{}>} Returns parsed data or err
 	 */
 	static jsonpRequest(url) {
 		return new Promise((resolve, reject) => {
