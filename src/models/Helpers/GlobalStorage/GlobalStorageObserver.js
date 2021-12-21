@@ -11,7 +11,9 @@ class GlobalStorageObserver {
 	 * @param {function} callback
 	 */
 	constructor(callback) {
-		this.callback = callback;
+		this.callback = (e) => {
+			callback(e.detail);
+		};
 	}
 
 	/**
@@ -20,18 +22,14 @@ class GlobalStorageObserver {
 	 */
 	listen(key) {
 		this.key = key;
-		document.addEventListener(key, (e) => {
-			this.callback(e.detail);
-		});
+		document.addEventListener(key, this.callback);
 	}
 
 	/**
 	 * Disconnects event listener for data change
 	 */
 	disconnect() {
-		document.removeEventListener(this.key, (e) => {
-			this.callback(e.detail);
-		});
+		document.removeEventListener(this.key, this.callback);
 	}
 }
 
