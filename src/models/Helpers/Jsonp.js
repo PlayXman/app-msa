@@ -7,7 +7,7 @@ class Jsonp {
 	 * @param {string} url Requested URL
 	 * @return {Promise<{},{}>} Returns parsed data or err
 	 */
-	static jsonpRequest(url) {
+	static request(url) {
 		return new Promise((resolve, reject) => {
 			const callbackName = Jsonp._createCallbackName();
 			url = Jsonp._prepareUrl(url, callbackName);
@@ -82,4 +82,4 @@ class Jsonp {
 	}
 }
 
-export default Jsonp.jsonpRequest;
+export default Jsonp;

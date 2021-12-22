@@ -4,7 +4,7 @@ import GlobalStorage, {STORAGE_NAMES} from '../models/Helpers/GlobalStorage/Glob
 import MediaPageContent from '../components/MediaPageContent';
 import SubMenuItemCopy from '../components/Item/submenu/SubMenuItemCopy';
 import SubMenuItemLabels from '../components/Item/labels/SubMenuItemLabels';
-import Trakt from '../models/vendors/Trakt';
+import Trakt from '../models/Vendors/Trakt';
 import SubMenuItemCustom from '../components/Item/submenu/SubMenuItemCustom';
 import SubMenuCustomButton from '../components/Item/submenu/SubMenuCustomButton';
 import SubMenuItem from "../components/Item/submenu/SubMenuItem";

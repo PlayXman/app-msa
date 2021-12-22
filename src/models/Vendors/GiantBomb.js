@@ -1,4 +1,4 @@
-import jsonpRequest from '../Helpers/jsonpRequest';
+import Jsonp from '../Helpers/Jsonp';
 import { Config } from '../../config';
 import Url from '../Helpers/Url';
 import GiantBombDb from '../Db/Vendors/GiantBomb';
@@ -45,7 +45,7 @@ class GiantBomb {
 	/**
 	 *
 	 * @param gameTitle
-	 * @param {function(Object[]|null)} callback It's called at the end. Returns objects for items or null if error
+	 * @param {function(Object[]|null)} callback It's called at the end. It receives list of item objects or null if error
 	 */
 	static searchGame(gameTitle, callback) {
 		GiantBombDb.getApiKey()
@@ -59,7 +59,7 @@ class GiantBomb {
 					resources: 'game',
 				});
 
-				jsonpRequest(`${Config.vendors.giantBombCom.apiUrl}search/?${urlParams.toString()}`)
+				Jsonp.request(`${Config.vendors.giantBombCom.apiUrl}search/?${urlParams.toString()}`)
 					.then((data) => {
 						if (data.error === 'OK') {
 							callback(data.results);
@@ -81,11 +81,16 @@ class GiantBomb {
 	}
 
 	/**
-	 * According the ids it gets games from vendor
+	 * Fetches the games from vendor
 	 * @param {string[]} gamesIds Ids of items saved in DB
-	 * @param {function(Object[]|null)} callback It's called at the end. Returns objects for items or null if error
+	 * @param {function(Object[]|null)} callback It's called at the end. It receives list of item objects or null if error
 	 */
 	static getGames(gamesIds, callback) {
+		if(gamesIds.length === 0) {
+			callback(null);
+			return;
+		}
+
 		GiantBombDb.getApiKey()
 			.then((apiKey) => {
 				const urlParams = {
@@ -106,7 +111,7 @@ class GiantBomb {
 	}
 
 	/**
-	 * Recursive fce. It's fetching games according the ids. Vendor has limit of 100 items per request. That's why
+	 * Recursive fce. It's fetching games according the ids. Vendor has a limit of 100 items per request. That's why
 	 * multiple requests
 	 * @param {{}} urlParamsObj Url parameters
 	 * @param {number} itemCount Total items count saved in DB
@@ -120,7 +125,7 @@ class GiantBomb {
 		if (urlParamsObj.offset <= itemCount) {
 			// not in limit; fetch
 			const urlParams = new URLSearchParams(urlParamsObj);
-			jsonpRequest(`${Config.vendors.giantBombCom.apiUrl}games/?${urlParams.toString()}`)
+			Jsonp.request(`${Config.vendors.giantBombCom.apiUrl}games/?${urlParams.toString()}`)
 				.then((data) => {
 					if (data.error === 'OK') {
 						urlParamsObj.offset += limit;

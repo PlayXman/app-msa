@@ -1,6 +1,6 @@
 import MediaModel from './MediaModel';
 import Games from '../Db/Media/Games';
-import GiantBomb from '../vendors/GiantBomb';
+import GiantBomb from '../Vendors/GiantBomb';
 import Notification from '../Notification';
 import Url from '../Helpers/Url';
 import { Config } from '../../config';

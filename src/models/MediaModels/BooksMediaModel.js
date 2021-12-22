@@ -2,7 +2,7 @@ import MediaModel from './MediaModel';
 import Books from '../Db/Media/Books';
 import Notification from '../Notification';
 import Url from '../Helpers/Url';
-import GoogleBooks from '../vendors/GoogleBooks';
+import GoogleBooks from '../Vendors/GoogleBooks';
 
 /**
  * Media model for Books
