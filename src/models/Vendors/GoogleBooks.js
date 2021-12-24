@@ -7,7 +7,7 @@ class GoogleBooks {
 	/**
 	 * Returns books by search query.
 	 * @param {string} title
-	 * @return {Promise<Object{}><string>} Returns error message
+	 * @return {Promise<Object, string>} Returns error message
 	 */
 	static searchBooks(title) {
 		return new Promise((resolve, reject) => {
@@ -46,7 +46,7 @@ class GoogleBooks {
 	/**
 	 * Fetches metadata for a book
 	 * @param {string} id Id from Google Books Api
-	 * @return {Promise<Object><string>}
+	 * @return {Promise<Object, string>}
 	 */
 	static getBook(id) {
 		return new Promise((resolve, reject) => {
