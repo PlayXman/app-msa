@@ -18,7 +18,7 @@ class Trakt {
 
 	/**
 	 * Authenticates user with Trakt. Prepares all tokens needed for further communication
-	 * @return {Promise}
+	 * @return {Promise<void>}
 	 */
 	authenticate() {
 		return new Promise((resolve, reject) => {
@@ -42,6 +42,8 @@ class Trakt {
 								.catch(() => {
 									reject();
 								});
+						}).catch(() => {
+							reject();
 						});
 					} else if (!this.accessToken.length) {
 						// no access token
@@ -55,7 +57,9 @@ class Trakt {
 										reject();
 									});
 							}
-						);
+						).catch(() => {
+							reject();
+						});
 					} else {
 						// have all
 						resolve();
@@ -227,6 +231,7 @@ class Trakt {
 	_refreshTokenByCode() {
 		return new Promise((resolve, reject) => {
 			const currentUrl = new URL(window.location.href);
+
 			if (currentUrl.searchParams.get('code')) {
 				// "code" obtained
 
@@ -262,7 +267,8 @@ class Trakt {
 				url.searchParams.set('response_type', 'code');
 				url.searchParams.set('client_id', this.keys.clientId);
 				url.searchParams.set('redirect_uri', this.redirectUri);
-				window.location = url.toString();
+				window.location.href = url.toString();
+				reject();
 			}
 		});
 	}
@@ -302,7 +308,7 @@ class Trakt {
 				})
 				.catch((err) => {
 					console.error(err);
-					// saved wrong refresh token. Tries to get a new one
+					// Wrong refresh token saved in DB. Obtain a new one
 					this._refreshTokenByCode()
 						.then((refreshToken) => {
 							resolve(refreshToken);
