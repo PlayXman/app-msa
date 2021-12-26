@@ -5,7 +5,7 @@ describe('Trakt', () => {
 	const fetchMock = jest.spyOn(global, 'fetch');
 
 	afterEach(() => {
-		fetchMock.mockClear();
+		fetchMock.mockReset();
 	})
 
 	afterAll(() => {
@@ -19,8 +19,8 @@ describe('Trakt', () => {
 
 		afterEach(() => {
 			windowLocationMock.mockClear();
-			getApiKeysMock.mockClear();
-			setRefreshTokenMock.mockClear();
+			getApiKeysMock.mockReset();
+			setRefreshTokenMock.mockReset();
 		});
 
 		afterAll(() => {
@@ -77,36 +77,31 @@ describe('Trakt', () => {
 			spyOnHref.mockReset();
 
 
-			windowLocationMock.mockReturnValueOnce(new URL('http://dummy.com/some/path?code=c123'));
+			windowLocationMock.mockReturnValue(new URL('http://dummy.com/some/path?code=c123'));
 
 			// Communication error
-			fetchMock.mockImplementation(async () => {
-				throw new Error('No connection');
-			});
+			fetchMock.mockRejectedValue('No connection');
 			await expect(t.authenticate()).rejects.toBeUndefined();
 			expect(fetchMock).toHaveBeenCalled();
 
 			// Server returned access and refresh token but not saved in DB
-			fetchMock.mockImplementationOnce(async () => {
-				return {
-					async json() {
-						return {
-							access_token: 'a132_1',
-							refresh_token: 'r132_1'
-						}
+			fetchMock.mockResolvedValueOnce({
+				async json() {
+					return {
+						access_token: 'a132_1',
+						refresh_token: 'r132_1'
 					}
 				}
-			}).mockImplementationOnce(async () => {
-				return {
-					async json() {
-						return {
-							access_token: 'a132_2',
-							refresh_token: 'r132_2'
-						}
+			}).mockResolvedValueOnce({
+				async json() {
+					return {
+						access_token: 'a132_2',
+						refresh_token: 'r132_2'
 					}
 				}
 			});
 			setRefreshTokenMock.mockRejectedValue(undefined);
+
 			await expect(t.authenticate()).rejects.toBeUndefined();
 			expect(t.accessToken).toBe('a132_1');
 			expect(setRefreshTokenMock).toHaveBeenCalledWith('r132_1');
@@ -180,22 +175,336 @@ describe('Trakt', () => {
 	});
 
 	describe('.addToWatchlist', () => {
-		//todo
+		let trakt;
+
+		beforeEach(() => {
+			trakt = new Trakt();
+
+			trakt.accessToken = 'a789';
+			trakt.keys.clientId = 'clientId1';
+			trakt.keys.clientSecret = 'clientSecret1';
+		});
+
+		test('no ids provided', async () => {
+			await expect(trakt.addToWatchlist([], 'movies')).rejects.toBeUndefined();
+			await expect(trakt.addToWatchlist([], 'shows')).rejects.toBeUndefined();
+			expect(fetchMock).not.toHaveBeenCalled();
+		});
+
+		test('no connection', async () => {
+			fetchMock.mockRejectedValue('No connection');
+
+			await expect(trakt.addToWatchlist([123], 'movies')).rejects.toBeUndefined();
+			await expect(trakt.addToWatchlist([123, 'm111'], 'movies')).rejects.toBeUndefined();
+			await expect(trakt.addToWatchlist([123], 'shows')).rejects.toBeUndefined();
+			await expect(trakt.addToWatchlist([123, 's111'], 'shows')).rejects.toBeUndefined();
+
+			expect(fetchMock).toHaveBeenCalledTimes(4);
+			expect(fetchMock).toHaveBeenLastCalledWith('https://api.trakt.tv/sync/watchlist', {
+				"body": "{\"shows\":[{\"ids\":{\"tmdb\":123}},{\"ids\":{\"tmdb\":\"s111\"}}]}",
+				"cache": "no-cache",
+				"headers": {
+					"Authorization": "Bearer a789",
+					"Content-Type": "application/json",
+					"trakt-api-key": "clientId1",
+					"trakt-api-version": "2"
+				},
+				"method": "POST"
+			});
+		});
+
+		test('success', async () => {
+			fetchMock.mockResolvedValue({
+				ok: true
+			});
+
+			await expect(trakt.addToWatchlist([123], 'movies')).resolves.toBeUndefined();
+			await expect(trakt.addToWatchlist([123, 'm111'], 'movies')).resolves.toBeUndefined();
+			await expect(trakt.addToWatchlist([123], 'shows')).resolves.toBeUndefined();
+			await expect(trakt.addToWatchlist([123, 's111'], 'shows')).resolves.toBeUndefined();
+
+			expect(fetchMock).toHaveBeenCalledTimes(4);
+			expect(fetchMock).toHaveBeenLastCalledWith('https://api.trakt.tv/sync/watchlist', {
+				"body": "{\"shows\":[{\"ids\":{\"tmdb\":123}},{\"ids\":{\"tmdb\":\"s111\"}}]}",
+				"cache": "no-cache",
+				"headers": {
+					"Authorization": "Bearer a789",
+					"Content-Type": "application/json",
+					"trakt-api-key": "clientId1",
+					"trakt-api-version": "2"
+				},
+				"method": "POST"
+			});
+		});
 	});
 
 	describe('.removeFromWatchlist', () => {
-		//todo
+		let trakt;
+
+		beforeEach(() => {
+			trakt = new Trakt();
+
+			trakt.accessToken = 'a789';
+			trakt.keys.clientId = 'clientId1';
+			trakt.keys.clientSecret = 'clientSecret1';
+		});
+
+		test('no ids provided', async () => {
+			await expect(trakt.removeFromWatchlist([], 'movies')).rejects.toBeUndefined();
+			await expect(trakt.removeFromWatchlist([], 'shows')).rejects.toBeUndefined();
+			expect(fetchMock).not.toHaveBeenCalled();
+		});
+
+		test('no connection', async () => {
+			fetchMock.mockRejectedValue('No connection');
+
+			await expect(trakt.removeFromWatchlist([123], 'movies')).rejects.toBeUndefined();
+			await expect(trakt.removeFromWatchlist([123, 'm111'], 'movies')).rejects.toBeUndefined();
+			await expect(trakt.removeFromWatchlist([123], 'shows')).rejects.toBeUndefined();
+			await expect(trakt.removeFromWatchlist([123, 's111'], 'shows')).rejects.toBeUndefined();
+
+			expect(fetchMock).toHaveBeenCalledTimes(4);
+			expect(fetchMock).toHaveBeenLastCalledWith('https://api.trakt.tv/sync/watchlist/remove', {
+				"body": "{\"shows\":[{\"ids\":{\"tmdb\":123}},{\"ids\":{\"tmdb\":\"s111\"}}]}",
+				"cache": "no-cache",
+				"headers": {
+					"Authorization": "Bearer a789",
+					"Content-Type": "application/json",
+					"trakt-api-key": "clientId1",
+					"trakt-api-version": "2"
+				},
+				"method": "POST"
+			});
+		});
+
+		test('success', async () => {
+			fetchMock.mockResolvedValue({
+				ok: true
+			});
+
+			await expect(trakt.removeFromWatchlist([123], 'movies')).resolves.toBeUndefined();
+			await expect(trakt.removeFromWatchlist([123, 'm111'], 'movies')).resolves.toBeUndefined();
+			await expect(trakt.removeFromWatchlist([123], 'shows')).resolves.toBeUndefined();
+			await expect(trakt.removeFromWatchlist([123, 's111'], 'shows')).resolves.toBeUndefined();
+
+			expect(fetchMock).toHaveBeenCalledTimes(4);
+			expect(fetchMock).toHaveBeenLastCalledWith('https://api.trakt.tv/sync/watchlist/remove', {
+				"body": "{\"shows\":[{\"ids\":{\"tmdb\":123}},{\"ids\":{\"tmdb\":\"s111\"}}]}",
+				"cache": "no-cache",
+				"headers": {
+					"Authorization": "Bearer a789",
+					"Content-Type": "application/json",
+					"trakt-api-key": "clientId1",
+					"trakt-api-version": "2"
+				},
+				"method": "POST"
+			});
+		});
 	});
 
 	describe('.markAsWatched', () => {
-		//todo
+		const dateMock = jest.spyOn(Date.prototype, 'toISOString').mockReturnValue(new Date('2022-01-02T12:11:32.00000Z').toISOString());
+
+		let trakt;
+
+		beforeEach(() => {
+			trakt = new Trakt();
+
+			trakt.accessToken = 'a789';
+			trakt.keys.clientId = 'clientId1';
+			trakt.keys.clientSecret = 'clientSecret1';
+
+			dateMock.mockClear();
+		});
+
+		afterAll(() => {
+			dateMock.mockRestore();
+		});
+
+		test('no ids provided', async () => {
+			await expect(trakt.markAsWatched([], 'movies')).rejects.toThrowError('No items provided');
+			await expect(trakt.markAsWatched([], 'shows')).rejects.toThrowError('No items provided');
+			expect(fetchMock).not.toHaveBeenCalled();
+		});
+
+		test('no connection', async () => {
+			fetchMock.mockRejectedValue('No connection');
+
+			await expect(trakt.markAsWatched([123], 'movies')).rejects.toThrowError('Could not connect to Trakt');
+			await expect(trakt.markAsWatched([123, 'm111'], 'movies')).rejects.toThrowError('Could not connect to Trakt');
+			await expect(trakt.markAsWatched([123], 'shows')).rejects.toThrowError('Could not connect to Trakt');
+			await expect(trakt.markAsWatched([123, 's111'], 'shows')).rejects.toThrowError('Could not connect to Trakt');
+
+			expect(fetchMock).toHaveBeenCalledTimes(4);
+			expect(fetchMock).toHaveBeenLastCalledWith('https://api.trakt.tv/sync/history', {
+				"body": "{\"shows\":[{\"ids\":{\"tmdb\":123},\"watched_at\":\"2022-01-02T12:11:32.000Z\"},{\"ids\":{\"tmdb\":\"s111\"},\"watched_at\":\"2022-01-02T12:11:32.000Z\"}]}",
+				"cache": "no-cache",
+				"headers": {
+					"Authorization": "Bearer a789",
+					"Content-Type": "application/json",
+					"trakt-api-key": "clientId1",
+					"trakt-api-version": "2"
+				},
+				"method": "POST"
+			});
+		});
+
+		test('server fail', async () => {
+			fetchMock.mockResolvedValue({
+				ok: false
+			});
+
+			await expect(trakt.markAsWatched([123], 'movies')).rejects.toThrowError('Not marked as watched');
+			await expect(trakt.markAsWatched([123, 'm111'], 'movies')).rejects.toThrowError('Not marked as watched');
+			await expect(trakt.markAsWatched([123], 'shows')).rejects.toThrowError('Not marked as watched');
+			await expect(trakt.markAsWatched([123, 's111'], 'shows')).rejects.toThrowError('Not marked as watched');
+
+			expect(fetchMock).toHaveBeenCalledTimes(4);
+			expect(fetchMock).toHaveBeenLastCalledWith('https://api.trakt.tv/sync/history', {
+				"body": "{\"shows\":[{\"ids\":{\"tmdb\":123},\"watched_at\":\"2022-01-02T12:11:32.000Z\"},{\"ids\":{\"tmdb\":\"s111\"},\"watched_at\":\"2022-01-02T12:11:32.000Z\"}]}",
+				"cache": "no-cache",
+				"headers": {
+					"Authorization": "Bearer a789",
+					"Content-Type": "application/json",
+					"trakt-api-key": "clientId1",
+					"trakt-api-version": "2"
+				},
+				"method": "POST"
+			});
+		});
+
+		test('success', async () => {
+			fetchMock.mockResolvedValue({
+				ok: true
+			});
+
+			await expect(trakt.markAsWatched([123], 'movies')).resolves.toBeUndefined();
+			await expect(trakt.markAsWatched([123, 'm111'], 'movies')).resolves.toBeUndefined();
+			await expect(trakt.markAsWatched([123], 'shows')).resolves.toBeUndefined();
+			await expect(trakt.markAsWatched([123, 's111'], 'shows')).resolves.toBeUndefined();
+
+			expect(fetchMock).toHaveBeenCalledTimes(4);
+			expect(fetchMock).toHaveBeenLastCalledWith('https://api.trakt.tv/sync/history', {
+				"body": "{\"shows\":[{\"ids\":{\"tmdb\":123},\"watched_at\":\"2022-01-02T12:11:32.000Z\"},{\"ids\":{\"tmdb\":\"s111\"},\"watched_at\":\"2022-01-02T12:11:32.000Z\"}]}",
+				"cache": "no-cache",
+				"headers": {
+					"Authorization": "Bearer a789",
+					"Content-Type": "application/json",
+					"trakt-api-key": "clientId1",
+					"trakt-api-version": "2"
+				},
+				"method": "POST"
+			});
+		});
 	});
 
 	describe('.getAllItemsFromWatchlist', () => {
-		//todo
+		let trakt;
+
+		beforeEach(() => {
+			trakt = new Trakt();
+
+			trakt.accessToken = 'a789';
+			trakt.keys.clientId = 'clientId1';
+			trakt.keys.clientSecret = 'clientSecret1';
+		});
+
+		test('no connection', async () => {
+			fetchMock.mockRejectedValue('No connection');
+
+			await expect(trakt.getAllItemsFromWatchlist('movies')).rejects.toBe('No connection');
+			await expect(trakt.getAllItemsFromWatchlist('shows')).rejects.toBe('No connection');
+
+			expect(fetchMock).toHaveBeenCalledTimes(2);
+			expect(fetchMock).toHaveBeenLastCalledWith('https://api.trakt.tv/sync/watchlist/shows', {
+				"cache": "no-cache",
+				"headers": {
+					"Authorization": "Bearer a789",
+					"Content-Type": "application/json",
+					"trakt-api-key": "clientId1",
+					"trakt-api-version": "2"
+				},
+				"method": "GET"
+			});
+		});
+
+		test('success', async () => {
+			fetchMock.mockResolvedValue({
+				ok: true,
+				async json() {
+					return ['Item1', 'Item2'];
+				}
+			});
+
+			await expect(trakt.getAllItemsFromWatchlist('movies')).resolves.toStrictEqual(['Item1', 'Item2']);
+			await expect(trakt.getAllItemsFromWatchlist('shows')).resolves.toStrictEqual(['Item1', 'Item2']);
+
+			expect(fetchMock).toHaveBeenCalledTimes(2);
+			expect(fetchMock).toHaveBeenLastCalledWith('https://api.trakt.tv/sync/watchlist/shows', {
+				"cache": "no-cache",
+				"headers": {
+					"Authorization": "Bearer a789",
+					"Content-Type": "application/json",
+					"trakt-api-key": "clientId1",
+					"trakt-api-version": "2"
+				},
+				"method": "GET"
+			});
+		});
 	});
 
 	describe('.getAllCollectedItems', () => {
-		//todo
+		let trakt;
+
+		beforeEach(() => {
+			trakt = new Trakt();
+
+			trakt.accessToken = 'a789';
+			trakt.keys.clientId = 'clientId1';
+			trakt.keys.clientSecret = 'clientSecret1';
+		});
+
+		test('no connection', async () => {
+			fetchMock.mockRejectedValue('No connection');
+
+			await expect(trakt.getAllCollectedItems('movies')).rejects.toBe('No connection');
+			await expect(trakt.getAllCollectedItems('shows')).rejects.toBe('No connection');
+
+			expect(fetchMock).toHaveBeenCalledTimes(2);
+			expect(fetchMock).toHaveBeenLastCalledWith('https://api.trakt.tv/sync/collection/shows', {
+				"cache": "no-cache",
+				"headers": {
+					"Authorization": "Bearer a789",
+					"Content-Type": "application/json",
+					"trakt-api-key": "clientId1",
+					"trakt-api-version": "2"
+				},
+				"method": "GET"
+			});
+		});
+
+		test('success', async () => {
+			fetchMock.mockResolvedValue({
+				ok: true,
+				async json() {
+					return ['Item1', 'Item2'];
+				}
+			});
+
+			await expect(trakt.getAllCollectedItems('movies')).resolves.toStrictEqual(['Item1', 'Item2']);
+			await expect(trakt.getAllCollectedItems('shows')).resolves.toStrictEqual(['Item1', 'Item2']);
+
+			expect(fetchMock).toHaveBeenCalledTimes(2);
+			expect(fetchMock).toHaveBeenLastCalledWith('https://api.trakt.tv/sync/collection/shows', {
+				"cache": "no-cache",
+				"headers": {
+					"Authorization": "Bearer a789",
+					"Content-Type": "application/json",
+					"trakt-api-key": "clientId1",
+					"trakt-api-version": "2"
+				},
+				"method": "GET"
+			});
+		});
 	});
 });

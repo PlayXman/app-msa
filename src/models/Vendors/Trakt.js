@@ -75,18 +75,20 @@ class Trakt {
 	 * Saves movie(s) or tv show(s) by id in Trakt user watchlist
 	 * @param {string[]|number[]} tmdbId Tmdb ids
 	 * @param {'movies' | 'shows'} mediaType
-	 * @return {Promise}
+	 * @return {Promise<void>}
 	 */
 	addToWatchlist(tmdbId, mediaType) {
 		return new Promise((resolve, reject) => {
-			const items = [];
-			tmdbId.forEach((id) => {
-				items.push({
-					ids: {
-						tmdb: id,
-					},
-				});
-			});
+			if(tmdbId.length === 0) {
+				reject();
+				return;
+			}
+
+			const items = tmdbId.map((id) => ({
+				ids: {
+					tmdb: id,
+				},
+			}));
 
 			fetch(`${Config.vendors.traktTv.apiUrl}sync/watchlist`, {
 				headers: this._getHeader(),
@@ -113,18 +115,20 @@ class Trakt {
 	 * Removes movie(s) by id from Trakt user watchlist
 	 * @param {string[]|number[]} tmdbId Tmdb ids
 	 * @param {'movies' | 'shows'} mediaType
-	 * @return {Promise}
+	 * @return {Promise<void>}
 	 */
 	removeFromWatchlist(tmdbId, mediaType) {
 		return new Promise((resolve, reject) => {
-			const items = [];
-			tmdbId.forEach((id) => {
-				items.push({
-					ids: {
-						tmdb: id,
-					},
-				});
-			});
+			if(tmdbId.length === 0) {
+				reject();
+				return;
+			}
+
+			const items = tmdbId.map((id) => ({
+				ids: {
+					tmdb: id,
+				},
+			}));
 
 			fetch(`${Config.vendors.traktTv.apiUrl}sync/watchlist/remove`, {
 				headers: this._getHeader(),
@@ -151,18 +155,20 @@ class Trakt {
 	 * Marks movie(s) in Trakt as watched
 	 * @param {string[]|number[]} tmdbId Tmdb ids
 	 * @param {'movies' | 'shows'} mediaType
-	 * @return {Promise}
+	 * @return {Promise<void, string>}
 	 */
 	async markAsWatched(tmdbId, mediaType) {
-		const items = [];
-		tmdbId.forEach((id) => {
-			items.push({
-				ids: {
-					tmdb: id,
-				},
-				watched_at: new Date().toUTCString(),
-			});
-		});
+		if(tmdbId.length === 0) {
+			throw new Error('No items provided');
+		}
+
+		const watchedAt = new Date().toISOString();
+		const items = tmdbId.map((id) => ({
+			ids: {
+				tmdb: id,
+			},
+			watched_at: watchedAt,
+		}));
 
 		let response;
 
@@ -257,7 +263,7 @@ class Trakt {
 						resolve(response.refresh_token);
 					})
 					.catch((err) => {
-						console.log(err);
+						console.error(err);
 						reject();
 					});
 			} else {
