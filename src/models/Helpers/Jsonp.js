@@ -49,7 +49,7 @@ class Jsonp {
 	 * Creates script element which fetches data from url
 	 * @param {string} url
 	 * @param {function} promiseReject Promise reject
-	 * @return {HTMLElementTagNameMap}
+	 * @return {HTMLScriptElement}
 	 * @private
 	 */
 	static _createScript(url, promiseReject) {
@@ -68,7 +68,7 @@ class Jsonp {
 	/**
 	 * Runs callback jsonp function and deletes script element from body
 	 * @param {string} callbackName
-	 * @param {HTMLElementTagNameMap} script
+	 * @param {HTMLScriptElement} script
 	 * @param promiseResolve
 	 * @private
 	 */
