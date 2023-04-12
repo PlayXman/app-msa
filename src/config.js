@@ -37,7 +37,8 @@ export const Config = {
 			searchUrl: 'https://store.steampowered.com/search/?term=',
 		},
 		csfdCz: {
-			searchUrl: 'https://www.csfd.cz/hledat/?q=',
+			movieSearchUrl: 'https://www.csfd.cz/hledat/?series=0&creators=0&users=0&q=',
+			tvShowSearchUrl: 'https://www.csfd.cz/hledat/?films=0&creators=0&users=0&q=',
 		},
 		imdbCom: {
 			searchUrl: 'https://www.imdb.com/find?s=tt&q=',

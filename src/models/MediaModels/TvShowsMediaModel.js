@@ -54,7 +54,7 @@ class TvShowsMediaModel extends MediaModel {
 				searchUrl = Config.vendors.traktTv.searchUrl;
 				break;
 			case 'csfd':
-				searchUrl = Config.vendors.csfdCz.searchUrl;
+				searchUrl = Config.vendors.csfdCz.tvShowSearchUrl;
 				break;
 			case 'imdb':
 			default:

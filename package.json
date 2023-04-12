@@ -1,6 +1,6 @@
 {
 	"name": "app-msa",
-	"version": "5.15.6",
+	"version": "5.15.7",
 	"private": true,
 	"license": "MIT",
 	"bugs": {
@@ -13,26 +13,6 @@
 	"engines": {
 		"node": ">=14"
 	},
-	"dependencies": {
-		"@material-ui/core": "^4.9.13",
-		"@material-ui/icons": "^4.9.1",
-		"@material-ui/lab": "^4.0.0-alpha.53",
-		"firebase": "^7.14.2",
-		"moviedb-promise": "^1.5.0",
-		"prop-types": "^15.7.2",
-		"react": "^16.13.1",
-		"react-dom": "^16.13.1",
-		"react-firebaseui": "^4.1.0",
-		"react-router-dom": "^5.1.2",
-		"react-scripts": "^3.4.1",
-		"react-simple-img": "^2.3.9"
-	},
-	"devDependencies": {
-		"prettier": "^2.0.1"
-	},
-	"peerDependencies": {
-		"jest": "^24"
-	},
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
@@ -40,6 +20,26 @@
 		"test:ci": "react-scripts test --env=node --watchAll=false",
 		"deploy": "npm run build && firebase deploy",
 		"lint": "prettier --write \"src/**/*.js\" --config ./.prettierrc.js"
+	},
+	"dependencies": {
+		"@material-ui/core": "^4.12.4",
+		"@material-ui/icons": "^4.11.3",
+		"@material-ui/lab": "^4.0.0-alpha.53",
+		"firebase": "^7.24.0",
+		"moviedb-promise": "^1.5.0",
+		"prop-types": "^15.8.1",
+		"react": "^16.14.0",
+		"react-dom": "^16.14.0",
+		"react-firebaseui": "^4.2.0",
+		"react-router-dom": "^5.3.4",
+		"react-scripts": "^3.4.4",
+		"react-simple-img": "^2.3.9"
+	},
+	"devDependencies": {
+		"prettier": "^2.8.7"
+	},
+	"peerDependencies": {
+		"jest": "^24"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
