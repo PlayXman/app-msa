@@ -54,7 +54,7 @@ class MoviesMediaModel extends MediaModel {
 				searchUrl = Config.vendors.traktTv.searchUrl;
 				break;
 			case 'csfd':
-				searchUrl = Config.vendors.csfdCz.searchUrl;
+				searchUrl = Config.vendors.csfdCz.movieSearchUrl;
 				break;
 			case 'imdb':
 			default:
@@ -67,7 +67,7 @@ class MoviesMediaModel extends MediaModel {
 	}
 
 	/**
-	 * Refreshes all items meta data. Downloads images, gets titles etc.
+	 * Refreshes all items metadata. Downloads images, gets titles etc.
 	 */
 	handleItemsRefresh = () => {
 		const loaderMsg = 'Refreshing movies...';

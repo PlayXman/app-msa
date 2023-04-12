@@ -64,7 +64,7 @@ class GamesMediaModel extends MediaModel {
 	}
 
 	/**
-	 * Refreshes all items meta data. Downloads images, gets titles etc.
+	 * Refreshes all items metadata. Downloads images, gets titles etc.
 	 */
 	handleItemsRefresh = () => {
 		const loaderMsg = 'Refreshing games...';

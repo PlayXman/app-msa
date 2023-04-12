@@ -7,7 +7,16 @@ class GoogleBooks {
 	/**
 	 * Returns books by search query.
 	 * @param {string} title
-	 * @return {Promise<Object{}><string>} Returns error message
+	 * @return {Promise<Array<{
+	 *     id: string;
+	 *     volumeInfo: {
+	 *         title: string;
+	 *         authors: string[];
+	 *         imageLinks: Array<{}>;
+	 *         publishedDate: string;
+	 *         infoLink: string;
+	 *     }
+	 * }>>} Returns error message
 	 */
 	static searchBooks(title) {
 		return new Promise((resolve, reject) => {
@@ -21,7 +30,7 @@ class GoogleBooks {
 					'volumeInfo/authors',
 					'volumeInfo/imageLinks',
 					'volumeInfo/publishedDate',
-					'volumeInfo/previewLink',
+					'volumeInfo/infoLink',
 				].join(',')})`,
 			});
 
@@ -46,7 +55,16 @@ class GoogleBooks {
 	/**
 	 * Fetches metadata for a book
 	 * @param {string} id Id from Google Books Api
-	 * @return {Promise<Object><string>}
+	 * @return {Promise<{
+	 *     id: string;
+	 *     volumeInfo: {
+	 *         title: string;
+	 *         authors: string[];
+	 *         imageLinks: Array<{}>;
+	 *         publishedDate: string;
+	 *         infoLink: string;
+	 *     }
+	 * }>}
 	 */
 	static getBook(id) {
 		return new Promise((resolve, reject) => {
@@ -57,7 +75,7 @@ class GoogleBooks {
 					'volumeInfo/authors',
 					'volumeInfo/imageLinks',
 					'volumeInfo/publishedDate',
-					'volumeInfo/previewLink',
+					'volumeInfo/infoLink',
 				].join(','),
 			});
 

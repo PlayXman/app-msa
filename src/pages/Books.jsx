@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import BooksMediaModel from '../models/MediaModels/BooksMediaModel';
 import GlobalStorage, { STORAGE_NAMES } from '../models/Helpers/GlobalStorage/GlobalStorage';
-import SubMenuItem from '../components/Item/submenu/SubMenuItem';
-import { Info as InfoIcon } from '@material-ui/icons';
 import MediaPageContent from '../components/MediaPageContent';
 import SubMenuItemCopy from '../components/Item/submenu/SubMenuItemCopy';
 import SubMenuItemLabels from '../components/Item/labels/SubMenuItemLabels';
+import SubMenuItemCustom from "../components/Item/submenu/SubMenuItemCustom";
+import SubMenuCustomButton from "../components/Item/submenu/SubMenuCustomButton";
 
 /**
  * Page about books
@@ -27,13 +27,22 @@ class Books extends Component {
 				mediaModel={this.mediaModel}
 				itemSubmenu={(itemObj) => {
 					return [
-						<SubMenuItem
+						<SubMenuItemCustom
 							key="info"
-							text="Info"
-							icon={<InfoIcon />}
-							onClick={() => {
-								this.mediaModel.showItemInfo(itemObj.infoUrl);
-							}}
+							items={[
+								<SubMenuCustomButton
+									variant="googleBooks"
+									onClick={() => {
+										this.mediaModel.showItemInfo('googleBooks', itemObj.infoUrl);
+									}}
+								/>,
+								<SubMenuCustomButton
+									variant="amazon"
+									onClick={() => {
+										this.mediaModel.showItemInfo('amazon', itemObj.title);
+									}}
+								/>,
+							]}
 						/>,
 						<SubMenuItemCopy key="copy" textToCopy={itemObj.title} />,
 						<SubMenuItemLabels
