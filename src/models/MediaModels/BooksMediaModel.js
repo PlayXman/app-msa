@@ -3,6 +3,7 @@ import Books from '../Db/Media/Books';
 import Notification from '../Notification';
 import Url from '../Helpers/Url';
 import GoogleBooks from '../vendors/GoogleBooks';
+import { Config } from '../../config';
 
 /**
  * Media model for Books
@@ -40,14 +41,21 @@ class BooksMediaModel extends MediaModel {
 	/**
 	 * Shows info about book
 	 * @param {string} vendor Currently not used
-	 * @param {string} infoUrl Info url. It's saved in DB
+	 * @param {string} searchText Info url or title.
 	 */
-	showItemInfo(vendor, infoUrl) {
-		Url.openNewTab(infoUrl);
+	showItemInfo(vendor, searchText) {
+		switch (vendor) {
+			case 'amazon':
+				Url.openNewTab(Config.vendors.amazonCom.searchUrl + searchText);
+				break;
+			case 'googleBooks':
+			default:
+				Url.openNewTab(searchText);
+		}
 	}
 
 	/**
-	 * Refreshes all items meta data. Downloads images, gets titles etc.
+	 * Refreshes all items metadata. Downloads images, gets titles etc.
 	 */
 	handleItemsRefresh = () => {
 		const loaderMsg = 'Refreshing books...';
@@ -160,7 +168,7 @@ class BooksMediaModel extends MediaModel {
 	}
 
 	/**
-	 * Prepares Books DB object with data from google books api fetch
+	 * Prepares Books DB object with data from Google books api fetch
 	 * @param {{}} googleBooksItemObj One item object fetched from GiantBomb
 	 * @return {Books}
 	 * @private
@@ -176,7 +184,7 @@ class BooksMediaModel extends MediaModel {
 			info.imageLinks && info.imageLinks.smallThumbnail ? info.imageLinks.smallThumbnail : '';
 		book.imageUrl = book.imageUrl.replace(/^http:/, 'https:');
 		book.releaseDate = info.publishedDate || '';
-		book.infoUrl = info.previewLink || '';
+		book.infoUrl = info.infoLink || '';
 		book.infoUrl = book.infoUrl.replace(/^http:/, 'https:');
 
 		return book;

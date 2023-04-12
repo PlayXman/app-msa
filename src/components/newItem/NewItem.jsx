@@ -57,6 +57,7 @@ const NewItem = ({ id, currentMediaModel, title, releaseDate, imageUrl, infoUrl 
 	};
 
 	const handleClick = () => {
+
 		currentMediaModel.showItemInfo('', infoUrl || title);
 	};
 

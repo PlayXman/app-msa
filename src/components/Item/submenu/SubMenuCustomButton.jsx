@@ -7,6 +7,8 @@ import TraktIcon from './icons/TraktIcon';
 import SteamIcon from './icons/SteamIcon';
 import GamespotIcon from './icons/GamespotIcon';
 import GamesIcon from './icons/GamesIcon';
+import GoogleBooksIcon from "./icons/GoogleBooksIcon";
+import AmazonIcon from "./icons/AmazonIcon";
 
 const style = (theme) => ({
 	root: {
@@ -78,6 +80,19 @@ const style = (theme) => ({
 			backgroundColor: '#070707',
 		},
 	},
+	googleBooks: {
+		background: '#ffffff',
+		outline: '1px solid rgba(0, 0, 0, 0.1)'
+	},
+	amazon: {
+		background: '#131921',
+		'&:hover': {
+			backgroundColor: '#2d3f4d',
+		},
+		'&:active': {
+			backgroundColor: '#030405',
+		},
+	}
 });
 
 class SubMenuCustomButton extends Component {
@@ -108,6 +123,10 @@ class SubMenuCustomButton extends Component {
 				return <GamespotIcon />;
 			case 'games':
 				return <GamesIcon />;
+			case 'googleBooks':
+				return <GoogleBooksIcon />;
+			case 'amazon':
+				return <AmazonIcon />;
 			default:
 				return null;
 		}
@@ -115,7 +134,7 @@ class SubMenuCustomButton extends Component {
 }
 
 SubMenuCustomButton.propTypes = {
-	variant: PropTypes.oneOf(['csfd', 'imdb', 'trakt', 'steam', 'gamespot', 'games']).isRequired,
+	variant: PropTypes.oneOf(['csfd', 'imdb', 'trakt', 'steam', 'gamespot', 'games', 'googleBooks', 'amazon']).isRequired,
 	onClick: PropTypes.func,
 };
 

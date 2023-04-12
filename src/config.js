@@ -58,5 +58,8 @@ export const Config = {
 		googleBooks: {
 			apiUrl: 'https://www.googleapis.com/books/v1/volumes',
 		},
+		amazonCom: {
+			searchUrl: 'https://www.amazon.com/s?k=',
+		},
 	},
 };
