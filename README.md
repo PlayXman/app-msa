@@ -1,63 +1,36 @@
-<p align="center">
-    <img src="https://raw.githubusercontent.com/PlayXman/app-msa/master/public/images/favicons/android-chrome-192x192.png" style="display: block; margin: auto" />
-</p>
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-MediaStorage-App
-================
-App for managing your personal lists of all sorts of media - books, movies, games etc. It connects the media with favorite services like _Trakt_, _Giantbomb_ and _Tmdb_.
+## Getting Started
 
-It's meant for personal use only. There's no durable account management system right now. It's supposed to run on personal **Firebase** hosting.
+First, run the development server:
 
-The app is utterly serverless. It connects directly to services from its frontend. It's basically hard client after all assets are downloaded.
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-> **INFO:** The app was written in PHP at first. And this is its last version. I moved it from private repo that's why it has no history.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Development
------------
-The app can be developed purely on localhost. There's no need to start any kind of server. It connects directly to services and Firebase Realtime Database.
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-1. Create Firebase account and set Realtime Database and hosting
-2. Create file `.env` in project root and fill it with firebase config object. You can find it in your firebase settings:
-    ```
-    REACT_APP_FIREBASE_APIKEY=""
-    REACT_APP_FIREBASE_AUTHDOMAIN=""
-    REACT_APP_FIREBASE_DATABASEURL=""
-    REACT_APP_FIREBASE_PROJECTID=""
-    REACT_APP_FIREBASE_STORAGEBUCKET=""
-    REACT_APP_FIREBASE_MESSAGINGSENDERID=""
-    REACT_APP_FIREBASE_APPID=""
-    ```
-3. Allow using email for authentication and create your account
-4. Fill DB with your media services' api keys:
-    ```json
-    {
-        "vendors": {
-            "giantBomb" : {
-                "key" : "XXX_your_key_XXX"
-            },
-            "tmdb" : {
-                "key" : "XXX_your_key_XXX"
-            },
-            "traktTv" : {
-                "key" : {
-                    "clientId" : "XXX_your_key_XXX",
-                    "clientSecret" : "XXX_your_key_XXX",
-                    "refreshToken" : ""
-                }
-            }
-        }
-    }
-    ```
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-> **INFO:** There are no test right now. This project is personal and kinda serves as a playground. I made the mistake creating ones for PHP version before, and it only ended up killing all the fun.
+## Learn More
 
-### Graphical sources
-They can be found in `/_graphic` folder.
+To learn more about Next.js, take a look at the following resources:
 
-Deployment
-----------
-Deploys to Firebase hosting.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-1. Build the app: `npm run build`
-2. Install firebase cli: `npm i -g firebase-tools`
-3. Deploy with: `firebase deploy` (deploy hosting and db)
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

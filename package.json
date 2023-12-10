@@ -1,53 +1,28 @@
 {
-	"name": "app-msa",
-	"version": "5.15.7",
-	"private": true,
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/PlayXman/app-msa/issues"
-	},
-	"repository": {
-		"type": "github",
-		"url": "https://github.com/PlayXman/app-msa"
-	},
-	"engines": {
-		"node": ">=14"
-	},
-	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test --env=node",
-		"test:ci": "react-scripts test --env=node --watchAll=false",
-		"deploy": "npm run build && firebase deploy",
-		"lint": "prettier --write \"src/**/*.js\" --config ./.prettierrc.js"
-	},
-	"dependencies": {
-		"@material-ui/core": "^4.12.4",
-		"@material-ui/icons": "^4.11.3",
-		"@material-ui/lab": "^4.0.0-alpha.53",
-		"firebase": "^7.24.0",
-		"moviedb-promise": "^1.5.0",
-		"prop-types": "^15.8.1",
-		"react": "^16.14.0",
-		"react-dom": "^16.14.0",
-		"react-firebaseui": "^4.2.0",
-		"react-router-dom": "^5.3.4",
-		"react-scripts": "^3.4.4",
-		"react-simple-img": "^2.3.9"
-	},
-	"devDependencies": {
-		"prettier": "^2.8.7"
-	},
-	"peerDependencies": {
-		"jest": "^24"
-	},
-	"eslintConfig": {
-		"extends": "react-app"
-	},
-	"browserslist": [
-		">0.2%",
-		"not dead",
-		"not ie <= 11",
-		"not op_mini all"
-	]
+  "name": "app-msa",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "14.0.4",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@ducanh2912/next-pwa": "^9.7.2",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.4",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=21"
+  }
 }
