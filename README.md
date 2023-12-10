@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center">
+    <img src="https://raw.githubusercontent.com/PlayXman/app-msa/master/public/images/favicons/android-chrome-192x192.png" style="display: block; margin: auto" />
+</p>
 
-## Getting Started
+MediaStorage-App
+================
+The app for managing your personal lists of all sorts of media - books, movies, games etc. It links the lists with your favorite services like _Trakt_, _Giantbomb_ and _Tmdb_.
 
-First, run the development server:
+It's meant for personal use only. There's no durable account management system right now. It's supposed to run on personal **Firebase** hosting.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The app is utterly serverless. It connects directly to services from its frontend. One can say it behaves as heavy client once all assets are downloaded.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Development
+-----------
+The app is written in **[Next.js](https://nextjs.org/)** and **[TypeScript](https://www.typescriptlang.org/)**. It uses **[Firebase](https://firebase.google.com/)** for hosting, authentication and Realtime Database. It syncs data from external services like _Trakt_, _Giantbomb_ and _Tmdb_.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prepare project
+1. Create Firebase account and setup Realtime Database and hosting.
+2. Create `.env` in project root and fill it with firebase config object. You can find it in your firebase settings:
+   ```bash
+   NEXT_PUBLIC_FIREBASE_APIKEY=""
+   NEXT_PUBLIC_FIREBASE_AUTHDOMAIN=""
+   NEXT_PUBLIC_FIREBASE_DATABASEURL=""
+   NEXT_PUBLIC_FIREBASE_PROJECTID=""
+   NEXT_PUBLIC_FIREBASE_STORAGEBUCKET=""
+   NEXT_PUBLIC_FIREBASE_MESSAGINGSENDERID=""
+   NEXT_PUBLIC_FIREBASE_APPID=""
+   ```
+3. Allow using email for authentication and create your account. As this is personal app only one is needed.
+4. Fill DB with your media services' api keys:
+   ```json
+   {
+     "Vendors": {
+       "giantBomb" : {
+         "key" : "XXX_your_key_XXX"
+       },
+       "tmdb" : {
+         "key" : "XXX_your_key_XXX"
+       },
+       "traktTv" : {
+         "key" : {
+           "clientId" : "XXX_your_key_XXX",
+           "clientSecret" : "XXX_your_key_XXX"
+         }
+       }
+     }
+   }
+   ```
+   
+### Run locally
+1. The first time you have to install Firebase CLI with `npm i -g firebase-tools`.
+2. Add `NEXT_PUBLIC_EMULATORS=true` row into your `.env.development` file to use Firebase emulators.
+3. Run `npm run dev:emulators` to start firebase emulators. It will start a UI where you can set up local Realtime Database and Authentication.
+4. Run `npm run dev:app` to start the app.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Optionally
 
-## Learn More
+1. Turn off emulators by editing `NEXT_PUBLIC_EMULATORS=false` row in `.env.development` file.
+2. Run `npm run dev:app` to start the app without emulators. It will connect to your Firebase project.
 
-To learn more about Next.js, take a look at the following resources:
+### Graphical sources
+They can be found in `/_graphic` folder.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Deployment
+----------
+Deploys to Firebase hosting.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. The first time you have to install Firebase CLI with `npm i -g firebase-tools`.
+2. Run `npm run deploy` to build the app and deploy it to firebase.

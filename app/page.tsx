@@ -1,104 +1,103 @@
-"use client"
+"use client";
 
-import Image from 'next/image'
-import styles from './page.module.css'
-import {useState} from "react";
+import React, { useCallback, useState } from "react";
+import {
+  Container,
+  Grid,
+  SxProps,
+  TextField,
+  TextFieldProps,
+  Typography,
+} from "@mui/material";
+import MediaButton from "@/app/_components/MediaButton";
+import {
+  LocalMovies as LocalMoviesIcon,
+  VideogameAsset as VideogameAssetIcon,
+  Book as BookIcon,
+  LiveTv as LiveTvIcon,
+} from "@mui/icons-material";
+import { QUICK_SEARCH_URL_PROPERTY_NAME } from "@/app/(media)/_components/AddMediaButton";
 
-export default function Home() {
-  const [count, setCount] = useState(0);
+const containerSx: SxProps = {
+  py: 2,
+  minHeight: "100vh",
+};
+const hideOnMobileSx: SxProps = {
+  display: { xs: "none", sm: "block" },
+};
+
+export default function Page() {
+  const [quickSearchUrlParam, setQuickSearchUrlParam] = useState("");
+
+  const handleSearchChange = useCallback<
+    NonNullable<TextFieldProps["onChange"]>
+  >((event) => {
+    const value = event.target.value;
+
+    if (value) {
+      setQuickSearchUrlParam(`?${QUICK_SEARCH_URL_PROPERTY_NAME}=${value}`);
+    } else {
+      setQuickSearchUrlParam("");
+    }
+  }, []);
 
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
+    <main>
+      <Container maxWidth="md">
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          alignContent="center"
+          spacing={{ xs: 2, sm: 4 }}
+          sx={containerSx}
+        >
+          <Grid item xs={12}>
+            <Typography variant="h5" align="center">
+              MediaStorage App
+            </Typography>
+          </Grid>
+          <Grid item xs={false} sm={3} sx={hideOnMobileSx} />
+          <Grid item xs={12} sm={6}>
+            <TextField
+              type="search"
+              placeholder="Quick search..."
+              fullWidth
+              name={QUICK_SEARCH_URL_PROPERTY_NAME}
+              onChange={handleSearchChange}
             />
-          </a>
-          <p>
-            {count}
-            <button onClick={() => setCount(prevState => prevState + 1)}>Add</button>
-          </p>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+          </Grid>
+          <Grid item xs={false} sm={3} sx={hideOnMobileSx} />
+          <Grid item xs={6} sm={3}>
+            <MediaButton
+              href={`/movies${quickSearchUrlParam}`}
+              icon={<LocalMoviesIcon />}
+              label="Movies"
+            />
+          </Grid>
+          <Grid item xs={6} sm={3}>
+            <MediaButton
+              href={`/games${quickSearchUrlParam}`}
+              icon={<VideogameAssetIcon />}
+              label="Games"
+            />
+          </Grid>
+          <Grid item xs={6} sm={3}>
+            <MediaButton
+              href={`/books${quickSearchUrlParam}`}
+              icon={<BookIcon />}
+              label="Books"
+            />
+          </Grid>
+          <Grid item xs={6} sm={3}>
+            <MediaButton
+              href={`/tv-shows${quickSearchUrlParam}`}
+              icon={<LiveTvIcon />}
+              label="TV Shows"
+            />
+          </Grid>
+        </Grid>
+      </Container>
     </main>
-  )
+  );
 }

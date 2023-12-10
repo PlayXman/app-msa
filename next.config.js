@@ -4,7 +4,14 @@ const withPWA = require("@ducanh2912/next-pwa").default({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: false,
   output: 'export',
+  images: {
+    unoptimized: true,
+  },
+  eslint: {
+    dirs: ['app', 'components', 'models']
+  }
 }
 
 module.exports = withPWA(nextConfig);

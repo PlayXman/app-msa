@@ -1,0 +1,276 @@
+import React, { FormEvent, useCallback, useEffect, useState } from "react";
+import {
+  AppBar,
+  Box,
+  Container,
+  Drawer,
+  Fab,
+  InputAdornment,
+  SxProps,
+  TextField,
+  TextFieldProps,
+  Theme,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import {
+  Add as AddIcon,
+  Close as CloseIcon,
+  Clear as ClearIcon,
+  AddCircle as AddCircleIcon,
+} from "@mui/icons-material";
+import IconButton from "@/components/IconButton";
+import { SX_WIDTH } from "@/app/(media)/_components/Alphabet/Alphabet";
+import Media from "@/models/Media";
+import MediaGridItemCard, {
+  Props as MediaGridItemCardProps,
+} from "@/app/(media)/_components/MediaGrid/MediaGridItemCard";
+import MediaGridItemLoader from "@/app/(media)/_components/MediaGrid/MediaGridItemLoader";
+import { ITEM_WIDTH } from "@/app/(media)/_components/MediaGrid/MediaGrid";
+import { useMediaContext } from "@/app/(media)/_components/MediaContext";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
+const fabSx: SxProps<Theme> = {
+  position: "fixed",
+  bottom: (theme) => theme.spacing(2),
+  right: (theme) => theme.spacing(SX_WIDTH),
+};
+const backgroundSx: SxProps<Theme> = {
+  minHeight: "100%",
+  backgroundColor: (theme) => theme.palette.background.default,
+};
+const toolbarSx: SxProps = {
+  justifyContent: "space-between",
+};
+const contentSx: SxProps = {
+  py: 3,
+};
+const listSx: SxProps = {
+  display: "grid",
+  justifyItems: "stretch",
+  justifyContent: "center",
+  alignContent: "start",
+  alignItems: "stretch",
+  gap: 2,
+  gridTemplateColumns: {
+    xs: "repeat(2, 1fr)",
+    sm: `repeat(auto-fit, ${ITEM_WIDTH}px)`,
+  },
+  gridAutoFlow: "row",
+};
+const textFeedbackSx: SxProps = {
+  marginTop: "28vh",
+  textAlign: "center",
+  gridColumn: "1 / -1",
+};
+
+export const QUICK_SEARCH_URL_PROPERTY_NAME = "search-new-q";
+
+export interface Props {
+  loading: boolean;
+  /**
+   * @param text Sanitized search text.
+   */
+  onSearch: (text: string) => Promise<Media[]>;
+  onSearchItemClick: NonNullable<MediaGridItemCardProps["onClick"]>;
+}
+
+export default function AddMediaButton({
+  loading,
+  onSearch,
+  onSearchItemClick,
+}: Props) {
+  /** Is the dialog opened for the first time? */
+  const [firstOpen, setFirstOpen] = useState(true);
+  const [searchText, setSearchText] = useState("");
+  const [searching, setSearching] = useState(false);
+  const [searchResults, setSearchResults] = useState<Media[]>([]);
+  const [addingItem, setAddingItem] = useState(false);
+
+  const { items: mediaStateItems, dispatchMedia } = useMediaContext();
+  const urlPathname = usePathname();
+  const urlSearchParams = useSearchParams();
+  const router = useRouter();
+
+  const fetchResults = useCallback(async () => {
+    const text = searchText.trim();
+
+    if (loading) return;
+    if (!text.length) return;
+
+    setFirstOpen(false);
+    setSearching(true);
+    setSearchResults(await onSearch(text));
+    setSearching(false);
+  }, [loading, onSearch, searchText]);
+
+  // HANDLERS
+
+  const handleOpen = useCallback(() => {
+    router.push(`?${QUICK_SEARCH_URL_PROPERTY_NAME}=`);
+  }, [router]);
+  const handleClose = useCallback(() => {
+    router.push(urlPathname);
+  }, [router, urlPathname]);
+
+  const handleSearchChange = useCallback<
+    NonNullable<TextFieldProps["onChange"]>
+  >((event) => {
+    setSearchText(event.target.value);
+  }, []);
+  const handleClearSearch = useCallback(() => {
+    setSearchText("");
+  }, []);
+  const handleSubmitSearch = useCallback(
+    async (event: FormEvent) => {
+      event.preventDefault();
+      await fetchResults();
+    },
+    [fetchResults],
+  );
+
+  const handleAddItem = useCallback(
+    async (item: Media) => {
+      setAddingItem(true);
+      await item.save();
+      dispatchMedia({
+        type: "add",
+        item: {
+          id: item.id,
+          display: true,
+          model: item,
+        },
+      });
+      setAddingItem(false);
+    },
+    [dispatchMedia],
+  );
+
+  // EFFECTS
+
+  const quickSearchValue = urlSearchParams.get(QUICK_SEARCH_URL_PROPERTY_NAME);
+  const open = quickSearchValue != null;
+
+  // According to the URL param open or close the dialog and perform quick-search.
+  useEffect(() => {
+    if (!loading && fetchResults && firstOpen) {
+      if (quickSearchValue) {
+        setSearchText(quickSearchValue);
+        fetchResults().then();
+      }
+    }
+  }, [loading, firstOpen, fetchResults, quickSearchValue]);
+
+  // RENDER
+
+  return (
+    <>
+      <Fab color="secondary" onClick={handleOpen} sx={fabSx} size="medium">
+        <AddIcon />
+      </Fab>
+      <Drawer
+        anchor="bottom"
+        open={open}
+        onClose={handleClose}
+        hideBackdrop
+        PaperProps={{
+          sx: backgroundSx,
+        }}
+      >
+        <AppBar position="relative" color="secondary">
+          <Toolbar sx={toolbarSx}>
+            <Typography variant="h6" color="inherit">
+              New Item
+            </Typography>
+            <IconButton color="inherit" onClick={handleClose}>
+              <CloseIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <Container maxWidth="sm" sx={contentSx}>
+          <Box sx={listSx}>
+            <Box
+              component="form"
+              onSubmit={handleSubmitSearch}
+              gridColumn="1 / -1"
+            >
+              <TextField
+                placeholder="Type the name..."
+                type="search"
+                margin="none"
+                color="secondary"
+                variant="outlined"
+                autoFocus
+                fullWidth
+                value={searchText}
+                onChange={handleSearchChange}
+                InputProps={{
+                  endAdornment: searchText.length ? (
+                    <InputAdornment position="end">
+                      <IconButton onClick={handleClearSearch}>
+                        <ClearIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ) : null,
+                }}
+              />
+            </Box>
+
+            {loading ? (
+              <Typography
+                variant="body1"
+                color="textSecondary"
+                sx={textFeedbackSx}
+              >
+                Loading content...
+              </Typography>
+            ) : searching ? (
+              Array(5)
+                .fill(undefined)
+                .map((_, i) => (
+                  <div key={i}>
+                    <MediaGridItemLoader />
+                  </div>
+                ))
+            ) : searchResults.length ? (
+              searchResults.map((media) => {
+                const isAdded = mediaStateItems.some(
+                  (item) => item.id === media.id,
+                );
+
+                return (
+                  <div key={media.id}>
+                    <MediaGridItemCard
+                      model={media}
+                      onClick={onSearchItemClick}
+                      actions={
+                        <IconButton
+                          label="Add"
+                          onClick={() => handleAddItem(media)}
+                          loading={addingItem}
+                          disabled={isAdded}
+                          color="secondary"
+                          size="small"
+                        >
+                          <AddCircleIcon />
+                        </IconButton>
+                      }
+                    />
+                  </div>
+                );
+              })
+            ) : (
+              <Typography
+                variant="body1"
+                color="textSecondary"
+                sx={textFeedbackSx}
+              >
+                {firstOpen ? "Start searching" : "No results"}
+              </Typography>
+            )}
+          </Box>
+        </Container>
+      </Drawer>
+    </>
+  );
+}

@@ -1,0 +1,13 @@
+{
+	"rules": {
+		".read": "auth != null",
+		".write": "auth != null",
+		"Media": {
+			"$media_type": {
+				".indexOn": [
+					"slug"
+				]
+			}
+		}
+	}
+}
