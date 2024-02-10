@@ -7,14 +7,11 @@ import PageContent, {
   Props as PageContentProps,
 } from "@/app/(media)/_components/PageContent";
 import { config } from "@/models/utils/config";
-import MediaGridItemMenuItem from "@/app/(media)/_components/MediaGrid/MediaGridItemMenuItem";
-import { PlaylistAddCheck as PlaylistAddCheckIcon } from "@mui/icons-material";
 import Media from "@/models/Media";
 import { useNotificationDispatch } from "@/app/_components/NotificationContext";
-import { Button } from "@mui/material";
-import { useLabelContext } from "@/app/(media)/_components/LabelContext";
 import UrlHelpers from "@/models/utils/UrlHelpers";
 import { Tmdb } from "@/models/services/Tmdb";
+import ExtraActions from "@/app/(media)/movies/ExtraActions";
 
 const infoLinks: PageContentProps["infoLinks"] = [
   {
@@ -60,7 +57,6 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(true);
   const [sync, setSync] = useState(false);
   const { items: mediaItems, dispatchMedia } = useMediaContext();
-  const { update: updateLabels } = useLabelContext();
   const notification = useNotificationDispatch();
 
   /**
@@ -68,75 +64,14 @@ export default function Page() {
    */
   const createExtraActions = useCallback<
     NonNullable<PageContentProps["extraActions"]>
-  >(
-    (model: Media) => {
-      if (!(model instanceof Movie)) {
-        return null;
-      }
-      const item = model as Movie;
+  >((model: Media) => {
+    if (!(model instanceof Movie)) {
+      return null;
+    }
+    const item = model as Movie;
 
-      return (
-        <MediaGridItemMenuItem
-          label="Mark as watched"
-          icon={<PlaylistAddCheckIcon />}
-          onClick={async () => {
-            try {
-              await item.markAsWatched();
-              await item.delete();
-              await updateLabels([], item.labels);
-              dispatchMedia({
-                type: "remove",
-                id: item.id,
-              });
-
-              notification({
-                type: "log",
-                message: "Marked as watched",
-                autoHideDuration: 15000,
-                action: (
-                  <Button
-                    color="secondary"
-                    size="small"
-                    onClick={async () => {
-                      try {
-                        await item.addToWatchlist();
-                        await item.save();
-                        await updateLabels(item.labels, []);
-                        dispatchMedia({
-                          type: "add",
-                          item: {
-                            id: item.id,
-                            display: true,
-                            model: item,
-                          },
-                        });
-                        notification({ type: "close" });
-                      } catch (e) {
-                        notification({
-                          type: "error",
-                          message: `Failed to undo mark as watched the movie ${item.title}`,
-                          error: e,
-                        });
-                      }
-                    }}
-                  >
-                    UNDO
-                  </Button>
-                ),
-              });
-            } catch (e) {
-              notification({
-                type: "error",
-                message: "Failed to mark as watched",
-                error: e,
-              });
-            }
-          }}
-        />
-      );
-    },
-    [dispatchMedia, updateLabels, notification],
-  );
+    return <ExtraActions item={item} />;
+  }, []);
 
   const loadFromDb = useCallback(async () => {
     const itemsFromDB = await Media.fetchAll(Movie);
