@@ -19,6 +19,10 @@ import { useLabelContext } from "@/app/(media)/_components/LabelContext";
 import Button from "@/components/Button";
 import Labels from "@/models/Labels";
 import Media from "@/models/Media";
+import {
+  sortLabels,
+  SPECIAL_LABELS,
+} from "@/app/(media)/_components/MediaGrid/labels/specialLabels";
 
 export interface Props {
   model: Media;
@@ -52,7 +56,7 @@ export default function MediaGridItemMenuLabels({
     }
   }, [model.labels, open]);
 
-  // Handlers.
+  // HANDLERS
 
   const handleOpen = useCallback(() => {
     setOpen(true);
@@ -120,12 +124,26 @@ export default function MediaGridItemMenuLabels({
     setOpen(false);
   }, [model, labelState, nextLabels, onLabelsUpdate]);
 
-  // Render.
+  // RENDER
+
+  const [specialLabels, normalLabels] = sortLabels(model.labels);
 
   return (
     <>
       <Grid container spacing={1}>
-        {model.labels.map((label) => {
+        {specialLabels.map(({ label, Icon }) => {
+          return (
+            <Grid item key={label}>
+              <Chip
+                label={label}
+                size="small"
+                variant="outlined"
+                icon={<Icon />}
+              />
+            </Grid>
+          );
+        })}
+        {normalLabels.map((label) => {
           return (
             <Grid item key={label}>
               <Chip label={label} size="small" variant="outlined" />
@@ -162,6 +180,7 @@ export default function MediaGridItemMenuLabels({
             </Grid>
             {allLabels.map((label) => {
               const isSelected = nextLabels.includes(label);
+              const Icon = SPECIAL_LABELS[label];
               return (
                 <Grid item key={label}>
                   <Chip
@@ -172,6 +191,7 @@ export default function MediaGridItemMenuLabels({
                       handleLabelToggle(label);
                     }}
                     disabled={loading}
+                    icon={Icon ? <Icon /> : undefined}
                   />
                 </Grid>
               );

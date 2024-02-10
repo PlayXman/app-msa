@@ -35,7 +35,7 @@ export default function MediaButton({
   }, [href, router]);
 
   return (
-    <Card variant="elevation">
+    <Card variant="elevation" elevation={2}>
       <CardActionArea onClick={handleClick}>
         <CardContent sx={iconSx}>{icon}</CardContent>
         <CardContent>
