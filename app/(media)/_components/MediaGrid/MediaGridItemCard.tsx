@@ -14,16 +14,10 @@ import {
 import { Schedule as ScheduleIcon } from "@mui/icons-material";
 import { formatDate } from "@/models/utils/formatters";
 import Image from "next/image";
-import { Roboto_Mono } from "next/font/google";
+import MediaGridItemCardLabels from "@/app/(media)/_components/MediaGrid/labels/MediaGridItemCardLabels";
 
 const IMAGE_WIDTH = 158;
 const IMAGE_HEIGHT = 200;
-
-const robotoMono = Roboto_Mono({
-  display: "swap",
-  subsets: ["latin"],
-  weight: ["400"],
-});
 
 const cardSx: SxProps<Theme> = {
   height: "100%",
@@ -69,14 +63,6 @@ const actionsSx: SxProps = {
   p: 0.5,
   paddingTop: 0,
 };
-const labelsSx: SxProps = {
-  textOverflow: "ellipsis",
-  overflow: "hidden",
-  whiteSpace: "nowrap",
-  fontFamily: robotoMono.style.fontFamily,
-  fontSize: "0.5rem",
-  padding: "0 2px",
-};
 
 export interface Props {
   model: Media;
@@ -99,7 +85,7 @@ export default function MediaGridItemCard({
   }, [model, onClick]);
 
   return (
-    <Card elevation={0} sx={[cardSx, highlight && cardOpenedSx] as SxProps}>
+    <Card elevation={2} sx={[cardSx, highlight && cardOpenedSx] as SxProps}>
       <CardActionArea sx={clickableAreaSx} onClick={handleClick}>
         <Box sx={imageSx}>
           {model.imageUrl && (
@@ -135,9 +121,7 @@ export default function MediaGridItemCard({
 
       <CardActions disableSpacing sx={actionsSx}>
         {actions}
-        <Typography variant="body1" sx={labelsSx}>
-          {labels}
-        </Typography>
+        <MediaGridItemCardLabels labels={model.labels} />
       </CardActions>
     </Card>
   );

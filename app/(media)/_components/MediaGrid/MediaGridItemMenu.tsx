@@ -25,7 +25,7 @@ import MediaGridItemMenuInfoLink, {
 import UrlHelpers from "@/models/utils/UrlHelpers";
 import MediaGridItemMenuLabels, {
   Props as MediaGridItemMenuLabelsProps,
-} from "@/app/(media)/_components/MediaGrid/MediaGridItemMenuLabels";
+} from "@/app/(media)/_components/MediaGrid/labels/MediaGridItemMenuLabels";
 
 const rootSx: SxProps = {
   "& .MuiDrawer-paper": {
