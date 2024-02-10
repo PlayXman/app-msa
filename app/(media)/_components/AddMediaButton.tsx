@@ -165,7 +165,7 @@ export default function AddMediaButton({
 
   return (
     <>
-      <Fab color="secondary" onClick={handleOpen} sx={fabSx} size="medium">
+      <Fab color="secondary" onClick={handleOpen} sx={fabSx} size="large">
         <AddIcon />
       </Fab>
       <Drawer

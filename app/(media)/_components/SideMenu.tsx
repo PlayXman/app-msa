@@ -41,7 +41,12 @@ export default function SideMenu() {
 
   return (
     <>
-      <IconButton onClick={handleOpen} color="inherit" aria-label="Menu">
+      <IconButton
+        onClick={handleOpen}
+        color="inherit"
+        aria-label="Menu"
+        edge="start"
+      >
         <MenuIcon />
       </IconButton>
       <SwipeableDrawer

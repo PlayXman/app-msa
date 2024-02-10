@@ -1,14 +1,14 @@
 import { Button, SxProps } from "@mui/material";
 import React, { useMemo } from "react";
 import Link from "next/link";
-import CsfdIcon from "@/app/_components/icons/CsfdIcon";
-import ImdbIcon from "@/app/_components/icons/ImdbIcon";
-import TraktIcon from "@/app/_components/icons/TraktIcon";
-import SteamIcon from "@/app/_components/icons/SteamIcon";
-import GamespotIcon from "@/app/_components/icons/GamespotIcon";
-import GamesIcon from "@/app/_components/icons/GamesIcon";
-import GoogleBooksIcon from "@/app/_components/icons/GoogleBooksIcon";
-import AmazonIcon from "@/app/_components/icons/AmazonIcon";
+import CsfdIcon from "@/components/icons/CsfdIcon";
+import ImdbIcon from "@/components/icons/ImdbIcon";
+import TraktIcon from "@/components/icons/TraktIcon";
+import SteamIcon from "@/components/icons/SteamIcon";
+import GamespotIcon from "@/components/icons/GamespotIcon";
+import GamesIcon from "@/components/icons/GamesIcon";
+import GoogleBooksIcon from "@/components/icons/GoogleBooksIcon";
+import AmazonIcon from "@/components/icons/AmazonIcon";
 
 type Variant =
   | "csfd"

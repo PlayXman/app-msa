@@ -111,6 +111,7 @@ export default function RefreshButton() {
       color="inherit"
       onClick={handleClick}
       disabled={disabled}
+      edge="end"
     >
       <SyncIcon color="inherit" />
     </IconButton>
