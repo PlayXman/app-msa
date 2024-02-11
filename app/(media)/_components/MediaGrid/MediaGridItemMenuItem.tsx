@@ -1,4 +1,5 @@
 import {
+  ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
@@ -45,16 +46,18 @@ export default function MediaGridItemMenuItem({
   };
 
   return (
-    <ListItemButton
-      color="error.main"
-      onClick={handleClick}
-      sx={displayConfirm ? confirmSx : undefined}
-    >
-      {icon && <ListItemIcon>{icon}</ListItemIcon>}
-      <ListItemText
-        inset={!icon}
-        primary={displayConfirm ? "Confirm" : label}
-      />
-    </ListItemButton>
+    <ListItem disablePadding>
+      <ListItemButton
+        color="error.main"
+        onClick={handleClick}
+        sx={displayConfirm ? confirmSx : undefined}
+      >
+        {icon && <ListItemIcon>{icon}</ListItemIcon>}
+        <ListItemText
+          inset={!icon}
+          primary={displayConfirm ? "Confirm" : label}
+        />
+      </ListItemButton>
+    </ListItem>
   );
 }
