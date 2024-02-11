@@ -26,7 +26,7 @@ const listSx: SxProps = {
   alignItems: "stretch",
   gap: GAP_SX_WIDTH,
   gridTemplateColumns: {
-    xs: "repeat(2, 1fr)",
+    xs: "repeat(2, 50%)",
     sm: `repeat(auto-fit, ${ITEM_WIDTH}px)`,
   },
   gridAutoFlow: "row",
@@ -35,9 +35,6 @@ const noItemsSx: SxProps = {
   textAlign: "center",
   gridColumn: "span 2",
   marginTop: "33vh",
-};
-const hideItemSx: SxProps = {
-  display: "none",
 };
 
 export interface Props {
@@ -228,7 +225,7 @@ export default function MediaGrid({
               return (
                 <Box
                   key={item.id}
-                  sx={!item.display ? hideItemSx : undefined}
+                  display={!item.display ? "none" : undefined}
                   id={id}
                 >
                   <MediaGridItem
