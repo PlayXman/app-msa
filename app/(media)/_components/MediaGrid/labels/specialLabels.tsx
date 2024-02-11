@@ -11,6 +11,8 @@ export const SPECIAL_LABELS: Record<
   Epic: EpicLogoIcon,
 };
 
+export type SpecialLabels = keyof typeof SPECIAL_LABELS;
+
 interface SpecialLabel {
   label: string;
   Icon: React.JSXElementConstructor<any>;

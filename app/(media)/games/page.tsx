@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useMediaContext } from "@/app/(media)/_components/MediaContext";
 import { useNotificationDispatch } from "@/app/_components/NotificationContext";
 import Media from "@/models/Media";
@@ -11,6 +11,7 @@ import { config } from "@/models/utils/config";
 import UrlHelpers from "@/models/utils/UrlHelpers";
 import Game from "@/app/(media)/games/Game";
 import GiantBomb from "@/models/services/GiantBomb";
+import ExtraActions from "@/app/(media)/games/ExtraActions";
 
 const infoLinks: PageContentProps["infoLinks"] = [
   {
@@ -57,6 +58,15 @@ export default function Page() {
   const { dispatchMedia } = useMediaContext();
   const notification = useNotificationDispatch();
 
+  /**
+   * Generate extra actions for each item in the grid.
+   */
+  const createExtraActions = useCallback<
+    NonNullable<PageContentProps["extraActions"]>
+  >((model: Media) => {
+    return <ExtraActions item={model} />;
+  }, []);
+
   // Initial load from DB.
   useEffect(() => {
     (async () => {
@@ -85,6 +95,7 @@ export default function Page() {
     <PageContent
       loading={isLoading}
       infoLinks={infoLinks}
+      extraActions={createExtraActions}
       onSearch={handleNewItemsSearch}
       onSearchItemClick={handleSearchItemClick}
     />

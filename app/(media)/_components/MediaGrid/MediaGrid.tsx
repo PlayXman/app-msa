@@ -123,11 +123,11 @@ export default function MediaGrid({
             id: nextModel.id,
           },
         });
-      } catch (e) {
+      } catch (error) {
         notification({
           type: "error",
           message: "Failed to update status",
-          error: e,
+          error,
         });
       }
     },
