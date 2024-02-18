@@ -26,13 +26,13 @@ export default function MediaGridItemStatusButton({ model, onChange }: Props) {
       case Status.DOWNLOADABLE:
         return {
           title: "Downloadable",
-          color: "primary",
+          color: "success",
           icon: BookmarkIcon,
         };
       case Status.OWNED:
         return {
           title: "Owned",
-          color: "secondary",
+          color: "info",
           icon: BookmarkIcon,
         };
       case Status.DEFAULT:

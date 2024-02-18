@@ -14,12 +14,17 @@ import {
   Stack,
   RadioGroupProps,
   Badge,
+  SxProps,
+  Theme,
 } from "@mui/material";
 import Button from "@/components/Button";
 import { Status } from "@/models/Media";
 import { useFilterContext } from "@/app/(media)/_components/FilterContext";
 import { useMediaContext } from "@/app/(media)/_components/MediaContext";
 
+const buttonSx: SxProps<Theme> = {
+  backgroundColor: (theme) => theme.palette.grey["900"],
+};
 const releaseFilter = [
   {
     label: "All",
@@ -108,7 +113,12 @@ export default function Filter() {
 
   return (
     <>
-      <IconButton label="Filter" color="inherit" onClick={handleOpen}>
+      <IconButton
+        label="Filter"
+        color="inherit"
+        onClick={handleOpen}
+        sx={buttonSx}
+      >
         <Badge
           variant="dot"
           overlap="circular"

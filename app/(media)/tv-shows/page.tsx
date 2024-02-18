@@ -1,18 +1,18 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
-import PageContent, {
-  Props as PageContentProps,
-} from "@/app/(media)/_components/PageContent";
-import { useMediaContext } from "@/app/(media)/_components/MediaContext";
+import React, { useCallback } from "react";
 import { useNotificationDispatch } from "@/app/_components/NotificationContext";
 import { config } from "@/models/utils/config";
 import Media from "@/models/Media";
 import { Tmdb } from "@/models/services/Tmdb";
 import UrlHelpers from "@/models/utils/UrlHelpers";
 import TvShow from "@/app/(media)/tv-shows/TvShow";
+import PageLayout, {
+  Props as PageLayoutProps,
+} from "@/app/(media)/_components/PageLayout";
+import { MAIN_COLOR } from "@/app/(media)/tv-shows/color";
 
-const infoLinks: PageContentProps["infoLinks"] = [
+const infoLinks: PageLayoutProps["infoLinks"] = [
   {
     variant: "trakt",
     url: config.vendors.traktTv.tvShowSearchUrl,
@@ -30,7 +30,7 @@ const infoLinks: PageContentProps["infoLinks"] = [
 /**
  * Search for new items.
  */
-const handleNewItemsSearch: PageContentProps["onSearch"] = async (
+const handleNewItemsSearch: PageLayoutProps["onSearch"] = async (
   searchText,
 ) => {
   if (!searchText) {
@@ -44,7 +44,7 @@ const handleNewItemsSearch: PageContentProps["onSearch"] = async (
 /**
  * Handle search item info open.
  */
-const handleSearchItemClick: PageContentProps["onSearchItemClick"] = async (
+const handleSearchItemClick: PageLayoutProps["onSearchItemClick"] = async (
   item,
 ) => {
   UrlHelpers.openNewTab(
@@ -53,77 +53,46 @@ const handleSearchItemClick: PageContentProps["onSearchItemClick"] = async (
 };
 
 export default function Page() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [sync, setSync] = useState(false);
-  const { items: mediaItems, dispatchMedia } = useMediaContext();
   const notification = useNotificationDispatch();
 
-  const loadFromDb = useCallback(async () => {
-    const itemsFromDB = await Media.fetchAll(TvShow);
-    dispatchMedia({
-      type: "load",
-      mediaModel: TvShow,
-      mediaItems: itemsFromDB,
-    });
-  }, [dispatchMedia]);
-
-  // Initial load from DB.
-  useEffect(() => {
-    (async () => {
-      try {
-        await loadFromDb();
-      } catch (e) {
-        notification({
-          type: "error",
-          message: "Failed to load TV shows",
-          error: e,
-        });
-      }
-
-      setIsLoading(false);
-      setSync(true);
-    })();
-  }, [loadFromDb, notification]);
-
-  // Sync with Trakt.
-  useEffect(() => {
-    if (sync) {
-      setSync(false);
-
+  const handleSyncWithTrakt: NonNullable<
+    PageLayoutProps["onInitialMediaLoad"]
+  > = useCallback(
+    async (prevMediaItems) => {
       notification({
         type: "loading",
         message: "Syncing TV shows from Trakt...",
       });
 
-      (async () => {
-        try {
-          const tvShowController = new TvShow();
-          await tvShowController.syncWithTrakt(
-            mediaItems.map((item) => item.model as TvShow),
-          );
+      try {
+        const tvShowController = new TvShow();
+        await tvShowController.syncWithTrakt(prevMediaItems as TvShow[]);
 
-          await loadFromDb();
+        const nextItems = await Media.fetchAll(TvShow);
+        notification({ type: "close" });
 
-          notification({ type: "close" });
-        } catch (e) {
-          notification({
-            type: "error",
-            message: "Failed to sync TV shows from Trakt",
-            error: e,
-          });
-        }
-      })();
-    }
-  }, [loadFromDb, mediaItems, notification, sync]);
+        return nextItems;
+      } catch (error) {
+        notification({
+          type: "error",
+          message: "Failed to sync TV shows from Trakt",
+          error,
+        });
+      }
 
-  // RENDER
+      return prevMediaItems;
+    },
+    [notification],
+  );
 
   return (
-    <PageContent
-      loading={isLoading}
+    <PageLayout
+      mediaModel={TvShow}
       infoLinks={infoLinks}
       onSearch={handleNewItemsSearch}
       onSearchItemClick={handleSearchItemClick}
+      onInitialMediaLoad={handleSyncWithTrakt}
+      themeSecondaryColor={MAIN_COLOR}
     />
   );
 }

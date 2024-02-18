@@ -1,18 +1,16 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useMediaContext } from "@/app/(media)/_components/MediaContext";
-import { useNotificationDispatch } from "@/app/_components/NotificationContext";
-import Media from "@/models/Media";
-import PageContent, {
-  Props as PageContentProps,
-} from "@/app/(media)/_components/PageContent";
+import React from "react";
 import { config } from "@/models/utils/config";
 import UrlHelpers from "@/models/utils/UrlHelpers";
 import Book from "@/app/(media)/books/Book";
 import GoogleBooks from "@/models/services/GoogleBooks";
+import PageLayout, {
+  Props as PageLayoutProps,
+} from "@/app/(media)/_components/PageLayout";
+import { MAIN_COLOR } from "@/app/(media)/books/color";
 
-const infoLinks: PageContentProps["infoLinks"] = [
+const infoLinks: PageLayoutProps["infoLinks"] = [
   {
     variant: "googleBooks",
     url: (m) => config.vendors.googleBooks.infoUrl + m.id,
@@ -26,7 +24,7 @@ const infoLinks: PageContentProps["infoLinks"] = [
 /**
  * Search for new items.
  */
-const handleNewItemsSearch: PageContentProps["onSearch"] = async (
+const handleNewItemsSearch: PageLayoutProps["onSearch"] = async (
   searchText,
 ) => {
   if (!searchText) {
@@ -40,47 +38,20 @@ const handleNewItemsSearch: PageContentProps["onSearch"] = async (
 /**
  * Handle search item info open.
  */
-const handleSearchItemClick: PageContentProps["onSearchItemClick"] = async (
+const handleSearchItemClick: PageLayoutProps["onSearchItemClick"] = async (
   item,
 ) => {
   UrlHelpers.openNewTab(config.vendors.googleBooks.infoUrl + item.id);
 };
 
 export default function Page() {
-  const [isLoading, setIsLoading] = useState(true);
-  const { dispatchMedia } = useMediaContext();
-  const notification = useNotificationDispatch();
-
-  // Initial load from DB.
-  useEffect(() => {
-    (async () => {
-      try {
-        const itemsFromDB = await Media.fetchAll(Book);
-        dispatchMedia({
-          type: "load",
-          mediaModel: Book,
-          mediaItems: itemsFromDB,
-        });
-      } catch (e) {
-        notification({
-          type: "error",
-          message: "Failed to load books",
-          error: e,
-        });
-      }
-
-      setIsLoading(false);
-    })();
-  }, [dispatchMedia, notification]);
-
-  // RENDER
-
   return (
-    <PageContent
-      loading={isLoading}
+    <PageLayout
+      mediaModel={Book}
       infoLinks={infoLinks}
       onSearch={handleNewItemsSearch}
       onSearchItemClick={handleSearchItemClick}
+      themeSecondaryColor={MAIN_COLOR}
     />
   );
 }

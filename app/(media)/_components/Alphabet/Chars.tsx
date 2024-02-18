@@ -50,7 +50,7 @@ const charSx: SxProps<Theme> = (theme) => ({
 });
 const charDisabledSx: SxProps<Theme> = {
   pointerEvents: "none",
-  color: (theme) => theme.palette.grey[300],
+  color: (theme) => theme.palette.grey["700"],
 };
 
 export interface Props {
@@ -79,6 +79,7 @@ function Chars({ loading, activeLetters }: Props) {
                 key={char}
                 component={Link}
                 href={`#${char}`}
+                replace
                 sx={[charSx, isDisabled && charDisabledSx] as SxProps}
                 aria-disabled={isDisabled}
               >

@@ -36,7 +36,7 @@ const rootSx: SxProps = {
 const imageSx: SxProps<Theme> = {
   background: "#292929",
   outline: "4px solid",
-  outlineColor: (theme) => theme.palette.background.paper,
+  outlineColor: "background.paper",
   borderRadius: 2,
   overflow: "hidden",
   margin: "0 auto 0",
@@ -58,6 +58,7 @@ const backgroundSx: SxProps = {
   borderRadius: 0,
   borderTopRightRadius: 8,
   borderTopLeftRadius: 8,
+  backgroundImage: "none",
 };
 const headingSx: SxProps = {
   p: 2,
@@ -136,7 +137,7 @@ function MediaGridItemMenu({
               </Box>
             </Grid>
           </Grid>
-          <Paper elevation={16} sx={backgroundSx}>
+          <Paper elevation={8} sx={backgroundSx}>
             <Grid container justifyContent="center">
               <Grid item xs sm={6} md={4} lg={3} xl={3}>
                 <Box sx={headingSx}>

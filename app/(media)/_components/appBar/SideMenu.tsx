@@ -5,6 +5,7 @@ import {
   List,
   SwipeableDrawer,
   SxProps,
+  Theme,
   Typography,
 } from "@mui/material";
 import React, { useCallback, useState } from "react";
@@ -15,8 +16,11 @@ import {
   LiveTv as LiveTvIcon,
   Menu as MenuIcon,
 } from "@mui/icons-material";
-import SideMenuItem from "@/app/(media)/_components/SideMenuItem";
+import SideMenuItem from "@/app/(media)/_components/appBar/SideMenuItem";
 
+const buttonSx: SxProps<Theme> = {
+  backgroundColor: (theme) => theme.palette.grey["900"],
+};
 const logoSx: SxProps = {
   background: "#fff",
   margin: "0 auto 1rem",
@@ -46,6 +50,7 @@ export default function SideMenu() {
         color="inherit"
         aria-label="Menu"
         edge="start"
+        sx={buttonSx}
       >
         <MenuIcon />
       </IconButton>
@@ -55,7 +60,7 @@ export default function SideMenu() {
         onClose={handleClose}
         disableSwipeToOpen
       >
-        <Box p={4} bgcolor="primary.main" color="primary.contrastText">
+        <Box p={4} bgcolor="secondary.dark" color="secondary.contrastText">
           <Avatar alt="MSA" src="/images/logo.svg" sx={logoSx} />
           <Typography variant="h6" color="inherit">
             MediaStorage App

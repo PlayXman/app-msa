@@ -177,7 +177,7 @@ export default function AddMediaButton({
           sx: backgroundSx,
         }}
       >
-        <AppBar position="relative" color="secondary">
+        <AppBar position="relative" color="secondary" enableColorOnDark>
           <Toolbar sx={toolbarSx}>
             <Typography variant="h6" color="inherit">
               New Item
@@ -195,7 +195,7 @@ export default function AddMediaButton({
               gridColumn="1 / -1"
             >
               <TextField
-                placeholder="Type the name..."
+                placeholder="Search title..."
                 type="search"
                 margin="none"
                 color="secondary"

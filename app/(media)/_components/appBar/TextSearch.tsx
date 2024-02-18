@@ -9,23 +9,24 @@ import {
   AutocompleteProps,
   SxProps,
   TextField,
+  Theme,
 } from "@mui/material";
 import { useMediaContext } from "@/app/(media)/_components/MediaContext";
 import { useFilterContext } from "@/app/(media)/_components/FilterContext";
 import { useLabelContext } from "@/app/(media)/_components/LabelContext";
 
-const fieldSx: SxProps = {
-  borderRadius: 2,
-  backgroundColor: "primary.light",
+const fieldSx: SxProps<Theme> = {
+  borderRadius: 50,
+  backgroundColor: (theme) => theme.palette.grey["800"],
   "& input": {
-    color: "primary.contrastText",
+    // color: "primary.contrastText",
   },
   "& input::placeholder": {
-    opacity: 0.8,
-    color: "primary.contrastText",
+    // opacity: 0.8,
+    // color: "primary.contrastText",
   },
   "& .MuiAutocomplete-clearIndicator": {
-    color: "primary.contrastText",
+    // color: "primary.contrastText",
   },
   "& .MuiOutlinedInput-notchedOutline": {
     borderColor: "transparent !important",

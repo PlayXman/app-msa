@@ -37,8 +37,8 @@ const clickableAreaSx: SxProps = {
   justifyContent: "flex-start",
   alignItems: "stretch",
 };
-const imageSx: SxProps = {
-  background: "#292929",
+const imageSx: SxProps<Theme> = {
+  background: (theme) => theme.palette.grey["800"],
   height: IMAGE_HEIGHT,
   display: "flex",
   justifyContent: "center",

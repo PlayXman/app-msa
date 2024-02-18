@@ -1,6 +1,5 @@
-const withSerwist = require("@serwist/next").default({
-  swSrc: "app/sw.ts",
-  swDest: "public/sw.js",
+const withPWA = require("@ducanh2912/next-pwa").default({
+  dest: 'public'
 });
 
 /** @type {import('next').NextConfig} */
@@ -15,4 +14,4 @@ const nextConfig = {
   }
 }
 
-module.exports = withSerwist(nextConfig);
+module.exports = withPWA(nextConfig);

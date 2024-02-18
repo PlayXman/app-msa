@@ -6,6 +6,11 @@ import { useMediaContext } from "@/app/(media)/_components/MediaContext";
 import { splitIntoChunks } from "@/models/utils/list";
 import { useLabelContext } from "@/app/(media)/_components/LabelContext";
 import Media from "@/models/Media";
+import { SxProps, Theme } from "@mui/material";
+
+const buttonSx: SxProps<Theme> = {
+  backgroundColor: (theme) => theme.palette.grey["900"],
+};
 
 export default function RefreshButton() {
   const [disabled, setDisabled] = useState(false);
@@ -112,6 +117,7 @@ export default function RefreshButton() {
       onClick={handleClick}
       disabled={disabled}
       edge="end"
+      sx={buttonSx}
     >
       <SyncIcon color="inherit" />
     </IconButton>

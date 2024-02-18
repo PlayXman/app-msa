@@ -2,7 +2,7 @@
 
 import React, { ReactNode } from "react";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, ThemeOptions } from "@mui/material";
 import { Roboto } from "next/font/google";
 
 const roboto = Roboto({
@@ -11,24 +11,25 @@ const roboto = Roboto({
   weight: ["300", "400", "500"],
 });
 
-const theme = createTheme({
+export const themeOptions: ThemeOptions = {
   palette: {
+    mode: "dark",
     primary: {
       main: "#9dc358",
-      contrastText: "#f9fbe7",
     },
     secondary: {
       main: "#42baff",
-      contrastText: "#e0f7fa",
     },
     background: {
-      default: "#f1f1f1",
+      default: "#0e0e0e",
     },
   },
   typography: {
     fontFamily: roboto.style.fontFamily,
   },
-});
+};
+
+const theme = createTheme(themeOptions);
 
 /**
  * MUI theme.
