@@ -33,7 +33,9 @@
     "react-dom": "^18"
   },
   "devDependencies": {
-    "@ducanh2912/next-pwa": "^9.7.2",
+    "@serwist/next": "^8.4.4",
+    "@serwist/precaching": "^8.4.4",
+    "@serwist/sw": "^8.4.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
