@@ -71,28 +71,28 @@ export default function Page() {
           <Grid item xs={6} sm={3}>
             <MediaButton
               href={`/movies${quickSearchUrlParam}`}
-              icon={<LocalMoviesIcon />}
+              Icon={LocalMoviesIcon}
               label="Movies"
             />
           </Grid>
           <Grid item xs={6} sm={3}>
             <MediaButton
               href={`/games${quickSearchUrlParam}`}
-              icon={<VideogameAssetIcon />}
+              Icon={VideogameAssetIcon}
               label="Games"
             />
           </Grid>
           <Grid item xs={6} sm={3}>
             <MediaButton
               href={`/books${quickSearchUrlParam}`}
-              icon={<BookIcon />}
+              Icon={BookIcon}
               label="Books"
             />
           </Grid>
           <Grid item xs={6} sm={3}>
             <MediaButton
               href={`/tv-shows${quickSearchUrlParam}`}
-              icon={<LiveTvIcon />}
+              Icon={LiveTvIcon}
               label="TV Shows"
             />
           </Grid>

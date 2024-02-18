@@ -1,47 +1,41 @@
-import React, { ReactNode, useCallback } from "react";
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  SxProps,
-  Typography,
-} from "@mui/material";
-import { useRouter } from "next/navigation";
+import React from "react";
+import { SxProps, Typography } from "@mui/material";
+import Button from "@/components/Button";
+import { SvgIconComponent } from "@mui/icons-material";
+import Link from "next/link";
 
-const iconSx: SxProps = {
-  backgroundColor: "primary.light",
-  textAlign: "center",
-  color: "background.default",
-  textShadow: "0 1px 3px rgba(0, 0, 0, 0.29)",
-  height: "100%",
-  display: "flex",
-  justifyContent: "center",
+const rootSx: SxProps = {
+  aspectRatio: 1,
+  py: 4,
+  px: 2,
+  flexDirection: "column",
+  justifyContent: "space-around",
   alignItems: "center",
 };
 
 export default function MediaButton({
   href,
   label,
-  icon,
+  Icon,
 }: {
   href: string;
-  icon: ReactNode;
+  Icon: SvgIconComponent;
   label: string;
 }) {
-  const router = useRouter();
-
-  const handleClick = useCallback(() => {
-    router.push(href);
-  }, [href, router]);
-
   return (
-    <Card variant="elevation" elevation={2}>
-      <CardActionArea onClick={handleClick}>
-        <CardContent sx={iconSx}>{icon}</CardContent>
-        <CardContent>
-          <Typography variant="h6">{label}</Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+    <Button
+      variant="contained"
+      fullWidth
+      sx={rootSx}
+      component={Link}
+      href={href}
+    >
+      <div>
+        <Icon fontSize="large" />
+      </div>
+      <div>
+        <Typography variant="h6">{label}</Typography>
+      </div>
+    </Button>
   );
 }
