@@ -37,7 +37,7 @@ export default function MediaButton({
       fullWidth
       sx={{
         ...rootSx,
-        "--mediaButtonColor": colorToHexAlpha(bgColor, 0.2),
+        "--mediaButtonColor": colorToHexAlpha(bgColor, 0.4),
       }}
       component={Link}
       href={href}

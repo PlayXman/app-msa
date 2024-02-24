@@ -24,7 +24,7 @@ export default function PageTheme({
   }, [secondaryColor]);
 
   useEffect(() => {
-    document.body.style.backgroundImage = `radial-gradient(ellipse at calc(100% - ${theme.spacing(SX_WIDTH)} - 28px) calc(100% - ${theme.spacing(2)} - 28px), ${colorToHexAlpha(theme.palette.secondary.main, 0.2)} 0%, ${colorToHexAlpha(theme.palette.secondary.main, 0)} 100%)`;
+    document.body.style.backgroundImage = `radial-gradient(ellipse at calc(100% - ${theme.spacing(SX_WIDTH)} - 28px) calc(100% - ${theme.spacing(2)} - 28px), ${colorToHexAlpha(theme.palette.secondary.main, 0.4)} 0%, ${colorToHexAlpha(theme.palette.secondary.main, 0)} 100%)`;
   }, [theme]);
 
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
