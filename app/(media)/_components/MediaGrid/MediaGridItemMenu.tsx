@@ -39,8 +39,8 @@ const imageSx: SxProps<Theme> = {
   outlineColor: "background.paper",
   borderRadius: 2,
   overflow: "hidden",
-  margin: "0 auto 0",
-  marginLeft: 2,
+  my: 0,
+  mx: 2,
   display: "inline-block",
   verticalAlign: "top",
   transform: (theme) => `translateY(${theme.spacing(1.5)})`,
@@ -48,6 +48,7 @@ const imageSx: SxProps<Theme> = {
   "& img": {
     display: "block",
     width: "auto",
+    maxWidth: "100%",
   },
   "& div": {
     width: 158,
