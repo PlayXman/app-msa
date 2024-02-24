@@ -1,19 +1,18 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
-import { useMediaContext } from "@/app/(media)/_components/MediaContext";
-import { useNotificationDispatch } from "@/app/_components/NotificationContext";
+import React from "react";
 import Media from "@/models/Media";
-import PageContent, {
-  Props as PageContentProps,
-} from "@/app/(media)/_components/PageContent";
 import { config } from "@/models/utils/config";
 import UrlHelpers from "@/models/utils/UrlHelpers";
 import Game from "@/app/(media)/games/Game";
 import GiantBomb from "@/models/services/GiantBomb";
 import ExtraActions from "@/app/(media)/games/ExtraActions";
+import PageLayout, {
+  Props as PageLayoutProps,
+} from "@/app/(media)/_components/PageLayout";
+import { MAIN_COLOR } from "@/app/(media)/games/color";
 
-const infoLinks: PageContentProps["infoLinks"] = [
+const infoLinks: PageLayoutProps["infoLinks"] = [
   {
     variant: "games",
     url: config.vendors.gamesCz.searchUrl,
@@ -31,7 +30,7 @@ const infoLinks: PageContentProps["infoLinks"] = [
 /**
  * Search for new items.
  */
-const handleNewItemsSearch: PageContentProps["onSearch"] = async (
+const handleNewItemsSearch: PageLayoutProps["onSearch"] = async (
   searchText,
 ) => {
   if (!searchText) {
@@ -45,7 +44,7 @@ const handleNewItemsSearch: PageContentProps["onSearch"] = async (
 /**
  * Handle search item info open.
  */
-const handleSearchItemClick: PageContentProps["onSearchItemClick"] = async (
+const handleSearchItemClick: PageLayoutProps["onSearchItemClick"] = async (
   item,
 ) => {
   UrlHelpers.openNewTab(
@@ -53,51 +52,24 @@ const handleSearchItemClick: PageContentProps["onSearchItemClick"] = async (
   );
 };
 
+/**
+ * Generate extra actions for each item in the grid.
+ */
+const createExtraActions: NonNullable<PageLayoutProps["extraActions"]> = (
+  model: Media,
+) => {
+  return <ExtraActions item={model} />;
+};
+
 export default function Page() {
-  const [isLoading, setIsLoading] = useState(true);
-  const { dispatchMedia } = useMediaContext();
-  const notification = useNotificationDispatch();
-
-  /**
-   * Generate extra actions for each item in the grid.
-   */
-  const createExtraActions = useCallback<
-    NonNullable<PageContentProps["extraActions"]>
-  >((model: Media) => {
-    return <ExtraActions item={model} />;
-  }, []);
-
-  // Initial load from DB.
-  useEffect(() => {
-    (async () => {
-      try {
-        const itemsFromDB = await Media.fetchAll(Game);
-        dispatchMedia({
-          type: "load",
-          mediaModel: Game,
-          mediaItems: itemsFromDB,
-        });
-      } catch (e) {
-        notification({
-          type: "error",
-          message: "Failed to load games",
-          error: e,
-        });
-      }
-
-      setIsLoading(false);
-    })();
-  }, [dispatchMedia, notification]);
-
-  // RENDER
-
   return (
-    <PageContent
-      loading={isLoading}
+    <PageLayout
+      mediaModel={Game}
       infoLinks={infoLinks}
       extraActions={createExtraActions}
       onSearch={handleNewItemsSearch}
       onSearchItemClick={handleSearchItemClick}
+      themeSecondaryColor={MAIN_COLOR}
     />
   );
 }

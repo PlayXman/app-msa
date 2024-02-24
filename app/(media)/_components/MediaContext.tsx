@@ -3,15 +3,17 @@ import {
   Dispatch,
   ReactNode,
   useContext,
+  useEffect,
   useReducer,
 } from "react";
 import Media, { Status } from "@/models/Media";
+import { useNotificationDispatch } from "@/app/_components/NotificationContext";
 
 // Context
 
-type Model = typeof Media | null;
+export type Model = (new (...args: any) => Media) | null;
 
-interface MediaContextItem {
+export interface MediaContextItem {
   id: Media["id"];
   display: boolean;
   model: Media;
@@ -36,7 +38,7 @@ export function useMediaContext() {
 // Provider
 
 interface ReducerValue {
-  model: Model | null;
+  model: Model;
   items: MediaContextItem[];
 }
 
@@ -110,16 +112,54 @@ function reducer(
   }
 }
 
+export interface Props {
+  mediaModel: NonNullable<Model>;
+  onInitialMediaLoad?: (prevMediaItems: Media[]) => Promise<Media[]>;
+  children: ReactNode;
+}
+
 /**
  * Holds and manages Media item list.
- * @param children
  * @constructor
  */
-export function MediaContextProvider({ children }: { children: ReactNode }) {
+export function MediaContextProvider({
+  mediaModel,
+  onInitialMediaLoad,
+  children,
+}: Props) {
   const [data, dispatchMedia] = useReducer(reducer, {
     model: null,
     items: [],
   });
+  const notification = useNotificationDispatch();
+
+  // Initial load from DB.
+  useEffect(() => {
+    (async () => {
+      try {
+        const itemsFromDB = await Media.fetchAll(mediaModel);
+        dispatchMedia({
+          type: "load",
+          mediaModel: mediaModel,
+          mediaItems: itemsFromDB,
+        });
+
+        if (onInitialMediaLoad) {
+          dispatchMedia({
+            type: "load",
+            mediaModel: mediaModel,
+            mediaItems: await onInitialMediaLoad(itemsFromDB),
+          });
+        }
+      } catch (error) {
+        notification({
+          type: "error",
+          message: "Failed to load items from database",
+          error,
+        });
+      }
+    })();
+  }, [dispatchMedia, mediaModel, notification, onInitialMediaLoad]);
 
   return (
     <MediaContext.Provider

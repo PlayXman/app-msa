@@ -9,14 +9,11 @@ import {
   TextFieldProps,
   Typography,
 } from "@mui/material";
-import MediaButton from "@/app/_components/MediaButton";
-import {
-  LocalMovies as LocalMoviesIcon,
-  VideogameAsset as VideogameAssetIcon,
-  Book as BookIcon,
-  LiveTv as LiveTvIcon,
-} from "@mui/icons-material";
 import { QUICK_SEARCH_URL_PROPERTY_NAME } from "@/app/(media)/_components/AddMediaButton";
+import TvShowsNavigationButton from "@/app/(media)/tv-shows/NavigationButton";
+import MoviesNavigationButton from "@/app/(media)/movies/NavigationButton";
+import GamesNavigationButton from "@/app/(media)/games/NavigationButton";
+import BooksNavigationButton from "@/app/(media)/books/NavigationButton";
 
 const containerSx: SxProps = {
   py: 2,
@@ -69,32 +66,16 @@ export default function Page() {
           </Grid>
           <Grid item xs={false} sm={3} sx={hideOnMobileSx} />
           <Grid item xs={6} sm={3}>
-            <MediaButton
-              href={`/movies${quickSearchUrlParam}`}
-              Icon={LocalMoviesIcon}
-              label="Movies"
-            />
+            <MoviesNavigationButton urlParam={quickSearchUrlParam} />
           </Grid>
           <Grid item xs={6} sm={3}>
-            <MediaButton
-              href={`/games${quickSearchUrlParam}`}
-              Icon={VideogameAssetIcon}
-              label="Games"
-            />
+            <GamesNavigationButton urlParam={quickSearchUrlParam} />
           </Grid>
           <Grid item xs={6} sm={3}>
-            <MediaButton
-              href={`/books${quickSearchUrlParam}`}
-              Icon={BookIcon}
-              label="Books"
-            />
+            <BooksNavigationButton urlParam={quickSearchUrlParam} />
           </Grid>
           <Grid item xs={6} sm={3}>
-            <MediaButton
-              href={`/tv-shows${quickSearchUrlParam}`}
-              Icon={LiveTvIcon}
-              label="TV Shows"
-            />
+            <TvShowsNavigationButton urlParam={quickSearchUrlParam} />
           </Grid>
         </Grid>
       </Container>
