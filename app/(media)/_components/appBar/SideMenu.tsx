@@ -19,7 +19,7 @@ import {
 import SideMenuItem from "@/app/(media)/_components/appBar/SideMenuItem";
 
 const buttonSx: SxProps<Theme> = {
-  backgroundColor: (theme) => theme.palette.grey["900"],
+  backgroundColor: (theme) => theme.palette.grey["800"],
 };
 const logoSx: SxProps = {
   background: "#fff",
