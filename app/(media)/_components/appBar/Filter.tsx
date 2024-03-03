@@ -23,7 +23,7 @@ import { useFilterContext } from "@/app/(media)/_components/FilterContext";
 import { useMediaContext } from "@/app/(media)/_components/MediaContext";
 
 const buttonSx: SxProps<Theme> = {
-  backgroundColor: (theme) => theme.palette.grey["900"],
+  backgroundColor: (theme) => theme.palette.grey["800"],
 };
 const releaseFilter = [
   {

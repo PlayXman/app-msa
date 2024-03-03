@@ -9,7 +9,7 @@ import Media from "@/models/Media";
 import { SxProps, Theme } from "@mui/material";
 
 const buttonSx: SxProps<Theme> = {
-  backgroundColor: (theme) => theme.palette.grey["900"],
+  backgroundColor: (theme) => theme.palette.grey["800"],
 };
 
 export default function RefreshButton() {
