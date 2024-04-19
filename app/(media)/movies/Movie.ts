@@ -1,8 +1,9 @@
 import { Trakt } from "@/models/services/Trakt";
-import { getDatabase, ref, set } from "firebase/database";
 import { Tmdb } from "@/models/services/Tmdb";
-import { splitIntoChunks } from "@/models/utils/list";
 import Media from "@/models/Media";
+import { Props as InfoLink } from "@/app/(media)/_components/MediaGrid/MediaGridItemMenuInfoLink";
+import { config } from "@/models/utils/config";
+import UrlHelpers from "@/models/utils/UrlHelpers";
 
 export const FALLBACK_ID_PREFIX = "fallback-";
 
@@ -16,6 +17,31 @@ export default class Movie extends Media {
 
   get batchOperationConcurrencyLimit(): number {
     return 100;
+  }
+
+  get infoLinks(): InfoLink[] {
+    const encodedTitle = UrlHelpers.encodeText(this.title);
+
+    return [
+      {
+        variant: "trakt",
+        url: config.vendors.traktTv.movieSearchUrl + encodedTitle,
+      },
+      {
+        variant: "imdb",
+        url: config.vendors.imdbCom.movieSearchUrl + encodedTitle,
+      },
+      {
+        variant: "csfd",
+        url: config.vendors.csfdCz.movieSearchUrl + encodedTitle,
+      },
+    ];
+  }
+
+  get searchInfoLink(): string {
+    return (
+      config.vendors.imdbCom.movieSearchUrl + UrlHelpers.encodeText(this.title)
+    );
   }
 
   async delete(): Promise<void> {
@@ -71,49 +97,20 @@ export default class Movie extends Media {
     await trakt.removeFromWatchlist([this.id]);
   }
 
-  /**
-   * Fetches all movies from user's Trakt watchlist and saves them to DB.
-   * @param currentList
-   */
-  async syncWithTrakt(currentList: Movie[]): Promise<void> {
+  async fetchItemsFromExternalSource(): Promise<Movie[] | null> {
     const trakt = this.trakt;
     const watchlist = await trakt.getAllInWatchlist();
 
-    const nextMovieRequests = watchlist.map(async (traktItem) => {
-      const id =
+    return watchlist.map((traktItem) => {
+      const item = new Movie();
+      item.id =
         traktItem.movie?.ids?.tmdb?.toString() ??
         `${FALLBACK_ID_PREFIX}${traktItem.movie?.ids?.trakt?.toString()}` ??
         "";
+      item.title = traktItem.movie?.title ?? "";
 
-      let movie = currentList.find((movie) => movie.id === id);
-      if (!movie) {
-        movie = new Movie();
-        movie.id = id;
-        movie.title = traktItem.movie?.title ?? "";
-
-        try {
-          await movie.refresh([movie]);
-        } catch (e) {
-          console.error("Failed to fetch movie from TMDB", e);
-        }
-      }
-
-      return movie;
+      return item;
     });
-
-    const nextMovies: Movie[] = [];
-    // Update movies.
-    const requestChunks = splitIntoChunks(
-      nextMovieRequests,
-      this.batchOperationConcurrencyLimit,
-    );
-    for (const chunk of requestChunks) {
-      nextMovies.push(...(await Promise.all(chunk)));
-    }
-
-    // Save updates.
-    await set(ref(getDatabase(), this.getDbPath()), []);
-    await Promise.all(nextMovies.map((movie) => movie.save()));
   }
 
   protected get trakt(): Trakt {

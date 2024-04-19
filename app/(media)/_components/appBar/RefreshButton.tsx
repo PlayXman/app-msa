@@ -99,8 +99,8 @@ export default function RefreshButton() {
 
     dispatchMedia({
       type: "load",
-      mediaModel: mediaModel,
       mediaItems: nextMediaItems,
+      override: true,
     });
 
     // Close snackbar.

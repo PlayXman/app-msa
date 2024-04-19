@@ -8,6 +8,7 @@ import {
   orderByChild,
 } from "firebase/database";
 import UrlHelpers from "@/models/utils/UrlHelpers";
+import { Props as InfoLink } from "@/app/(media)/_components/MediaGrid/MediaGridItemMenuInfoLink";
 
 export enum Status {
   DEFAULT = "DEFAULT",
@@ -48,9 +49,14 @@ export default abstract class Media {
   abstract get batchOperationConcurrencyLimit(): number;
 
   /**
-   * Update items from external sources.
+   * List of links to external info pages about the item.
    */
-  abstract refresh(items: Media[]): Promise<Media[]>;
+  abstract get infoLinks(): InfoLink[];
+
+  /**
+   * Link to external info page about the item on search page.
+   */
+  abstract get searchInfoLink(): string;
 
   /**
    * Is the item released already?
@@ -83,15 +89,19 @@ export default abstract class Media {
     return remove(ref(getDatabase(), this.getDbPath(this.id)));
   }
 
+  /**
+   * Clone this instance.
+   */
   clone(): this {
     return new (this.constructor as any)(
       Object.fromEntries(Object.entries(this)),
     );
   }
 
-  getDbPath(...chunks: string[]): string {
-    return ["/Media", this.modelName, ...chunks].join("/");
-  }
+  /**
+   * Update items from external sources.
+   */
+  abstract refresh(items: Media[]): Promise<Media[]>;
 
   /**
    * Should display?
@@ -126,6 +136,15 @@ export default abstract class Media {
   }
 
   /**
+   * Fetch items from external source, like Trakt.tv. The items will then be merged with the current item list and the new ones will be refreshed with latest info.
+   *
+   * @returns null if not implemented/applicable.
+   */
+  async fetchItemsFromExternalSource(): Promise<Media[] | null> {
+    return null;
+  }
+
+  /**
    * Fetches all items from DB and creates instances of the given class.
    * @param mediaType Class name. E.g. `Movies` or `Games`.
    */
@@ -152,6 +171,10 @@ export default abstract class Media {
     });
 
     return result;
+  }
+
+  protected getDbPath(...chunks: string[]): string {
+    return ["/Media", this.modelName, ...chunks].join("/");
   }
 
   /**

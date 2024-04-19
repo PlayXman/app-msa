@@ -246,6 +246,9 @@ export class Trakt {
   }
 }
 
+/**
+ * @see https://trakt.docs.apiary.io/#reference/users/watchlist/get-watchlist
+ */
 interface WatchlistItem {
   /** Item position on the list. */
   rank: number;

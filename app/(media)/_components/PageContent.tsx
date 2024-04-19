@@ -9,6 +9,7 @@ import { Box, SxProps } from "@mui/material";
 import Alphabet, {
   SX_WIDTH as alphabetWidth,
 } from "@/app/(media)/_components/Alphabet/Alphabet";
+import { useMediaContext } from "@/app/(media)/_components/MediaContext";
 
 const contentSx: SxProps = {
   paddingLeft: 1,
@@ -17,42 +18,25 @@ const contentSx: SxProps = {
   paddingBottom: "5em",
 };
 
-export type Props = Pick<MediaGridProps, "infoLinks" | "extraActions"> &
-  Pick<AddMediaButtonProps, "onSearch" | "onSearchItemClick"> & {
-    loading: boolean;
-  };
+export type Props = Pick<MediaGridProps, "extraActions"> &
+  Pick<AddMediaButtonProps, "onSearch">;
 
 /**
  * Main content of the media page.
- * @param loading
- * @param infoLinks
  * @param extraActions
  * @param onSearch
- * @param onSearchItemClick
  * @constructor
  */
-export default function PageContent({
-  loading,
-  infoLinks,
-  extraActions,
-  onSearch,
-  onSearchItemClick,
-}: Props) {
+export default function PageContent({ extraActions, onSearch }: Props) {
+  const { loading } = useMediaContext();
+
   return (
     <main>
       <Box sx={contentSx}>
-        <MediaGrid
-          loading={loading}
-          infoLinks={infoLinks}
-          extraActions={extraActions}
-        />
+        <MediaGrid loading={loading} extraActions={extraActions} />
       </Box>
       <Alphabet loading={loading} />
-      <AddMediaButton
-        loading={loading}
-        onSearch={onSearch}
-        onSearchItemClick={onSearchItemClick}
-      />
+      <AddMediaButton loading={loading} onSearch={onSearch} />
     </main>
   );
 }

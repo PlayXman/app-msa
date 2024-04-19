@@ -1,5 +1,8 @@
 import Media from "@/models/Media";
 import GoogleBooks from "@/models/services/GoogleBooks";
+import { Props as InfoLink } from "@/app/(media)/_components/MediaGrid/MediaGridItemMenuInfoLink";
+import { config } from "@/models/utils/config";
+import UrlHelpers from "@/models/utils/UrlHelpers";
 
 export default class Book extends Media {
   get modelName(): string {
@@ -28,5 +31,24 @@ export default class Book extends Media {
     );
 
     return items;
+  }
+
+  get infoLinks(): InfoLink[] {
+    return [
+      {
+        variant: "googleBooks",
+        url: config.vendors.googleBooks.infoUrl + this.id,
+      },
+      {
+        variant: "amazon",
+        url:
+          config.vendors.amazonCom.searchUrl +
+          UrlHelpers.encodeText(this.title),
+      },
+    ];
+  }
+
+  get searchInfoLink(): string {
+    return config.vendors.googleBooks.infoUrl + this.id;
   }
 }

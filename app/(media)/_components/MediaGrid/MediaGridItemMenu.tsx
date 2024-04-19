@@ -69,12 +69,6 @@ export interface Props {
   open: boolean;
   onClose: () => void;
   model: Media | undefined;
-  infoLinks: {
-    url:
-      | MediaGridItemMenuInfoLinkProps["url"]
-      | ((model: Media) => MediaGridItemMenuInfoLinkProps["url"]);
-    variant: MediaGridItemMenuInfoLinkProps["variant"];
-  }[];
   onLabelsUpdate: MediaGridItemMenuLabelsProps["onLabelsUpdate"];
   onStatusChange: (model: Media) => Promise<void>;
   onTitleCopy: (model: Media) => Promise<void>;
@@ -86,7 +80,6 @@ function MediaGridItemMenu({
   open,
   model,
   onClose,
-  infoLinks,
   onLabelsUpdate,
   onStatusChange,
   onTitleCopy,
@@ -154,21 +147,14 @@ function MediaGridItemMenu({
                 <List>
                   <ListItem>
                     <Grid container spacing={1}>
-                      {infoLinks.map((link, index) => {
-                        const url =
-                          typeof link.url === "function"
-                            ? link.url(model)
-                            : link.url + UrlHelpers.encodeText(model.title);
-
-                        return (
-                          <Grid item xs key={index}>
-                            <MediaGridItemMenuInfoLink
-                              variant={link.variant}
-                              url={url}
-                            />
-                          </Grid>
-                        );
-                      })}
+                      {model.infoLinks.map((link, index) => (
+                        <Grid item xs key={index}>
+                          <MediaGridItemMenuInfoLink
+                            variant={link.variant}
+                            url={link.url}
+                          />
+                        </Grid>
+                      ))}
                     </Grid>
                   </ListItem>
                   {extraActions(model)}
