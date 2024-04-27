@@ -1,9 +1,10 @@
 import { FALLBACK_ID_PREFIX } from "@/app/(media)/movies/Movie";
-import { getDatabase, ref, set } from "firebase/database";
-import { splitIntoChunks } from "@/models/utils/list";
 import { Tmdb } from "@/models/services/Tmdb";
 import { Trakt } from "@/models/services/Trakt";
 import Media from "@/models/Media";
+import { Props as InfoLink } from "@/app/(media)/_components/MediaGrid/MediaGridItemMenuInfoLink";
+import { config } from "@/models/utils/config";
+import UrlHelpers from "@/models/utils/UrlHelpers";
 
 export default class TvShow extends Media {
   /** Is in Trakt watchlist. */
@@ -15,6 +16,31 @@ export default class TvShow extends Media {
 
   get batchOperationConcurrencyLimit(): number {
     return 100;
+  }
+
+  get infoLinks(): InfoLink[] {
+    const encodedTitle = UrlHelpers.encodeText(this.title);
+
+    return [
+      {
+        variant: "trakt",
+        url: config.vendors.traktTv.tvShowSearchUrl + encodedTitle,
+      },
+      {
+        variant: "imdb",
+        url: config.vendors.imdbCom.tvShowSearchUrl + encodedTitle,
+      },
+      {
+        variant: "csfd",
+        url: config.vendors.csfdCz.tvShowSearchUrl + encodedTitle,
+      },
+    ];
+  }
+
+  get searchInfoLink(): string {
+    return (
+      config.vendors.imdbCom.tvShowSearchUrl + UrlHelpers.encodeText(this.title)
+    );
   }
 
   async delete(): Promise<void> {
@@ -65,49 +91,20 @@ export default class TvShow extends Media {
     await trakt.removeFromWatchlist([this.id]);
   }
 
-  /**
-   * Fetches all TV shows from user's Trakt watchlist and saves them to DB.
-   * @param currentList
-   */
-  async syncWithTrakt(currentList: TvShow[]): Promise<void> {
+  async fetchItemsFromExternalSource(): Promise<TvShow[] | null> {
     const trakt = this.trakt;
     const watchlist = await trakt.getAllInWatchlist();
 
-    const nextTvShowRequests = watchlist.map(async (traktItem) => {
-      const id =
+    return watchlist.map((traktItem) => {
+      const item = new TvShow();
+      item.id =
         traktItem.show?.ids?.tmdb?.toString() ??
         `${FALLBACK_ID_PREFIX}${traktItem.show?.ids?.trakt?.toString()}` ??
         "";
+      item.title = traktItem.show?.title ?? "";
 
-      let tvShow = currentList.find((tvShow) => tvShow.id === id);
-      if (!tvShow) {
-        tvShow = new TvShow();
-        tvShow.id = id;
-        tvShow.title = traktItem.show?.title ?? "";
-
-        try {
-          await tvShow.refresh([tvShow]);
-        } catch (e) {
-          console.error("Failed to fetch TV show from TMDB", e);
-        }
-      }
-
-      return tvShow;
+      return item;
     });
-
-    const nextTvShows: TvShow[] = [];
-    // Update TV shows.
-    const requestChunks = splitIntoChunks(
-      nextTvShowRequests,
-      this.batchOperationConcurrencyLimit,
-    );
-    for (const chunk of requestChunks) {
-      nextTvShows.push(...(await Promise.all(chunk)));
-    }
-
-    // Save updates.
-    await set(ref(getDatabase(), this.getDbPath()), []);
-    await Promise.all(nextTvShows.map((tvShow) => tvShow.save()));
   }
 
   protected get trakt(): Trakt {

@@ -39,7 +39,6 @@ const noItemsSx: SxProps = {
 
 export interface Props {
   loading: boolean;
-  infoLinks: MediaGridItemMenuProps["infoLinks"];
   extraActions?: MediaGridItemMenuProps["extraActions"];
 }
 
@@ -73,7 +72,6 @@ function menuReducer(
 
 export default function MediaGrid({
   loading,
-  infoLinks,
   extraActions = () => null,
 }: Props) {
   const [menu, dispatchMenu] = useReducer(menuReducer, {
@@ -253,7 +251,6 @@ export default function MediaGrid({
         onTitleCopy={handleTitleCopy}
         onLabelsUpdate={handleLabelsUpdate}
         onDelete={handleDeleteItem}
-        infoLinks={infoLinks}
         extraActions={extraActions}
       />
     </Box>

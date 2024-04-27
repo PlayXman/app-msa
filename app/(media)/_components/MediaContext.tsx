@@ -2,12 +2,17 @@ import {
   createContext,
   Dispatch,
   ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useReducer,
+  useState,
 } from "react";
 import Media, { Status } from "@/models/Media";
 import { useNotificationDispatch } from "@/app/_components/NotificationContext";
+import { LinearProgress, SxProps, Theme } from "@mui/material";
+import { func } from "prop-types";
+import { PersistedCache } from "@/models/PersistedCache";
 
 // Context
 
@@ -20,12 +25,14 @@ export interface MediaContextItem {
 }
 
 interface MediaContextValue {
+  loading: boolean;
   model: Model;
   items: MediaContextItem[];
   dispatchMedia: Dispatch<Parameters<typeof reducer>[1]>;
 }
 
 const MediaContext = createContext<MediaContextValue>({
+  loading: true,
   model: null,
   items: [],
   dispatchMedia: () => {},
@@ -38,14 +45,14 @@ export function useMediaContext() {
 // Provider
 
 interface ReducerValue {
-  model: Model;
+  loading: boolean;
   items: MediaContextItem[];
 }
 
 function reducer(
   state: ReducerValue,
   action:
-    | { type: "load"; mediaModel: NonNullable<Model>; mediaItems: Media[] }
+    | { type: "load"; mediaItems: Media[]; override?: boolean }
     | { type: "add"; item: MediaContextItem }
     | { type: "remove"; id: MediaContextItem["id"] }
     | { type: "update"; item: MediaContextItem }
@@ -54,28 +61,31 @@ function reducer(
   switch (action.type) {
     case "load":
       return {
-        model: action.mediaModel,
-        items: action.mediaItems.map((item) => {
-          return {
-            id: item.id,
-            display: true,
-            model: item,
-          };
-        }),
+        loading: false,
+        items:
+          !state.loading && !action.override
+            ? state.items
+            : action.mediaItems.map((item) => {
+                return {
+                  id: item.id,
+                  display: true,
+                  model: item,
+                };
+              }),
       };
     case "add":
       return {
-        model: state.model,
+        loading: state.loading,
         items: [action.item, ...state.items],
       };
     case "remove":
       return {
-        model: state.model,
+        loading: state.loading,
         items: state.items.filter((item) => item.id !== action.id),
       };
     case "update":
       return {
-        model: state.model,
+        loading: state.loading,
         items: state.items.map((item) => {
           if (item.id === action.item.id) {
             return {
@@ -89,7 +99,7 @@ function reducer(
       };
     case "filter":
       return {
-        model: state.model,
+        loading: state.loading,
         items: state.items.map((item) => {
           let nextDisplay = item.model.display({
             text: action.text,
@@ -112,9 +122,16 @@ function reducer(
   }
 }
 
+const progressSx: SxProps<Theme> = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  zIndex: (theme) => theme.zIndex.snackbar,
+};
+
 export interface Props {
   mediaModel: NonNullable<Model>;
-  onInitialMediaLoad?: (prevMediaItems: Media[]) => Promise<Media[]>;
   children: ReactNode;
 }
 
@@ -122,54 +139,162 @@ export interface Props {
  * Holds and manages Media item list.
  * @constructor
  */
-export function MediaContextProvider({
-  mediaModel,
-  onInitialMediaLoad,
-  children,
-}: Props) {
+export function MediaContextProvider({ mediaModel, children }: Props) {
+  const [initialLoadingProgress, setInitialLoadingProgress] = useState(0);
   const [data, dispatchMedia] = useReducer(reducer, {
-    model: null,
+    loading: true,
     items: [],
   });
   const notification = useNotificationDispatch();
 
-  // Initial load from DB.
+  // Initial load. Fetch items from cache, database and external sources.
+
+  const fetchItemsFromCache = useCallback(async () => {
+    console.log("Fetch media from cache");
+    try {
+      const cache = new PersistedCache(mediaModel);
+      const mediaItems = await cache.get();
+
+      dispatchMedia({
+        type: "load",
+        mediaItems,
+        override: false,
+      });
+    } catch (e) {
+      console.error("Failed to fetch media from cache", e);
+    }
+
+    setInitialLoadingProgress((p) => p + 33);
+  }, [mediaModel]);
+
+  const fetchItemsFromDatabase = useCallback(async () => {
+    console.log("Fetch media from database");
+    try {
+      const mediaItems = await Media.fetchAll(mediaModel);
+      dispatchMedia({
+        type: "load",
+        mediaItems,
+        override: true,
+      });
+      setInitialLoadingProgress((p) => p + 33);
+
+      return mediaItems;
+    } catch (error) {
+      throw {
+        message: "Failed to load items from database",
+        error,
+      };
+    }
+  }, [mediaModel]);
+
+  const fetchItemsFromExternalSource = useCallback(async () => {
+    console.log("Fetch media from external source");
+    try {
+      const mediaController = new mediaModel();
+      return await mediaController.fetchItemsFromExternalSource();
+    } catch (error) {
+      throw {
+        message: "Failed to load items from external source",
+        error,
+      };
+    }
+  }, [mediaModel]);
+
   useEffect(() => {
     (async () => {
       try {
-        const itemsFromDB = await Media.fetchAll(mediaModel);
-        dispatchMedia({
-          type: "load",
-          mediaModel: mediaModel,
-          mediaItems: itemsFromDB,
-        });
+        setInitialLoadingProgress(0);
 
-        if (onInitialMediaLoad) {
+        const [_, previousItems, externalSourceItems] = await Promise.all([
+          fetchItemsFromCache(),
+          fetchItemsFromDatabase(),
+          fetchItemsFromExternalSource(),
+        ]);
+
+        // Merge external source items with current, if applicable.
+        if (externalSourceItems != null) {
+          notification({
+            type: "loading",
+            message: "Syncing with external source...",
+          });
+
+          const prevItemsMap = new Map(
+            previousItems.map((item) => [item.id, item]),
+          );
+          const newItems: Media[] = [];
+          for (const externalSourceItem of externalSourceItems) {
+            if (prevItemsMap.has(externalSourceItem.id)) {
+              prevItemsMap.delete(externalSourceItem.id);
+            } else {
+              newItems.push(externalSourceItem);
+            }
+          }
+
+          // Add missing item into DB.
+          if (newItems.length > 0) {
+            await newItems[0].refresh(newItems);
+            await Promise.all(newItems.map((item) => item.save()));
+          }
+
+          // Delete items that are not in external source.
+          for (const item of prevItemsMap.values()) {
+            await item.delete();
+          }
+
+          // Fetch updated list from DB.
           dispatchMedia({
             type: "load",
-            mediaModel: mediaModel,
-            mediaItems: await onInitialMediaLoad(itemsFromDB),
+            mediaItems: await Media.fetchAll(mediaModel),
+            override: true,
           });
+          notification({ type: "close" });
         }
-      } catch (error) {
+      } catch (err: any) {
+        let message = "Failed to load items";
+        let error = err;
+
+        if ("message" in err && "error" in err) {
+          message = err.message;
+          error = err.error;
+        }
+
         notification({
           type: "error",
-          message: "Failed to load items from database",
+          message,
           error,
         });
+      } finally {
+        setInitialLoadingProgress(100);
       }
     })();
-  }, [dispatchMedia, mediaModel, notification, onInitialMediaLoad]);
+  }, [
+    fetchItemsFromCache,
+    fetchItemsFromDatabase,
+    fetchItemsFromExternalSource,
+    mediaModel,
+    notification,
+  ]);
 
   return (
-    <MediaContext.Provider
-      value={{
-        model: data.model,
-        items: data.items,
-        dispatchMedia,
-      }}
-    >
-      {children}
-    </MediaContext.Provider>
+    <>
+      {initialLoadingProgress < 100 && (
+        <LinearProgress
+          variant="buffer"
+          valueBuffer={0}
+          value={initialLoadingProgress}
+          sx={progressSx}
+        />
+      )}
+      <MediaContext.Provider
+        value={{
+          loading: data.loading,
+          model: mediaModel,
+          items: data.items,
+          dispatchMedia,
+        }}
+      >
+        {children}
+      </MediaContext.Provider>
+    </>
   );
 }

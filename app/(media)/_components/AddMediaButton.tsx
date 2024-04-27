@@ -29,6 +29,8 @@ import MediaGridItemLoader from "@/app/(media)/_components/MediaGrid/MediaGridIt
 import { ITEM_WIDTH } from "@/app/(media)/_components/MediaGrid/MediaGrid";
 import { useMediaContext } from "@/app/(media)/_components/MediaContext";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import UrlHelpers from "@/models/utils/UrlHelpers";
+import { config } from "@/models/utils/config";
 
 const fabSx: SxProps<Theme> = {
   position: "fixed",
@@ -72,14 +74,9 @@ export interface Props {
    * @param text Sanitized search text.
    */
   onSearch: (text: string) => Promise<Media[]>;
-  onSearchItemClick: NonNullable<MediaGridItemCardProps["onClick"]>;
 }
 
-export default function AddMediaButton({
-  loading,
-  onSearch,
-  onSearchItemClick,
-}: Props) {
+export default function AddMediaButton({ loading, onSearch }: Props) {
   /** Is the dialog opened for the first time? */
   const [firstOpen, setFirstOpen] = useState(true);
   const [searchText, setSearchText] = useState("");
@@ -145,6 +142,12 @@ export default function AddMediaButton({
     },
     [dispatchMedia],
   );
+
+  const handleItemInfoPageNavigation = useCallback<
+    NonNullable<MediaGridItemCardProps["onClick"]>
+  >((model) => {
+    UrlHelpers.openNewTab(model.searchInfoLink);
+  }, []);
 
   // EFFECTS
 
@@ -242,7 +245,7 @@ export default function AddMediaButton({
                   <div key={media.id}>
                     <MediaGridItemCard
                       model={media}
-                      onClick={onSearchItemClick}
+                      onClick={handleItemInfoPageNavigation}
                       actions={
                         <IconButton
                           label="Add"

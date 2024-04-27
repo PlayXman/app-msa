@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import { LabelContextProvider } from "@/app/(media)/_components/LabelContext";
 import { Grid, Toolbar } from "@mui/material";
 import SideMenu from "@/app/(media)/_components/appBar/SideMenu";
@@ -15,36 +15,22 @@ import PageContent, {
 } from "@/app/(media)/_components/PageContent";
 import AppBar from "./AppBar";
 import PageTheme from "@/app/(media)/_components/PageLayout/PageTheme";
+import MediaCache from "@/app/(media)/_components/MediaCache";
 
 export type Props = Omit<PageContentProps, "loading"> &
-  Pick<MediaContextProviderProps, "mediaModel" | "onInitialMediaLoad"> & {
+  Pick<MediaContextProviderProps, "mediaModel"> & {
     themeSecondaryColor: string;
   };
 
 export default function PageLayout({
   themeSecondaryColor,
   mediaModel,
-  onInitialMediaLoad = async (p) => p,
   ...contentProps
 }: Props) {
-  const [isLoading, setIsLoading] = useState(true);
-
-  const handleInitialMediaLoad = useCallback<
-    NonNullable<MediaContextProviderProps["onInitialMediaLoad"]>
-  >(
-    (prevMediaItems) => {
-      setIsLoading(false);
-      return onInitialMediaLoad(prevMediaItems);
-    },
-    [onInitialMediaLoad],
-  );
-
   return (
     <PageTheme secondaryColor={themeSecondaryColor}>
-      <MediaContextProvider
-        mediaModel={mediaModel}
-        onInitialMediaLoad={handleInitialMediaLoad}
-      >
+      <MediaContextProvider mediaModel={mediaModel}>
+        <MediaCache />
         <LabelContextProvider>
           <AppBar>
             <Toolbar>
@@ -83,7 +69,7 @@ export default function PageLayout({
           </AppBar>
           <Toolbar />
 
-          <PageContent loading={isLoading} {...contentProps} />
+          <PageContent {...contentProps} />
         </LabelContextProvider>
       </MediaContextProvider>
     </PageTheme>

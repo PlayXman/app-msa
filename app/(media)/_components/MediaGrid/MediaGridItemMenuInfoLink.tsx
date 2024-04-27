@@ -106,7 +106,9 @@ const iconStyles: { [key in Variant]: SxProps } = {
 };
 
 export interface Props {
+  /** Link to external info page. */
   url: string;
+  /** Button variant. */
   variant: Variant;
 }
 
