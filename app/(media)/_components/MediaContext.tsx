@@ -242,11 +242,14 @@ export function MediaContextProvider({ mediaModel, children }: Props) {
           }
 
           // Fetch updated list from DB.
-          dispatchMedia({
-            type: "load",
-            mediaItems: await Media.fetchAll(mediaModel),
-            override: true,
-          });
+          if (prevItemsMap.size > 0 || newItems.length > 0) {
+            dispatchMedia({
+              type: "load",
+              mediaItems: await Media.fetchAll(mediaModel),
+              override: true,
+            });
+          }
+
           notification({ type: "close" });
         }
       } catch (err: any) {
