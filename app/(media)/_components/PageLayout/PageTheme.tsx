@@ -1,5 +1,5 @@
-import { createTheme, ThemeProvider } from "@mui/material";
-import React, { ReactNode, useEffect, useMemo } from "react";
+import { createTheme, GlobalStyles, ThemeProvider } from "@mui/material";
+import React, { ReactNode, useMemo } from "react";
 import { themeOptions } from "@/app/_components/RootTheme";
 import { SX_WIDTH } from "@/app/(media)/_components/Alphabet/Alphabet";
 import { colorToHexAlpha } from "@/models/utils/formatters";
@@ -23,9 +23,19 @@ export default function PageTheme({
     });
   }, [secondaryColor]);
 
-  useEffect(() => {
-    document.body.style.backgroundImage = `radial-gradient(ellipse at calc(100% - ${theme.spacing(SX_WIDTH)} - 28px) calc(100% - ${theme.spacing(2)} - 28px), ${colorToHexAlpha(theme.palette.secondary.main, 0.4)} 0%, ${colorToHexAlpha(theme.palette.secondary.main, 0)} 100%)`;
-  }, [theme]);
+  const globalStyles = useMemo(
+    () => ({
+      body: {
+        backgroundImage: `radial-gradient(ellipse at calc(100% - ${theme.spacing(SX_WIDTH)} - 28px) calc(100% - ${theme.spacing(2)} - 28px), ${colorToHexAlpha(theme.palette.secondary.main, 0.4)} 0%, ${colorToHexAlpha(theme.palette.secondary.main, 0)} 100%)`,
+      },
+    }),
+    [theme],
+  );
 
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  return (
+    <ThemeProvider theme={theme}>
+      <GlobalStyles styles={globalStyles} />
+      {children}
+    </ThemeProvider>
+  );
 }
