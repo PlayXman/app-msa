@@ -4,6 +4,7 @@ import {
   Box,
   Card,
   CardActionArea,
+  CardActionAreaProps,
   CardActions,
   CardContent,
   SxProps,
@@ -68,25 +69,48 @@ export interface Props {
   model: Media;
   highlight?: boolean;
   onClick?: (model: Media) => void;
+  onContextMenu?: (model: Media) => void;
   actions?: ReactNode;
 }
 
 export default function MediaGridItemCard({
   model,
   highlight = false,
-  onClick = () => {},
+  onClick,
+  onContextMenu,
   actions,
 }: Props) {
   const isReleased = model.isReleased;
-  const labels = model.labels?.join(", ") ?? "";
 
   const handleClick = useCallback(() => {
-    onClick(model);
+    if (onClick) {
+      onClick(model);
+    }
   }, [model, onClick]);
+  const handleContextMenu = useCallback<
+    NonNullable<CardActionAreaProps["onContextMenu"]>
+  >(
+    (event) => {
+      if (onContextMenu) {
+        event.preventDefault();
+        onContextMenu(model);
+      }
+    },
+    [model, onContextMenu],
+  );
 
   return (
     <Card elevation={2} sx={[cardSx, highlight && cardOpenedSx] as SxProps}>
-      <CardActionArea sx={clickableAreaSx} onClick={handleClick}>
+      <CardActionArea
+        sx={clickableAreaSx}
+        onClick={handleClick}
+        /*
+         * Allows long touch and right mouse click to select item. This type of event allows to bypass complicated solution with mouse/touch/pointer events. Although, it doesn't trigger on IOS Safari.
+         *
+         * @see https://bugs.webkit.org/show_bug.cgi?id=213953
+         */
+        onContextMenu={handleContextMenu}
+      >
         <Box sx={imageSx}>
           {model.imageUrl && (
             <Image

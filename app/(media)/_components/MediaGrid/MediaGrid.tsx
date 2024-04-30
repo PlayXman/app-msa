@@ -78,18 +78,31 @@ export default function MediaGrid({
     open: false,
     selectedItemId: "",
   });
-  const { items, dispatchMedia } = useMediaContext();
+  const { items, selectedItems, dispatchMedia } = useMediaContext();
   const { update: updateLabels } = useLabelContext();
   const notification = useNotificationDispatch();
+  const isInSelectMode = selectedItems.size > 0;
 
   // HANDLERS
 
-  // Menu
+  // Item click actions
   const handleSelectItem = useCallback<MediaGridItemProps["onClick"]>(
     (model) => {
-      dispatchMenu({ type: "open", itemId: model.id });
+      dispatchMedia({ type: "toggleSelect", item: model });
     },
-    [],
+    [dispatchMedia],
+  );
+  const handleItemClick = useCallback<MediaGridItemProps["onClick"]>(
+    (model) => {
+      if (isInSelectMode) {
+        // (De)select item if in select mode.
+        dispatchMedia({ type: "toggleSelect", item: model });
+      } else {
+        // Open menu related to the item.
+        dispatchMenu({ type: "open", itemId: model.id });
+      }
+    },
+    [dispatchMedia, isInSelectMode],
   );
   const handleCloseMenu = useCallback(() => {
     dispatchMenu({ type: "close" });
@@ -135,20 +148,19 @@ export default function MediaGrid({
   const handleLabelsUpdate = useCallback<
     MediaGridItemMenuProps["onLabelsUpdate"]
   >(
-    async (model, nextLabels) => {
+    async (updatedModels) => {
       try {
-        const nextModel = model.clone();
-        nextModel.labels = nextLabels;
-
-        await nextModel.save();
-        dispatchMedia({
-          type: "update",
-          item: {
-            model: nextModel,
-            display: true,
-            id: nextModel.id,
-          },
-        });
+        for (const model of updatedModels) {
+          await model.save();
+          dispatchMedia({
+            type: "update",
+            item: {
+              model: model,
+              display: true,
+              id: model.id,
+            },
+          });
+        }
         notification({ type: "log", message: "Labels updated" });
       } catch (e) {
         notification({
@@ -220,6 +232,10 @@ export default function MediaGrid({
                 id = alphabetLetter;
               }
 
+              const isHighlighted =
+                (menu.open && menu.selectedItemId === item.id) ||
+                selectedItems.has(item.model);
+
               return (
                 <Box
                   key={item.id}
@@ -228,19 +244,19 @@ export default function MediaGrid({
                 >
                   <MediaGridItem
                     model={item.model}
-                    highlight={menu.open && menu.selectedItemId === item.id}
-                    onClick={handleSelectItem}
+                    highlight={isHighlighted}
+                    onClick={handleItemClick}
+                    onContextMenu={handleSelectItem}
                     onStatusChange={handleStatusChange}
                   />
                 </Box>
               );
             })}
-          {items.length === 0 ||
-            (!displayAtLeastOne && (
-              <Box sx={noItemsSx}>
-                <Typography variant="body1">Nothing to show</Typography>
-              </Box>
-            ))}
+          {(items.length === 0 || !displayAtLeastOne) && (
+            <Box sx={noItemsSx}>
+              <Typography variant="body1">Nothing to show</Typography>
+            </Box>
+          )}
         </>
       )}
       <MediaGridItemMenu

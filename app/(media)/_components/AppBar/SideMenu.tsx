@@ -16,7 +16,7 @@ import {
   LiveTv as LiveTvIcon,
   Menu as MenuIcon,
 } from "@mui/icons-material";
-import SideMenuItem from "@/app/(media)/_components/appBar/SideMenuItem";
+import SideMenuItem from "@/app/(media)/_components/AppBar/SideMenuItem";
 
 const buttonSx: SxProps<Theme> = {
   backgroundColor: (theme) => theme.palette.grey["800"],
