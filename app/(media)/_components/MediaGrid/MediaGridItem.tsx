@@ -7,7 +7,10 @@ import MediaGridItemStatusButton, {
 } from "@/app/(media)/_components/MediaGrid/MediaGridItemStatusButton";
 
 export type Props = Required<
-  Pick<MediaGridItemCardProps, "highlight" | "model" | "onClick"> & {
+  Pick<
+    MediaGridItemCardProps,
+    "highlight" | "model" | "onClick" | "onContextMenu"
+  > & {
     onStatusChange: MediaGridItemStatusButtonProps["onChange"];
   }
 >;
