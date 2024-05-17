@@ -26,16 +26,14 @@ export default function DeleteButton() {
     setDeleting(true);
 
     try {
-      await Promise.all(
-        [...selectedItems].map(async (model) => {
-          await model.delete();
-          await updateLabels([], model.labels);
-          dispatchMedia({
-            type: "remove",
-            id: model.id,
-          });
-        }),
-      );
+      for (const model of selectedItems.values()) {
+        await model.delete();
+        await updateLabels([], model.labels);
+        dispatchMedia({
+          type: "remove",
+          id: model.id,
+        });
+      }
     } catch (e) {
       notification({ type: "error", message: "Failed to delete", error: e });
     }
