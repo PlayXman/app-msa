@@ -4,7 +4,7 @@ import { Trakt } from "@/models/services/Trakt";
 import Media from "@/models/Media";
 import { Props as InfoLink } from "@/app/(media)/_components/MediaGrid/MediaGridItemMenuInfoLink";
 import { config } from "@/models/utils/config";
-import UrlHelpers from "@/models/utils/UrlHelpers";
+import { encodeText } from "@/models/utils/urlHelpers";
 
 export default class TvShow extends Media {
   /** Is in Trakt watchlist. */
@@ -19,7 +19,7 @@ export default class TvShow extends Media {
   }
 
   get infoLinks(): InfoLink[] {
-    const encodedTitle = UrlHelpers.encodeText(this.title);
+    const encodedTitle = encodeText(this.title);
 
     return [
       {
@@ -38,9 +38,7 @@ export default class TvShow extends Media {
   }
 
   get searchInfoLink(): string {
-    return (
-      config.vendors.imdbCom.tvShowSearchUrl + UrlHelpers.encodeText(this.title)
-    );
+    return config.vendors.imdbCom.tvShowSearchUrl + encodeText(this.title);
   }
 
   async delete(): Promise<void> {

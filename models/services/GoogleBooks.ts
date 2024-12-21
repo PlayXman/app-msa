@@ -70,6 +70,7 @@ export default class GoogleBooks {
 
   protected populateBook(book: Book, googleBook: GoogleBook) {
     book.id = googleBook.id;
+    book.slug = "";
 
     book.title = this.createTitle(googleBook);
     book.releaseDate = googleBook.volumeInfo.publishedDate ?? "";

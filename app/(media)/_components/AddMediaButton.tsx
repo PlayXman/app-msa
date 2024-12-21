@@ -29,8 +29,7 @@ import MediaGridItemLoader from "@/app/(media)/_components/MediaGrid/MediaGridIt
 import { ITEM_WIDTH } from "@/app/(media)/_components/MediaGrid/MediaGrid";
 import { useMediaContext } from "@/app/(media)/_components/MediaContext";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import UrlHelpers from "@/models/utils/UrlHelpers";
-import { config } from "@/models/utils/config";
+import { openNewTab } from "@/models/utils/urlHelpers";
 
 const fabSx: SxProps<Theme> = {
   position: "fixed",
@@ -146,7 +145,7 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
   const handleItemInfoPageNavigation = useCallback<
     NonNullable<MediaGridItemCardProps["onClick"]>
   >((model) => {
-    UrlHelpers.openNewTab(model.searchInfoLink);
+    openNewTab(model.searchInfoLink);
   }, []);
 
   // EFFECTS
