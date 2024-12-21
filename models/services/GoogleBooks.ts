@@ -71,17 +71,21 @@ export default class GoogleBooks {
   protected populateBook(book: Book, googleBook: GoogleBook) {
     book.id = googleBook.id;
 
-    book.title = googleBook.volumeInfo.title;
-    book.title += googleBook.volumeInfo.authors
-      ? ` (${googleBook.volumeInfo.authors.join(", ")})`
-      : "";
-
+    book.title = this.createTitle(googleBook);
     book.releaseDate = googleBook.volumeInfo.publishedDate ?? "";
     book.imageUrl =
       googleBook.volumeInfo.imageLinks?.thumbnail?.replace(
         /^http:/,
         "https:",
       ) ?? "";
+  }
+
+  private createTitle(googleBook: GoogleBook): string {
+    let title = googleBook.volumeInfo.title;
+    if (googleBook.volumeInfo.authors) {
+      title += ` · ${googleBook.volumeInfo.authors.join(", ")}`;
+    }
+    return title;
   }
 }
 
