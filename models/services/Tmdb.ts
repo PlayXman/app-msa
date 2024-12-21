@@ -124,6 +124,7 @@ export class Tmdb {
     movie: Movie,
     tmdbData: MovieResult | MovieResponse,
   ): void {
+    movie.slug = "";
     movie.title = tmdbData.title ?? "";
     movie.imageUrl = tmdbData.poster_path
       ? config.vendors.tmdbOrg.imageUrl.thumb + tmdbData.poster_path
@@ -135,6 +136,7 @@ export class Tmdb {
     tvShow: TvShow,
     tmdbData: TvResult | ShowResponse,
   ): void {
+    tvShow.slug = "";
     tvShow.title = tmdbData.name ?? "";
     tvShow.imageUrl = tmdbData.poster_path
       ? config.vendors.tmdbOrg.imageUrl.thumb + tmdbData.poster_path

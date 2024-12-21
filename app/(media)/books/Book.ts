@@ -2,7 +2,7 @@ import Media from "@/models/Media";
 import GoogleBooks from "@/models/services/GoogleBooks";
 import { Props as InfoLink } from "@/app/(media)/_components/MediaGrid/MediaGridItemMenuInfoLink";
 import { config } from "@/models/utils/config";
-import UrlHelpers from "@/models/utils/UrlHelpers";
+import { encodeText } from "@/models/utils/urlHelpers";
 
 export default class Book extends Media {
   get modelName(): string {
@@ -41,9 +41,7 @@ export default class Book extends Media {
       },
       {
         variant: "amazon",
-        url:
-          config.vendors.amazonCom.searchUrl +
-          UrlHelpers.encodeText(this.title),
+        url: config.vendors.amazonCom.searchUrl + encodeText(this.title),
       },
     ];
   }

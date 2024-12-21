@@ -3,7 +3,7 @@ import { Tmdb } from "@/models/services/Tmdb";
 import Media from "@/models/Media";
 import { Props as InfoLink } from "@/app/(media)/_components/MediaGrid/MediaGridItemMenuInfoLink";
 import { config } from "@/models/utils/config";
-import UrlHelpers from "@/models/utils/UrlHelpers";
+import { encodeText } from "@/models/utils/urlHelpers";
 
 export const FALLBACK_ID_PREFIX = "fallback-";
 
@@ -20,7 +20,7 @@ export default class Movie extends Media {
   }
 
   get infoLinks(): InfoLink[] {
-    const encodedTitle = UrlHelpers.encodeText(this.title);
+    const encodedTitle = encodeText(this.title);
 
     return [
       {
@@ -39,9 +39,7 @@ export default class Movie extends Media {
   }
 
   get searchInfoLink(): string {
-    return (
-      config.vendors.imdbCom.movieSearchUrl + UrlHelpers.encodeText(this.title)
-    );
+    return config.vendors.imdbCom.movieSearchUrl + encodeText(this.title);
   }
 
   async delete(): Promise<void> {

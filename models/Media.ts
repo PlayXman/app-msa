@@ -7,7 +7,7 @@ import {
   query,
   orderByChild,
 } from "firebase/database";
-import UrlHelpers from "@/models/utils/UrlHelpers";
+import { slugify } from "@/models/utils/urlHelpers";
 import { Props as InfoLink } from "@/app/(media)/_components/MediaGrid/MediaGridItemMenuInfoLink";
 
 export enum Status {
@@ -183,7 +183,7 @@ export default abstract class Media {
    */
   protected toDb(): object {
     return {
-      slug: this.slug || UrlHelpers.slugify(this.title),
+      slug: this.slug || slugify(this.title),
       title: this.title,
       status: this.status,
       labels: this.labels,

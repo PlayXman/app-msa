@@ -1,6 +1,6 @@
 import Game from "@/app/(media)/games/Game";
 import { Vendors } from "@/models/Vendors";
-import UrlHelpers from "@/models/utils/UrlHelpers";
+import { encodeText } from "@/models/utils/urlHelpers";
 import JsonpRequest from "@/models/JsonpRequest";
 
 const API_URL = "https://www.giantbomb.com/api";
@@ -22,7 +22,7 @@ export default class GiantBomb {
     const url = new URL(`${API_URL}/search`);
     url.searchParams.set("api_key", await this.getApiKey());
     url.searchParams.set("format", "jsonp");
-    url.searchParams.set("query", UrlHelpers.encodeText(title));
+    url.searchParams.set("query", encodeText(title));
     url.searchParams.set("field_list", REQUEST_FIELD_LIST);
     url.searchParams.set("resources", "game");
 
@@ -82,6 +82,7 @@ export default class GiantBomb {
 
   protected populateGame(game: Game, item: GameResult) {
     game.id = item.id?.toString() ?? "";
+    game.slug = "";
     game.title = item.name ?? "";
     game.imageUrl = item.image?.small_url ?? "";
     game.releaseDate = this.formatDate(

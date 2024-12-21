@@ -19,10 +19,7 @@ import {
   FileCopy as FileCopyIcon,
   Bookmark as BookmarkIcon,
 } from "@mui/icons-material";
-import MediaGridItemMenuInfoLink, {
-  Props as MediaGridItemMenuInfoLinkProps,
-} from "@/app/(media)/_components/MediaGrid/MediaGridItemMenuInfoLink";
-import UrlHelpers from "@/models/utils/UrlHelpers";
+import MediaGridItemMenuInfoLink from "@/app/(media)/_components/MediaGrid/MediaGridItemMenuInfoLink";
 import MediaGridItemMenuLabels, {
   Props as MediaGridItemMenuLabelsProps,
 } from "@/app/(media)/_components/MediaGrid/labels/MediaGridItemMenuLabels";
