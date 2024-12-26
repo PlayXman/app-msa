@@ -29,12 +29,16 @@ export default class Game extends Media {
         url: config.vendors.gamesCz.searchUrl + encodedTitle,
       },
       {
-        variant: "gamespot",
-        url: config.vendors.gamespotCom.searchUrl + encodedTitle,
+        variant: "epicStore",
+        url: config.vendors.epicgamesCom.searchUrl + encodedTitle,
       },
       {
         variant: "steam",
         url: config.vendors.steampoweredCom.searchUrl + encodedTitle,
+      },
+      {
+        variant: "steamDB",
+        url: config.vendors.steamdbInfo.searchUrl + encodedTitle,
       },
     ];
   }

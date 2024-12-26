@@ -12,11 +12,15 @@ export const config = {
     gamesCz: {
       searchUrl: "https://games.tiscali.cz/hledani/game/?q=",
     },
-    gamespotCom: {
-      searchUrl: "https://www.gamespot.com/search/?header=1&i=site&q=",
-    },
     steampoweredCom: {
       searchUrl: "https://store.steampowered.com/search/?term=",
+    },
+    steamdbInfo: {
+      searchUrl: "https://steamdb.info/instantsearch/?query=",
+    },
+    epicgamesCom: {
+      searchUrl:
+        "https://store.epicgames.com/en-US/browse?sortBy=relevancy&sortDir=DESC&category=Game&count=40&start=0&q=",
     },
     csfdCz: {
       movieSearchUrl:
