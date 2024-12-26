@@ -5,16 +5,20 @@ import CsfdIcon from "@/components/icons/CsfdIcon";
 import ImdbIcon from "@/components/icons/ImdbIcon";
 import TraktIcon from "@/components/icons/TraktIcon";
 import SteamIcon from "@/components/icons/SteamIcon";
+import SteamDBIcon from "@/components/icons/SteamDBIcon";
 import GamespotIcon from "@/components/icons/GamespotIcon";
 import GamesIcon from "@/components/icons/GamesIcon";
 import GoogleBooksIcon from "@/components/icons/GoogleBooksIcon";
 import AmazonIcon from "@/components/icons/AmazonIcon";
+import EpicStoreIcon from "@/components/icons/EpicStoreIcon";
 
 type Variant =
   | "csfd"
   | "imdb"
   | "trakt"
+  | "epicStore"
   | "steam"
+  | "steamDB"
   | "gamespot"
   | "games"
   | "googleBooks"
@@ -62,10 +66,28 @@ const iconStyles: { [key in Variant]: SxProps } = {
       backgroundColor: "#b80f14",
     },
   },
+  epicStore: {
+    background: "#131313",
+    "&:hover": {
+      backgroundColor: "#232323",
+    },
+    "&:active": {
+      backgroundColor: "#000000",
+    },
+  },
   steam: {
     background: "#1b2838",
     "&:hover": {
       backgroundColor: "#243447",
+    },
+    "&:active": {
+      backgroundColor: "#121b26",
+    },
+  },
+  steamDB: {
+    background: "#101821",
+    "&:hover": {
+      backgroundColor: "#182431",
     },
     "&:active": {
       backgroundColor: "#121b26",
@@ -121,8 +143,12 @@ export default function MediaGridItemMenuInfoLink({ url, variant }: Props) {
         return <ImdbIcon />;
       case "trakt":
         return <TraktIcon />;
+      case "epicStore":
+        return <EpicStoreIcon />;
       case "steam":
         return <SteamIcon />;
+      case "steamDB":
+        return <SteamDBIcon />;
       case "gamespot":
         return <GamespotIcon />;
       case "games":

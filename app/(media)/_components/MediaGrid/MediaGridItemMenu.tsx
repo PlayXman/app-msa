@@ -113,7 +113,7 @@ function MediaGridItemMenu({
       {model == null ? null : (
         <>
           <Grid container justifyContent="center" onClick={onClose}>
-            <Grid item xs sm={6} md={4} lg={3} xl={3}>
+            <Grid item xs sm={7} md={5} lg={4} xl={4}>
               <Box sx={imageSx}>
                 {model.imageUrl ? (
                   <Image
@@ -130,7 +130,7 @@ function MediaGridItemMenu({
           </Grid>
           <Paper elevation={8} sx={backgroundSx}>
             <Grid container justifyContent="center">
-              <Grid item xs sm={6} md={4} lg={3} xl={3}>
+              <Grid item xs sm={7} md={5} lg={4} xl={4}>
                 <Box sx={headingSx}>
                   <Typography variant="h5" gutterBottom>
                     {model.title}
