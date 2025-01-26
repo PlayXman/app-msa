@@ -7,9 +7,6 @@ import { config } from "@/models/utils/config";
 import { encodeText } from "@/models/utils/urlHelpers";
 
 export default class TvShow extends Media {
-  /** Is in Trakt watchlist. */
-  isInWatchlist: boolean = true;
-
   get modelName(): string {
     return "TvShows";
   }
@@ -46,19 +43,6 @@ export default class TvShow extends Media {
     await this.removeFromWatchlist();
   }
 
-  async save(): Promise<void> {
-    if (!this.isInWatchlist) {
-      // Add to Trakt watchlist.
-      if (!this.id) {
-        throw new Error(`Missing ID for ${this.title}`);
-      }
-      await this.addToWatchlist();
-      this.isInWatchlist = true;
-    }
-
-    return super.save();
-  }
-
   async refresh(items: TvShow[]): Promise<TvShow[]> {
     const tmdb = new Tmdb();
     await Promise.all(
@@ -79,30 +63,9 @@ export default class TvShow extends Media {
     return items;
   }
 
-  async addToWatchlist() {
-    const trakt = this.trakt;
-    await trakt.addToWatchlist([this.id]);
-  }
-
   async removeFromWatchlist() {
     const trakt = this.trakt;
     await trakt.removeFromWatchlist([this.id]);
-  }
-
-  async fetchItemsFromExternalSource(): Promise<TvShow[] | null> {
-    const trakt = this.trakt;
-    const watchlist = await trakt.getAllInWatchlist();
-
-    return watchlist.map((traktItem) => {
-      const item = new TvShow();
-      item.id =
-        traktItem.show?.ids?.tmdb?.toString() ??
-        `${FALLBACK_ID_PREFIX}${traktItem.show?.ids?.trakt?.toString()}` ??
-        "";
-      item.title = traktItem.show?.title ?? "";
-
-      return item;
-    });
   }
 
   protected get trakt(): Trakt {

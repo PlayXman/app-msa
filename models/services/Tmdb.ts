@@ -38,7 +38,6 @@ export class Tmdb {
       const searchItem = searchItems[i];
       const movie = new Movie();
       movie.id = searchItem.id?.toString() ?? "";
-      movie.isInWatchlist = false;
       this.populateMovie(movie, searchItem);
 
       result.push(movie);
@@ -66,7 +65,6 @@ export class Tmdb {
       const searchItem = searchItems[i];
       const tvShow = new TvShow();
       tvShow.id = searchItem.id?.toString() ?? "";
-      tvShow.isInWatchlist = false;
       this.populateTvShow(tvShow, searchItem);
 
       result.push(tvShow);

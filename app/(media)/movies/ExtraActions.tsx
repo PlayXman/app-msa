@@ -43,7 +43,6 @@ export default function ExtraActions({ item }: { item: Movie }) {
 
   const handleUndoAction = async () => {
     try {
-      await item.addToWatchlist();
       await item.save();
       await updateLabels(item.labels, []);
       dispatchMedia({

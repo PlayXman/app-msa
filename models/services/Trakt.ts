@@ -21,46 +21,6 @@ export class Trakt {
   }
 
   /**
-   * Fetches all movies or tv shows from user's Trakt watchlist
-   */
-  async getAllInWatchlist(): Promise<WatchlistItem[]> {
-    const response = await fetch(`${API_URL}/sync/watchlist/${this.type}`, {
-      method: "GET",
-      cache: "no-cache",
-      headers: await this.createHeaders(),
-    });
-
-    if (!response.ok) {
-      throw new Error("TRAKT: Failed to get watchlist");
-    }
-
-    return response.json();
-  }
-
-  /**
-   * Add movie(s) or tv show(s) to user's Trakt watchlist.
-   * @param tmdbIds
-   */
-  async addToWatchlist(tmdbIds: string[] | number[]): Promise<void> {
-    const response = await fetch(`${API_URL}/sync/watchlist`, {
-      method: "POST",
-      cache: "no-cache",
-      headers: await this.createHeaders(),
-      body: JSON.stringify({
-        [this.type]: tmdbIds.map((id) => ({
-          ids: {
-            tmdb: id,
-          },
-        })),
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error("TRAKT: Failed to save to watchlist");
-    }
-  }
-
-  /**
    * Remove movie(s) or TV show(s) from user's Trakt watchlist.
    * @param tmdbIds
    */
