@@ -8,9 +8,6 @@ import { encodeText } from "@/models/utils/urlHelpers";
 export const FALLBACK_ID_PREFIX = "fallback-";
 
 export default class Movie extends Media {
-  /** Is in Trakt watchlist. */
-  isInWatchlist: boolean = true;
-
   get modelName(): string {
     return "Movies";
   }
@@ -47,19 +44,6 @@ export default class Movie extends Media {
     await this.removeFromWatchlist();
   }
 
-  async save(): Promise<void> {
-    if (!this.isInWatchlist) {
-      // Add to Trakt watchlist.
-      if (!this.id) {
-        throw new Error(`Missing ID for ${this.title}`);
-      }
-      await this.addToWatchlist();
-      this.isInWatchlist = true;
-    }
-
-    return super.save();
-  }
-
   async refresh(items: Movie[]): Promise<Movie[]> {
     const tmdb = new Tmdb();
     await Promise.all(
@@ -85,30 +69,9 @@ export default class Movie extends Media {
     await trakt.markWatched([this.id]);
   }
 
-  async addToWatchlist() {
-    const trakt = this.trakt;
-    await trakt.addToWatchlist([this.id]);
-  }
-
   async removeFromWatchlist() {
     const trakt = this.trakt;
     await trakt.removeFromWatchlist([this.id]);
-  }
-
-  async fetchItemsFromExternalSource(): Promise<Movie[] | null> {
-    const trakt = this.trakt;
-    const watchlist = await trakt.getAllInWatchlist();
-
-    return watchlist.map((traktItem) => {
-      const item = new Movie();
-      item.id =
-        traktItem.movie?.ids?.tmdb?.toString() ??
-        `${FALLBACK_ID_PREFIX}${traktItem.movie?.ids?.trakt?.toString()}` ??
-        "";
-      item.title = traktItem.movie?.title ?? "";
-
-      return item;
-    });
   }
 
   protected get trakt(): Trakt {
