@@ -1,31 +1,15 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { CODE_PARAM, Trakt } from "@/models/services/Trakt";
+import React, { Suspense } from "react";
 import { Button, Grid, Typography } from "@mui/material";
 import Link from "next/link";
+import TraktAuthentication from "@/app/authenticate/trakt/TraktAuthentication";
 
 /**
  * Trakt authentication page.
  * @constructor
  */
 export default function Page() {
-  const code = useSearchParams().get(CODE_PARAM);
-  const router = useRouter();
-
-  useEffect(() => {
-    (async () => {
-      const trakt = new Trakt("movies");
-      if (code) {
-        await trakt.getRefreshToken(code);
-        router.replace("/");
-      } else {
-        await trakt.getAuthenticationCode();
-      }
-    })();
-  }, [code, router]);
-
   return (
     <Grid
       container
@@ -52,6 +36,10 @@ export default function Page() {
           Back to home screen
         </Button>
       </Grid>
+
+      <Suspense>
+        <TraktAuthentication />
+      </Suspense>
     </Grid>
   );
 }

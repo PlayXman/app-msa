@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import MediaGrid, {
   Props as MediaGridProps,
 } from "@/app/(media)/_components/MediaGrid/MediaGrid";
@@ -36,7 +36,9 @@ export default function PageContent({ extraActions, onSearch }: Props) {
         <MediaGrid loading={loading} extraActions={extraActions} />
       </Box>
       <Alphabet loading={loading} />
-      <AddMediaButton loading={loading} onSearch={onSearch} />
+      <Suspense>
+        <AddMediaButton loading={loading} onSearch={onSearch} />
+      </Suspense>
     </main>
   );
 }
