@@ -63,6 +63,10 @@ export default abstract class Media {
    */
   get isReleased(): boolean {
     const releaseDate = new Date(this.releaseDate);
+    if (isNaN(releaseDate.valueOf())) {
+      return false;
+    }
+
     const now = new Date();
     return releaseDate <= now;
   }

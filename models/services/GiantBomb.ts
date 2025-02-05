@@ -104,11 +104,11 @@ export default class GiantBomb {
    * @protected
    */
   protected formatDate(
-    originalReleaseDate: string | undefined,
-    expectedReleaseYear: string | undefined,
-    expectedReleaseQuarter: string | undefined,
-    expectedReleaseMonth: string | undefined,
-    expectedReleaseDay: string | undefined,
+    originalReleaseDate: GameResult["original_release_date"],
+    expectedReleaseYear: GameResult["expected_release_year"],
+    expectedReleaseQuarter: GameResult["expected_release_quarter"],
+    expectedReleaseMonth: GameResult["expected_release_month"],
+    expectedReleaseDay: GameResult["expected_release_day"],
   ): string {
     if (originalReleaseDate) {
       return originalReleaseDate;
@@ -117,30 +117,16 @@ export default class GiantBomb {
     const dateChunks: string[] = [];
 
     if (expectedReleaseYear) {
-      dateChunks.push(expectedReleaseYear);
+      dateChunks.push(expectedReleaseYear.toString());
     }
     if (expectedReleaseMonth) {
-      dateChunks.push(expectedReleaseMonth);
+      dateChunks.push(expectedReleaseMonth.toString().padStart(2, "0"));
 
       if (expectedReleaseDay) {
-        dateChunks.push(expectedReleaseDay);
+        dateChunks.push(expectedReleaseDay.toString().padStart(2, "0"));
       }
     } else if (expectedReleaseQuarter) {
-      switch (expectedReleaseQuarter) {
-        case "1":
-          dateChunks.push("01");
-          break;
-        case "2":
-          dateChunks.push("04");
-          break;
-        case "3":
-          dateChunks.push("07");
-          break;
-        case "4":
-          dateChunks.push("10");
-          break;
-        default:
-      }
+      dateChunks.push(`Q${expectedReleaseQuarter}`);
     }
 
     return dateChunks.join("-");
@@ -177,99 +163,99 @@ interface GiantBombResponse {
  */
 interface GameResult {
   /** List of aliases the game is known by. A \n (newline) separates each alias. */
-  aliases?: string;
+  aliases?: string | null;
   /** URL pointing to the game detail resource. */
-  api_detail_url?: string;
+  api_detail_url?: string | null;
   /** Characters related to the game. */
-  characters?: object[];
+  characters?: object[] | null;
   /** Concepts related to the game. */
-  concepts?: object[];
+  concepts?: object[] | null;
   /** Date the game was added to Giant Bomb. */
-  date_added?: string;
+  date_added?: string | null;
   /** Date the game was last updated on Giant Bomb. */
-  date_last_updated?: string;
+  date_last_updated?: string | null;
   /** Brief summary of the game. */
-  deck?: string;
+  deck?: string | null;
   /** Description of the game. */
-  description?: string;
+  description?: string | null;
   /** Companies who developed the game. */
-  developers?: object[];
+  developers?: object[] | null;
   /** Expected day of release. The month is represented numerically. Combine with 'expected_release_day', 'expected_release_month', 'expected_release_year' and 'expected_release_quarter' for Giant Bomb's best guess release date of the game. These fields will be empty if the 'original_release_date' field is set. */
-  expected_release_day?: string;
+  expected_release_day?: number | null;
   /** Expected month of release. The month is represented numerically. Combine with 'expected_release_day', 'expected_release_quarter' and 'expected_release_year' for Giant Bomb's best guess release date of the game. These fields will be empty if the 'original_release_date' field is set. */
-  expected_release_month?: string;
+  expected_release_month?: number | null;
   /** Expected quarter of release. The quarter is represented numerically, where 1 = Q1, 2 = Q2, 3 = Q3, and 4 = Q4. Combine with 'expected_release_day', 'expected_release_month' and 'expected_release_year' for Giant Bomb's best guess release date of the game. These fields will be empty if the 'original_release_date' field is set. */
-  expected_release_quarter?: string;
+  expected_release_quarter?: number | null;
   /** Expected year of release. Combine with 'expected_release_day', 'expected_release_month' and 'expected_release_quarter' for Giant Bomb's best guess release date of the game. These fields will be empty if the 'original_release_date' field is set. */
-  expected_release_year?: string;
+  expected_release_year?: number | null;
   /** Characters that first appeared in the game. */
-  first_appearance_characters?: string[];
+  first_appearance_characters?: string[] | null;
   /** Concepts that first appeared in the game. */
-  first_appearance_concepts?: string[];
+  first_appearance_concepts?: string[] | null;
   /** Locations that first appeared in the game. */
-  first_appearance_locations?: string[];
+  first_appearance_locations?: string[] | null;
   /** Objects that first appeared in the game. */
-  first_appearance_objects?: string[];
+  first_appearance_objects?: string[] | null;
   /** People that were first credited in the game. */
-  first_appearance_people?: string[];
+  first_appearance_people?: string[] | null;
   /** Franchises related to the game. */
-  franchises?: object[];
+  franchises?: object[] | null;
   /** Genres that encompass the game. */
-  genres?: object[];
+  genres?: object[] | null;
   /** For use in single item api call for game. */
-  guid?: string;
+  guid?: string | null;
   /** Unique ID of the game. */
-  id?: number;
+  id?: number | null;
   /** Main image of the game. */
   image?: {
-    icon_url?: string;
-    medium_url?: string;
-    original_url?: string;
-    screen_url?: string;
-    screen_large_url?: string;
-    small_url?: string;
-    super_url?: string;
-    thumb_url?: string;
-    tiny_url?: string;
+    icon_url?: string | null;
+    medium_url?: string | null;
+    original_url?: string | null;
+    screen_url?: string | null;
+    screen_large_url?: string | null;
+    small_url?: string | null;
+    super_url?: string | null;
+    thumb_url?: string | null;
+    tiny_url?: string | null;
     /** Name of image tag for filerting images. */
-    image_tag?: string;
-  };
+    image_tag?: string | null;
+  } | null;
   /** List of images associated to the game. */
-  images?: string[];
+  images?: string[] | null;
   /** List of image tags to filter the images endpoint. */
-  image_tags?: object[];
+  image_tags?: object[] | null;
   /** Characters killed in the game. */
-  killed_characters?: object[];
+  killed_characters?: object[] | null;
   /** Locations related to the game. */
-  locations?: object[];
+  locations?: object[] | null;
   /** Name of the game. */
-  name?: string;
+  name?: string | null;
   /** Number of user reviews of the game on Giant Bomb. */
-  number_of_user_reviews?: number;
+  number_of_user_reviews?: number | null;
   /** Objects related to the game. */
-  objects?: object[];
+  objects?: object[] | null;
   /** Rating of the first release of the game. */
-  original_game_rating?: object[];
+  original_game_rating?: object[] | null;
   /** Date the game was first released. */
-  original_release_date?: string;
+  original_release_date?: string | null;
   /** People who have worked with the game. */
-  people?: object[];
+  people?: object[] | null;
   /** Platforms the game appeared in. */
-  platforms?: object[];
+  platforms?: object[] | null;
   /** Companies who published the game. */
-  publishers?: object[];
+  publishers?: object[] | null;
   /** Releases of the game. */
-  releases?: object[];
+  releases?: object[] | null;
   /** Game DLCs */
-  dlcs?: object[];
+  dlcs?: object[] | null;
   /** Staff reviews of the game. */
-  reviews?: object[];
+  reviews?: object[] | null;
   /** Other games similar to the game. */
-  similar_games?: object[];
+  similar_games?: object[] | null;
   /** URL pointing to the game on Giant Bomb. */
-  site_detail_url?: string;
+  site_detail_url?: string | null;
   /** Themes that encompass the game. */
-  themes?: object[];
+  themes?: object[] | null;
   /** Videos associated to the game. */
-  videos?: object[];
+  videos?: object[] | null;
 }

@@ -5,12 +5,23 @@ import Media from "@/models/Media";
  * @param date
  */
 export function formatDate(date: string | Date | undefined): string {
-  if (!date) {
+  if (date == null || date === "") {
     return "TBA";
   }
 
   const d = new Date(date);
-  return d.toLocaleDateString("cs-CZ");
+  if (!isNaN(d.valueOf())) {
+    return d.toLocaleDateString("cs-CZ");
+  }
+
+  if (typeof date === "string") {
+    const format = /^(\d{4})-(Q\d)$/;
+    if (format.test(date)) {
+      return date.replace(format, "$2 $1");
+    }
+  }
+
+  return date.toString() ?? "TBA";
 }
 
 /**
