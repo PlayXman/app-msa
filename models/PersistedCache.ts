@@ -17,10 +17,10 @@ export class PersistedCache {
    */
   async get(): Promise<Media[]> {
     const db = await this.connect();
+    const transaction = db.transaction([this.storeName], "readonly");
+    const store = transaction.objectStore(this.storeName);
 
     return new Promise((resolve, reject) => {
-      const transaction = db.transaction([this.storeName], "readonly");
-      const store = transaction.objectStore(this.storeName);
       const request: IDBRequest<MediaObject> = store.get(this.getModelName());
 
       request.onsuccess = () => {
@@ -45,10 +45,10 @@ export class PersistedCache {
    */
   async set(data: Media[]): Promise<void> {
     const db = await this.connect();
+    const transaction = db.transaction(this.storeName, "readwrite");
+    const store = transaction.objectStore(this.storeName);
 
     return new Promise((resolve, reject) => {
-      const transaction = db.transaction(this.storeName, "readwrite");
-      const store = transaction.objectStore(this.storeName);
       const request = store.put({
         model: this.getModelName(),
         items: data,
