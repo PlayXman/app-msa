@@ -62,7 +62,7 @@ export default function SideMenu() {
       >
         <Box p={4} bgcolor="secondary.dark" color="secondary.contrastText">
           <Avatar alt="MSA" src="/images/logo.svg" sx={logoSx} />
-          <Typography variant="h6" color="inherit">
+          <Typography variant="h6" sx={{ color: "inherit" }}>
             MediaStorage App
           </Typography>
         </Box>
