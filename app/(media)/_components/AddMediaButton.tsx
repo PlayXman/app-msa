@@ -181,7 +181,7 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
       >
         <AppBar position="relative" color="secondary" enableColorOnDark>
           <Toolbar sx={toolbarSx}>
-            <Typography variant="h6" color="inherit">
+            <Typography variant="h6" sx={{ color: "inherit" }}>
               New Item
             </Typography>
             <IconButton color="inherit" onClick={handleClose}>

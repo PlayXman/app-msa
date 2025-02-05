@@ -37,7 +37,7 @@ export default function EditBar() {
               </IconButton>
             </Grid>
             <Grid item xs>
-              <Typography variant="h6" color="inherit">
+              <Typography variant="h6" sx={{ color: "inherit" }}>
                 Selected {selectedItems.size}
               </Typography>
             </Grid>
