@@ -1,6 +1,7 @@
 import Book from "@/app/(media)/books/Book";
 
 const API_URL = "https://www.googleapis.com/books/v1/volumes";
+export const TITLE_SEPARATOR = " · ";
 
 /**
  * Google Books API wrapper.
@@ -84,7 +85,7 @@ export default class GoogleBooks {
   private createTitle(googleBook: GoogleBook): string {
     let title = googleBook.volumeInfo.title;
     if (googleBook.volumeInfo.authors) {
-      title += ` · ${googleBook.volumeInfo.authors.join(", ")}`;
+      title += `${TITLE_SEPARATOR}${googleBook.volumeInfo.authors.join(", ")}`;
     }
     return title;
   }

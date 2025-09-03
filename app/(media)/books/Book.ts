@@ -43,6 +43,10 @@ export default class Book extends Media {
         variant: "amazon",
         url: config.vendors.amazonCom.searchUrl + encodeText(this.title),
       },
+      {
+        variant: "goodreads",
+        url: config.vendors.goodreadsCom.searchUrl + encodeText(this.title),
+      },
     ];
   }
 
