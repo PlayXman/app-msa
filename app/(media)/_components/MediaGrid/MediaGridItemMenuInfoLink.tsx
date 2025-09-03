@@ -11,6 +11,7 @@ import GamesIcon from "@/components/icons/GamesIcon";
 import GoogleBooksIcon from "@/components/icons/GoogleBooksIcon";
 import AmazonIcon from "@/components/icons/AmazonIcon";
 import EpicStoreIcon from "@/components/icons/EpicStoreIcon";
+import GoodreadsIcon from "@/components/icons/GoodreadsIcon";
 
 type Variant =
   | "csfd"
@@ -22,7 +23,8 @@ type Variant =
   | "gamespot"
   | "games"
   | "googleBooks"
-  | "amazon";
+  | "amazon"
+  | "goodreads";
 
 const rootSx: SxProps = {
   width: "100%",
@@ -125,6 +127,15 @@ const iconStyles: { [key in Variant]: SxProps } = {
       backgroundColor: "#030405",
     },
   },
+  goodreads: {
+    background: "#faf8f6",
+    "&:hover": {
+      backgroundColor: "#e8e6e3",
+    },
+    "&:active": {
+      backgroundColor: "#dbdad7",
+    },
+  },
 };
 
 export interface Props {
@@ -157,6 +168,8 @@ export default function MediaGridItemMenuInfoLink({ url, variant }: Props) {
         return <GoogleBooksIcon />;
       case "amazon":
         return <AmazonIcon />;
+      case "goodreads":
+        return <GoodreadsIcon />;
       default:
         return null;
     }
