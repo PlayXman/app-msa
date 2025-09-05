@@ -1,7 +1,7 @@
 import {
   Box,
   Divider,
-  Grid,
+  GridLegacy as Grid,
   List,
   ListItem,
   Paper,

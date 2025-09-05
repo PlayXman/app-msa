@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense } from "react";
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, GridLegacy as Grid, Typography } from "@mui/material";
 import Link from "next/link";
 import TraktAuthentication from "@/app/authenticate/trakt/TraktAuthentication";
 

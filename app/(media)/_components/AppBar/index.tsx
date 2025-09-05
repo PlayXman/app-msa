@@ -3,7 +3,7 @@ import {
   useScrollTrigger,
   AppBar as MuiAppBar,
   Toolbar,
-  Grid,
+  GridLegacy as Grid,
 } from "@mui/material";
 import SideMenu from "@/app/(media)/_components/AppBar/SideMenu";
 import { FilterContextProvider } from "@/app/(media)/_components/FilterContext";

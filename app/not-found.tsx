@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, GridLegacy as Grid, Typography } from "@mui/material";
 import Link from "next/link";
 
 export default function NotFound() {
