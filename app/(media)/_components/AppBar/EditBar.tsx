@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import {
   AppBar,
-  Grid,
+  GridLegacy as Grid,
   IconButton,
   Slide,
   Toolbar,

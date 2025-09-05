@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Chip, Grid } from "@mui/material";
+import { Chip, GridLegacy as Grid } from "@mui/material";
 import { Edit as EditIcon } from "@mui/icons-material";
 import Media from "@/models/Media";
 import { sortLabels } from "@/app/(media)/_components/MediaGrid/labels/specialLabels";

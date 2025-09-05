@@ -11,7 +11,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
+  GridLegacy as Grid,
   TextField,
 } from "@mui/material";
 import { useLabelContext } from "@/app/(media)/_components/LabelContext";
