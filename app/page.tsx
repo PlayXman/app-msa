@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useReducer } from "react";
+import React, { useCallback, useEffect, useReducer } from "react";
 import {
   Container,
   GridLegacy as Grid,
@@ -37,23 +37,14 @@ function quickSearchReducer(
   }
 }
 
-function createQuickSearchInitialState(): QuickSearchState {
-  let value = "";
-
-  if (typeof window !== "undefined") {
-    const url = new URLSearchParams(window.location.search);
-    value = url.get(QUICK_SEARCH_URL_PROPERTY_NAME) ?? "";
-  }
-
-  return quickSearchReducer(["", ""], value);
-}
-
 export default function Page() {
   const [[quickSearchValue, quickSearchUrlParam], quickSearchDispatch] =
-    useReducer<QuickSearchState, [string]>(
-      quickSearchReducer,
-      createQuickSearchInitialState(),
-    );
+    useReducer<QuickSearchState, [string]>(quickSearchReducer, ["", ""]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    quickSearchDispatch(params.get(QUICK_SEARCH_URL_PROPERTY_NAME) ?? "");
+  }, []);
 
   const handleSearchChange = useCallback<
     NonNullable<TextFieldProps["onChange"]>
