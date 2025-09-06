@@ -42,7 +42,7 @@
     "action": "/",
     "method": "GET",
     "params": {
-      "title": "search-new-q"
+      "text": "search-new-q"
     }
   }
 }
