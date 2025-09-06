@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useReducer } from "react";
 import {
   Container,
   GridLegacy as Grid,
@@ -23,19 +23,43 @@ const hideOnMobileSx: SxProps = {
   display: { xs: "none", sm: "block" },
 };
 
+/** Quick search value - quick search url param tuple */
+type QuickSearchState = [string, string];
+
+function quickSearchReducer(
+  _: QuickSearchState,
+  action: string,
+): QuickSearchState {
+  if (action) {
+    return [action, `?${QUICK_SEARCH_URL_PROPERTY_NAME}=${action}`];
+  } else {
+    return ["", ""];
+  }
+}
+
+function createQuickSearchInitialState(): QuickSearchState {
+  let value = "";
+
+  if (typeof window !== "undefined") {
+    const url = new URLSearchParams(window.location.search);
+    value = url.get(QUICK_SEARCH_URL_PROPERTY_NAME) ?? "";
+  }
+
+  return quickSearchReducer(["", ""], value);
+}
+
 export default function Page() {
-  const [quickSearchUrlParam, setQuickSearchUrlParam] = useState("");
+  const [[quickSearchValue, quickSearchUrlParam], quickSearchDispatch] =
+    useReducer<QuickSearchState, [string]>(
+      quickSearchReducer,
+      createQuickSearchInitialState(),
+    );
 
   const handleSearchChange = useCallback<
     NonNullable<TextFieldProps["onChange"]>
   >((event) => {
     const value = event.target.value;
-
-    if (value) {
-      setQuickSearchUrlParam(`?${QUICK_SEARCH_URL_PROPERTY_NAME}=${value}`);
-    } else {
-      setQuickSearchUrlParam("");
-    }
+    quickSearchDispatch(value);
   }, []);
 
   return (
@@ -62,6 +86,7 @@ export default function Page() {
               fullWidth
               name={QUICK_SEARCH_URL_PROPERTY_NAME}
               onChange={handleSearchChange}
+              value={quickSearchValue}
             />
           </Grid>
           <Grid item xs={false} sm={3} sx={hideOnMobileSx} />
