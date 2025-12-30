@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Button, GridLegacy as Grid, Typography } from "@mui/material";
 import Link from "next/link";
