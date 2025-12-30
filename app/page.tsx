@@ -73,7 +73,7 @@ export default function Page() {
           <Grid item xs={12} sm={6}>
             <TextField
               type="search"
-              placeholder="Quick search..."
+              placeholder="Quick add..."
               fullWidth
               name={QUICK_SEARCH_URL_PROPERTY_NAME}
               onChange={handleSearchChange}
