@@ -122,6 +122,7 @@ export class Tmdb {
     movie: Movie,
     tmdbData: MovieResult | MovieResponse,
   ): void {
+    movie.vendorIds = { tmdb: tmdbData.id?.toString() ?? "" };
     movie.slug = "";
     movie.title = tmdbData.title ?? "";
     movie.imageUrl = tmdbData.poster_path
@@ -134,6 +135,7 @@ export class Tmdb {
     tvShow: TvShow,
     tmdbData: TvResult | ShowResponse,
   ): void {
+    tvShow.vendorIds = { tmdb: tmdbData.id?.toString() ?? "" };
     tvShow.slug = "";
     tvShow.title = tmdbData.name ?? "";
     tvShow.imageUrl = tmdbData.poster_path

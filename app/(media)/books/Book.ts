@@ -4,7 +4,11 @@ import { Props as InfoLink } from "@/app/(media)/_components/MediaGrid/MediaGrid
 import { config } from "@/models/utils/config";
 import { encodeText } from "@/models/utils/urlHelpers";
 
-export default class Book extends Media {
+interface VendorIds {
+  googleBooks?: string;
+}
+
+export default class Book extends Media<VendorIds> {
   get modelName(): string {
     return "Books";
   }

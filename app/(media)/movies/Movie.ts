@@ -7,7 +7,11 @@ import { encodeText } from "@/models/utils/urlHelpers";
 
 export const FALLBACK_ID_PREFIX = "fallback-";
 
-export default class Movie extends Media {
+interface VendorIds {
+  tmdb?: string;
+}
+
+export default class Movie extends Media<VendorIds> {
   get modelName(): string {
     return "Movies";
   }

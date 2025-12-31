@@ -5,7 +5,11 @@ import { Props as InfoLink } from "@/app/(media)/_components/MediaGrid/MediaGrid
 import { config } from "@/models/utils/config";
 import { encodeText } from "@/models/utils/urlHelpers";
 
-export default class TvShow extends Media {
+interface VendorIds {
+  tmdb?: string;
+}
+
+export default class TvShow extends Media<VendorIds> {
   get modelName(): string {
     return "TvShows";
   }

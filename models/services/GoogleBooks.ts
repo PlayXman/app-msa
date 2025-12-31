@@ -71,6 +71,7 @@ export default class GoogleBooks {
 
   protected populateBook(book: Book, googleBook: GoogleBook) {
     book.id = googleBook.id;
+    book.vendorIds = { googleBooks: googleBook.id };
     book.slug = "";
 
     book.title = this.createTitle(googleBook);

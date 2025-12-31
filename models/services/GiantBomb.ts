@@ -47,6 +47,11 @@ export default class GiantBomb {
    * @param games
    */
   async fillGames(games: Game[]): Promise<void> {
+    for (const game of games) {
+      this.populateGame(game, {});
+    }
+    /*
+    TODO: Temporarily disable until the API is up and running again.
     const url = new URL(`${API_URL}/games`);
     url.searchParams.set("api_key", await this.getApiKey());
     url.searchParams.set("format", "jsonp");
@@ -69,6 +74,7 @@ export default class GiantBomb {
         this.populateGame(game, result);
       }
     }
+    */
   }
 
   protected async getApiKey(): Promise<string> {
@@ -81,7 +87,11 @@ export default class GiantBomb {
   }
 
   protected populateGame(game: Game, item: GameResult) {
+    game.vendorIds = { giantBomb: game.id };
+    /*
+    TODO: Temporarily disable until the API is up and running again.
     game.id = item.id?.toString() ?? "";
+    game.vendorIds = {giantBomb: item.id?.toString() ?? ""};
     game.slug = "";
     game.title = item.name ?? "";
     game.imageUrl = item.image?.small_url ?? "";
@@ -92,6 +102,7 @@ export default class GiantBomb {
       item.expected_release_month,
       item.expected_release_day,
     );
+    */
   }
 
   /**
