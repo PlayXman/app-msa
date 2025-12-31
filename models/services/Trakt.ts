@@ -206,41 +206,6 @@ export class Trakt {
   }
 }
 
-/**
- * @see https://trakt.docs.apiary.io/#reference/users/watchlist/get-watchlist
- */
-interface WatchlistItem {
-  /** Item position on the list. */
-  rank: number;
-  /** Trakt ID */
-  id: number;
-  /** ISO Date. */
-  listed_at: string;
-  notes: string;
-  type: "movie" | "show";
-  movie?: {
-    title: string;
-    year: number;
-    ids: {
-      trakt: number;
-      slug: string;
-      imdb: string;
-      tmdb: number;
-    };
-  };
-  show?: {
-    title: string;
-    year: number;
-    ids: {
-      trakt: number;
-      slug: string;
-      imdb: string;
-      tvdb: number;
-      tmdb: number;
-    };
-  };
-}
-
 interface OAuthTokenResponse {
   access_token: string;
   token_type: "bearer";

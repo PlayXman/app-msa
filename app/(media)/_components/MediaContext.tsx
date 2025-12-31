@@ -11,24 +11,23 @@ import {
 import Media, { Status } from "@/models/Media";
 import { useNotificationDispatch } from "@/app/_components/NotificationContext";
 import { LinearProgress, SxProps, Theme } from "@mui/material";
-import { func } from "prop-types";
 import { PersistedCache } from "@/models/PersistedCache";
 
 // Context
 
-export type Model = (new (...args: any) => Media) | null;
+export type Model = (new (...args: any) => Media<any>) | null;
 
 export interface MediaContextItem {
-  id: Media["id"];
+  id: Media<any>["id"];
   display: boolean;
-  model: Media;
+  model: Media<any>;
 }
 
 interface MediaContextValue {
   loading: boolean;
   model: Model;
   items: MediaContextItem[];
-  selectedItems: Set<Media>;
+  selectedItems: Set<Media<any>>;
   dispatchMedia: Dispatch<Parameters<typeof reducer>[1]>;
 }
 
@@ -36,7 +35,7 @@ const MediaContext = createContext<MediaContextValue>({
   loading: true,
   model: null,
   items: [],
-  selectedItems: new Set<Media>(),
+  selectedItems: new Set<Media<any>>(),
   dispatchMedia: () => {},
 });
 
@@ -49,18 +48,18 @@ export function useMediaContext() {
 interface ReducerValue {
   loading: boolean;
   items: MediaContextItem[];
-  selectedItems: Set<Media>;
+  selectedItems: Set<Media<any>>;
 }
 
 function reducer(
   state: ReducerValue,
   action:
-    | { type: "load"; mediaItems: Media[]; override?: boolean }
+    | { type: "load"; mediaItems: Media<any>[]; override?: boolean }
     | { type: "add"; item: MediaContextItem }
     | { type: "remove"; id: MediaContextItem["id"] }
     | { type: "update"; item: MediaContextItem }
     | { type: "filter"; text?: string; isReleased?: boolean; status?: Status }
-    | { type: "toggleSelect"; item: Media | null },
+    | { type: "toggleSelect"; item: Media<any> | null },
 ): ReducerValue {
   switch (action.type) {
     case "load":
@@ -110,7 +109,7 @@ function reducer(
         loading: state.loading,
         selectedItems: state.selectedItems,
         items: state.items.map((item) => {
-          let nextDisplay = item.model.display({
+          const nextDisplay = item.model.display({
             text: action.text,
             isReleased: action.isReleased,
             status: action.status,
@@ -168,7 +167,7 @@ export function MediaContextProvider({ mediaModel, children }: Props) {
   const [data, dispatchMedia] = useReducer(reducer, {
     loading: true,
     items: [],
-    selectedItems: new Set<Media>(),
+    selectedItems: new Set<Media<any>>(),
   });
   const notification = useNotificationDispatch();
 
@@ -230,6 +229,7 @@ export function MediaContextProvider({ mediaModel, children }: Props) {
       try {
         setInitialLoadingProgress(0);
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [_, previousItems, externalSourceItems] = await Promise.all([
           fetchItemsFromCache(),
           fetchItemsFromDatabase(),
@@ -246,7 +246,7 @@ export function MediaContextProvider({ mediaModel, children }: Props) {
           const prevItemsMap = new Map(
             previousItems.map((item) => [item.id, item]),
           );
-          const newItems: Media[] = [];
+          const newItems: Media<any>[] = [];
           for (const externalSourceItem of externalSourceItems) {
             if (prevItemsMap.has(externalSourceItem.id)) {
               prevItemsMap.delete(externalSourceItem.id);

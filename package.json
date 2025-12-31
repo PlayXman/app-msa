@@ -15,8 +15,8 @@
     "pre-commit": "lint-staged",
     "dev:emulators": "firebase emulators:start --only auth,database --import=./_firebase/emulator-data",
     "dev:app": "next dev --webpack",
-    "lint": "next lint",
-    "lint:fix": "prettier --write --list-different app components models public",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "test": "echo \"Error: no test specified yet\"",
     "build": "next build --webpack",
     "deploy": "npm run build && firebase deploy"
@@ -37,9 +37,10 @@
     "@types/node": "^24.3.1",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
-    "eslint": "^9.35.0",
-    "eslint-config-next": "16.1.1",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "^16.1.1",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
     "husky": "^9.0.10",
     "lint-staged": "^16.1.6",
     "prettier": "^3.2.5",
@@ -47,11 +48,5 @@
   },
   "engines": {
     "node": ">=21"
-  },
-  "lint-staged": {
-    "app/**": "prettier --write",
-    "components/**": "prettier --write",
-    "models/**": "prettier --write",
-    "public/**": "prettier --write"
   }
 }

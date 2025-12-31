@@ -27,7 +27,7 @@ const specialLabelIconSx: SxProps<Theme> = {
 export default memo(function MediaGridItemCardLabels({
   labels,
 }: {
-  labels: Media["labels"];
+  labels: Media<any>["labels"];
 }) {
   const [specialLabels, normalLabels] = sortLabels(labels);
 

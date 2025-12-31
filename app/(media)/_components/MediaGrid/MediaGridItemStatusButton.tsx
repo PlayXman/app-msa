@@ -7,8 +7,8 @@ import Media, { Status } from "@/models/Media";
 import IconButton, { Props as IconButtonProps } from "@/components/IconButton";
 
 export interface Props {
-  model: Media;
-  onChange: (model: Media) => Promise<void>;
+  model: Media<any>;
+  onChange: (model: Media<any>) => Promise<void>;
 }
 
 export default function MediaGridItemStatusButton({ model, onChange }: Props) {

@@ -8,7 +8,7 @@ import MediaGridItemMenuLabelsDialog, {
 } from "@/app/(media)/_components/MediaGrid/labels/MediaGridItemMenuLabelsDialog";
 
 export interface Props {
-  model: Media;
+  model: Media<any>;
   onLabelsUpdate: MediaGridItemMenuLabelsDialogProps["onLabelsUpdate"];
 }
 

@@ -28,7 +28,7 @@ const handleNewItemsSearch: PageLayoutProps["onSearch"] = async (
  * Generate extra actions for each item in the grid.
  */
 const createExtraActions: NonNullable<PageLayoutProps["extraActions"]> = (
-  model: Media,
+  model: Media<any>,
 ) => {
   return <ExtraActions item={model} />;
 };

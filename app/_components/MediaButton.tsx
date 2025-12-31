@@ -1,5 +1,5 @@
 import React from "react";
-import { SxProps, Theme, Typography } from "@mui/material";
+import { SxProps, Typography } from "@mui/material";
 import Button from "@/components/Button";
 import { SvgIconComponent } from "@mui/icons-material";
 import Link from "next/link";

@@ -23,10 +23,10 @@ interface SpecialLabel {
  * @param labels
  */
 export function sortLabels(
-  labels: Media["labels"],
-): [SpecialLabel[], Media["labels"]] {
+  labels: Media<any>["labels"],
+): [SpecialLabel[], Media<any>["labels"]] {
   const specialLabels: SpecialLabel[] = [];
-  const normalLabels: Media["labels"] = [];
+  const normalLabels: Media<any>["labels"] = [];
 
   for (const label of labels) {
     if (label in SPECIAL_LABELS) {

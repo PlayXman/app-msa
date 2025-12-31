@@ -69,6 +69,7 @@ export default function Filter() {
 
   // Match global state.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setReleaseState(isReleased == null ? "" : isReleased ? "true" : "false");
     setStatusState(status == null ? "" : status);
   }, [isReleased, status]);

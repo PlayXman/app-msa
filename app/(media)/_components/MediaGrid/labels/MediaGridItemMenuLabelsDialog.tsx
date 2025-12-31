@@ -23,11 +23,11 @@ import { SPECIAL_LABELS } from "@/app/(media)/_components/MediaGrid/labels/speci
 export interface Props {
   onClose: () => void;
   open: boolean;
-  models: Media[];
+  models: Media<any>[];
   /**
    * @param updatedModels Media copies with updated labels.
    */
-  onLabelsUpdate: (updatedModels: Media[]) => Promise<void>;
+  onLabelsUpdate: (updatedModels: Media<any>[]) => Promise<void>;
 }
 
 export default function MediaGridItemMenuLabelsDialog({
@@ -61,6 +61,7 @@ export default function MediaGridItemMenuLabelsDialog({
           labelCounts.set(label, (labelCounts.get(label) ?? 0) + 1);
         }
       }
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setInitialLabels(new Map(labelCounts));
       setNextLabels(labelCounts);
       setNewLabel("");

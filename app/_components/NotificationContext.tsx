@@ -60,6 +60,7 @@ function reducer(
         open: false,
       };
     case "log":
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { type, ...rest } = action;
       return {
         ...initialNotification,

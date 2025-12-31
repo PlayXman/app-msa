@@ -72,7 +72,7 @@ export interface Props {
   /**
    * @param text Sanitized search text.
    */
-  onSearch: (text: string) => Promise<Media[]>;
+  onSearch: (text: string) => Promise<Media<any>[]>;
 }
 
 export default function AddMediaButton({ loading, onSearch }: Props) {
@@ -80,7 +80,7 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
   const [firstOpen, setFirstOpen] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [searching, setSearching] = useState(false);
-  const [searchResults, setSearchResults] = useState<Media[]>([]);
+  const [searchResults, setSearchResults] = useState<Media<any>[]>([]);
   const [addingItem, setAddingItem] = useState(false);
 
   const { items: mediaStateItems, dispatchMedia } = useMediaContext();
@@ -126,7 +126,7 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
   );
 
   const handleAddItem = useCallback(
-    async (item: Media) => {
+    async (item: Media<any>) => {
       setAddingItem(true);
       await item.save();
       dispatchMedia({
@@ -157,6 +157,7 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
   useEffect(() => {
     if (!loading && fetchResults && firstOpen) {
       if (quickSearchValue) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSearchText(quickSearchValue);
         fetchResults().then();
       }

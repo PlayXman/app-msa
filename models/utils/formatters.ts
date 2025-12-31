@@ -28,7 +28,7 @@ export function formatDate(date: string | Date | undefined): string {
  * Convert item slug to alphabet letter. Used in combination with Alphabet component.
  * @param model
  */
-export function slugToAlphabet(model: Media): string {
+export function slugToAlphabet(model: Media<any>): string {
   const firstLetter = model.slug.charAt(0);
   return isNaN(parseFloat(firstLetter)) ? firstLetter : "#";
 }

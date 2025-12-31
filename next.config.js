@@ -1,17 +1,15 @@
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const withPWA = require("@ducanh2912/next-pwa").default({
-  dest: 'public'
+  dest: "public",
 });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-  output: 'export',
+  output: "export",
   images: {
     unoptimized: true,
   },
-  eslint: {
-    dirs: ['app', 'components', 'models']
-  }
-}
+};
 
 module.exports = withPWA(nextConfig);

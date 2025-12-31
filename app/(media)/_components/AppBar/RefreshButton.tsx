@@ -39,6 +39,7 @@ export default function RefreshButton() {
   // Refresh labels.
   useEffect(() => {
     if (!disabled && progress >= 100) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setProgress(0);
       notification({ type: "loading", message: "Refreshing labels..." });
       refreshLabels()
@@ -68,7 +69,7 @@ export default function RefreshButton() {
     const modelController = new (mediaModel as any)();
     const concurrencyLimit = modelController.batchOperationConcurrencyLimit;
     const chunks = splitIntoChunks(mediaItems, concurrencyLimit);
-    const nextMediaItems: Media[] = [];
+    const nextMediaItems: Media<any>[] = [];
     for (let i = 0; i < chunks.length; i++) {
       const chunk = chunks[i];
       const items = chunk.map((item) => item.model);

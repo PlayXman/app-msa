@@ -45,7 +45,7 @@ export interface Props {
 // Menu reducer
 interface MenuState {
   open: boolean;
-  selectedItemId: Media["id"];
+  selectedItemId: Media<any>["id"];
 }
 
 function menuReducer(
