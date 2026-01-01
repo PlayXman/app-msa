@@ -5,8 +5,6 @@ import { Props as InfoLink } from "@/app/(media)/_components/MediaGrid/MediaGrid
 import { config } from "@/models/utils/config";
 import { encodeText } from "@/models/utils/urlHelpers";
 
-export const FALLBACK_ID_PREFIX = "fallback-";
-
 interface VendorIds {
   tmdb?: string;
 }

@@ -6,7 +6,7 @@ import {
   ShowResponse,
   TvResult,
 } from "moviedb-promise";
-import Movie, { FALLBACK_ID_PREFIX } from "@/app/(media)/movies/Movie";
+import Movie from "@/app/(media)/movies/Movie";
 import { config } from "@/models/utils/config";
 import TvShow from "@/app/(media)/tv-shows/TvShow";
 
@@ -78,9 +78,6 @@ export class Tmdb {
    * @param movie
    */
   async fillMovie(movie: Movie): Promise<void> {
-    if (movie.id.startsWith(FALLBACK_ID_PREFIX)) {
-      return;
-    }
     const id = movie.vendorIds?.tmdb;
     if (!id) {
       throw new Error("Missing TMDB ID");
@@ -98,9 +95,6 @@ export class Tmdb {
    * @param tvShow
    */
   async fillTvShow(tvShow: TvShow): Promise<void> {
-    if (tvShow.id.startsWith(FALLBACK_ID_PREFIX)) {
-      return;
-    }
     const id = tvShow.vendorIds?.tmdb;
     if (!id) {
       throw new Error("Missing TMDB ID");
