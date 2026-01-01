@@ -19,7 +19,7 @@ export enum Status {
 /**
  * Base class for all media types.
  */
-export default abstract class Media<VendorIds extends Record<any, any>> {
+export default abstract class Media<VendorIds extends Record<any, any> = any> {
   /** DB key. */
   id: string = "";
   /** External provider IDs. */
@@ -151,7 +151,7 @@ export default abstract class Media<VendorIds extends Record<any, any>> {
    * Fetches all items from DB and creates instances of the given class.
    * @param mediaType Class name. E.g. `Movies` or `Games`.
    */
-  static async fetchAll<T extends Media<any>>(
+  static async fetchAll<T extends Media>(
     mediaType: new (...args: any) => T,
   ): Promise<T[]> {
     const dbPath = new mediaType().getDbPath();

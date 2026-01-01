@@ -85,7 +85,7 @@ export default class Labels {
    * Recalculate label occurrences from media list.
    * @param mediaList
    */
-  refresh(mediaList: Media<any>[]): Promise<void> {
+  refresh(mediaList: Media[]): Promise<void> {
     const nextLabels: typeof this.labels = new Map();
 
     for (const media of mediaList) {

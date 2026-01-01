@@ -66,10 +66,10 @@ const actionsSx: SxProps = {
 };
 
 export interface Props {
-  model: Media<any>;
+  model: Media;
   highlight?: boolean;
-  onClick?: (model: Media<any>) => void;
-  onContextMenu?: (model: Media<any>) => void;
+  onClick?: (model: Media) => void;
+  onContextMenu?: (model: Media) => void;
   actions?: ReactNode;
 }
 

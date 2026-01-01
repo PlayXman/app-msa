@@ -69,7 +69,7 @@ export default function RefreshButton() {
     const modelController = new (mediaModel as any)();
     const concurrencyLimit = modelController.batchOperationConcurrencyLimit;
     const chunks = splitIntoChunks(mediaItems, concurrencyLimit);
-    const nextMediaItems: Media<any>[] = [];
+    const nextMediaItems: Media[] = [];
     for (let i = 0; i < chunks.length; i++) {
       const chunk = chunks[i];
       const items = chunk.map((item) => item.model);

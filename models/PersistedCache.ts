@@ -3,19 +3,19 @@ import Media from "@/models/Media";
 export class PersistedCache {
   private readonly dbName = "MediaModelDb";
   private readonly storeName = "media";
-  mediaModel: new (...args: any) => Media<any>;
+  mediaModel: new (...args: any) => Media;
 
   /**
    * @param mediaModel Reference of media model class.
    */
-  constructor(mediaModel: new (...args: any) => Media<any>) {
+  constructor(mediaModel: new (...args: any) => Media) {
     this.mediaModel = mediaModel;
   }
 
   /**
    * Get all items from cache for the current media model.
    */
-  async get(): Promise<Media<any>[]> {
+  async get(): Promise<Media[]> {
     const db = await this.connect();
     const transaction = db.transaction([this.storeName], "readonly");
     const store = transaction.objectStore(this.storeName);
@@ -43,7 +43,7 @@ export class PersistedCache {
    * Set items in cache for the current media model.
    * @param data
    */
-  async set(data: Media<any>[]): Promise<void> {
+  async set(data: Media[]): Promise<void> {
     const db = await this.connect();
     const transaction = db.transaction(this.storeName, "readwrite");
     const store = transaction.objectStore(this.storeName);

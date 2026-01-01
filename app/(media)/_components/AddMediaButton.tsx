@@ -72,7 +72,7 @@ export interface Props {
   /**
    * @param text Sanitized search text.
    */
-  onSearch: (text: string) => Promise<Media<any>[]>;
+  onSearch: (text: string) => Promise<Media[]>;
 }
 
 export default function AddMediaButton({ loading, onSearch }: Props) {
@@ -80,7 +80,7 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
   const [firstOpen, setFirstOpen] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [searching, setSearching] = useState(false);
-  const [searchResults, setSearchResults] = useState<Media<any>[]>([]);
+  const [searchResults, setSearchResults] = useState<Media[]>([]);
   const [addingItem, setAddingItem] = useState(false);
 
   const { items: mediaStateItems, dispatchMedia } = useMediaContext();
@@ -126,7 +126,7 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
   );
 
   const handleAddItem = useCallback(
-    async (item: Media<any>) => {
+    async (item: Media) => {
       setAddingItem(true);
       await item.save();
       dispatchMedia({

@@ -23,11 +23,11 @@ import { SPECIAL_LABELS } from "@/app/(media)/_components/MediaGrid/labels/speci
 export interface Props {
   onClose: () => void;
   open: boolean;
-  models: Media<any>[];
+  models: Media[];
   /**
    * @param updatedModels Media copies with updated labels.
    */
-  onLabelsUpdate: (updatedModels: Media<any>[]) => Promise<void>;
+  onLabelsUpdate: (updatedModels: Media[]) => Promise<void>;
 }
 
 export default function MediaGridItemMenuLabelsDialog({

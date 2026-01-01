@@ -15,19 +15,19 @@ import { PersistedCache } from "@/models/PersistedCache";
 
 // Context
 
-export type Model = (new (...args: any) => Media<any>) | null;
+export type Model = (new (...args: any) => Media) | null;
 
 export interface MediaContextItem {
-  id: Media<any>["id"];
+  id: Media["id"];
   display: boolean;
-  model: Media<any>;
+  model: Media;
 }
 
 interface MediaContextValue {
   loading: boolean;
   model: Model;
   items: MediaContextItem[];
-  selectedItems: Set<Media<any>>;
+  selectedItems: Set<Media>;
   dispatchMedia: Dispatch<Parameters<typeof reducer>[1]>;
 }
 
@@ -35,7 +35,7 @@ const MediaContext = createContext<MediaContextValue>({
   loading: true,
   model: null,
   items: [],
-  selectedItems: new Set<Media<any>>(),
+  selectedItems: new Set<Media>(),
   dispatchMedia: () => {},
 });
 
@@ -48,18 +48,18 @@ export function useMediaContext() {
 interface ReducerValue {
   loading: boolean;
   items: MediaContextItem[];
-  selectedItems: Set<Media<any>>;
+  selectedItems: Set<Media>;
 }
 
 function reducer(
   state: ReducerValue,
   action:
-    | { type: "load"; mediaItems: Media<any>[]; override?: boolean }
+    | { type: "load"; mediaItems: Media[]; override?: boolean }
     | { type: "add"; item: MediaContextItem }
     | { type: "remove"; id: MediaContextItem["id"] }
     | { type: "update"; item: MediaContextItem }
     | { type: "filter"; text?: string; isReleased?: boolean; status?: Status }
-    | { type: "toggleSelect"; item: Media<any> | null },
+    | { type: "toggleSelect"; item: Media | null },
 ): ReducerValue {
   switch (action.type) {
     case "load":
@@ -167,7 +167,7 @@ export function MediaContextProvider({ mediaModel, children }: Props) {
   const [data, dispatchMedia] = useReducer(reducer, {
     loading: true,
     items: [],
-    selectedItems: new Set<Media<any>>(),
+    selectedItems: new Set<Media>(),
   });
   const notification = useNotificationDispatch();
 
@@ -246,7 +246,7 @@ export function MediaContextProvider({ mediaModel, children }: Props) {
           const prevItemsMap = new Map(
             previousItems.map((item) => [item.id, item]),
           );
-          const newItems: Media<any>[] = [];
+          const newItems: Media[] = [];
           for (const externalSourceItem of externalSourceItems) {
             if (prevItemsMap.has(externalSourceItem.id)) {
               prevItemsMap.delete(externalSourceItem.id);

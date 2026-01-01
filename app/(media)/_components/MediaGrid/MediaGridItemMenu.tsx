@@ -65,12 +65,12 @@ const headingSx: SxProps = {
 export interface Props {
   open: boolean;
   onClose: () => void;
-  model: Media<any> | undefined;
+  model: Media | undefined;
   onLabelsUpdate: MediaGridItemMenuLabelsProps["onLabelsUpdate"];
-  onStatusChange: (model: Media<any>) => Promise<void>;
-  onTitleCopy: (model: Media<any>) => Promise<void>;
-  onDelete: (model: Media<any>) => Promise<void>;
-  extraActions?: (model: Media<any>) => ReactNode;
+  onStatusChange: (model: Media) => Promise<void>;
+  onTitleCopy: (model: Media) => Promise<void>;
+  onDelete: (model: Media) => Promise<void>;
+  extraActions?: (model: Media) => ReactNode;
 }
 
 function MediaGridItemMenu({
