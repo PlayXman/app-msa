@@ -11,4 +11,5 @@ module.exports = {
   "components/**/*.{js,jsx,ts,tsx}": [buildEslintCommand],
   "models/**": [buildEslintCommand],
   "public/**/*.{html,css}": [buildEslintCommand],
+  "functions/src/**/*.{js,ts}": [buildEslintCommand],
 };

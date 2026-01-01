@@ -13,7 +13,7 @@
   "scripts": {
     "prepare": "husky",
     "pre-commit": "lint-staged",
-    "dev:emulators": "firebase emulators:start --only auth,database --import=./_firebase/emulator-data",
+    "dev:emulators": "firebase emulators:start --only auth,database,functions --import=./_firebase/emulator-data",
     "dev:app": "next dev --webpack",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
