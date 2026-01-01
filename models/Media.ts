@@ -6,6 +6,7 @@ import {
   get,
   query,
   orderByChild,
+  push,
 } from "firebase/database";
 import { slugify } from "@/models/utils/urlHelpers";
 import { Props as InfoLink } from "@/app/(media)/_components/MediaGrid/MediaGridItemMenuInfoLink";
@@ -73,11 +74,20 @@ export default abstract class Media<VendorIds extends Record<any, any> = any> {
   /**
    * Update item in DB.
    */
-  save(): Promise<void> {
+  async save(): Promise<void> {
     if (!this.id) {
-      throw new Error(`Missing ID for ${this.title}`);
+      // New item
+      const { key } = await push(
+        ref(getDatabase(), this.getDbPath()),
+        this.toDb(),
+      );
+      if (key) {
+        this.id = key;
+      }
+      return;
     }
 
+    // Existing item
     return set(ref(getDatabase(), this.getDbPath(this.id)), this.toDb());
   }
 
@@ -96,9 +106,7 @@ export default abstract class Media<VendorIds extends Record<any, any> = any> {
    * Clone this instance.
    */
   clone(): this {
-    return new (this.constructor as any)(
-      Object.fromEntries(Object.entries(this)),
-    );
+    return new (this.constructor as any)(structuredClone(this));
   }
 
   /**

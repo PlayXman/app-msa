@@ -81,14 +81,16 @@ export class Tmdb {
     if (movie.id.startsWith(FALLBACK_ID_PREFIX)) {
       return;
     }
+    const id = movie.vendorIds?.tmdb;
+    if (!id) {
+      throw new Error("Missing TMDB ID");
+    }
 
     const movieDb = new MovieDb(await this.getApiKey());
-
-    const response = await movieDb.movieInfo({
-      id: movie.id,
+    const movieInfo = await movieDb.movieInfo({
+      id,
     });
-
-    this.populateMovie(movie, response);
+    this.populateMovie(movie, movieInfo);
   }
 
   /**
@@ -99,14 +101,16 @@ export class Tmdb {
     if (tvShow.id.startsWith(FALLBACK_ID_PREFIX)) {
       return;
     }
+    const id = tvShow.vendorIds?.tmdb;
+    if (!id) {
+      throw new Error("Missing TMDB ID");
+    }
 
     const movieDb = new MovieDb(await this.getApiKey());
-
-    const response = await movieDb.tvInfo({
-      id: tvShow.id,
+    const tvInfo = await movieDb.tvInfo({
+      id,
     });
-
-    this.populateTvShow(tvShow, response);
+    this.populateTvShow(tvShow, tvInfo);
   }
 
   protected async getApiKey(): Promise<string> {

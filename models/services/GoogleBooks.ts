@@ -38,7 +38,12 @@ export default class GoogleBooks {
    * @param book
    */
   async fillBook(book: Book): Promise<void> {
-    const googleBook = await this.getBook(book.id);
+    const id = book.vendorIds?.googleBooks;
+    if (!id) {
+      throw new Error("Missing Google Books ID");
+    }
+
+    const googleBook = await this.getBook(id);
     this.populateBook(book, googleBook);
   }
 
@@ -70,7 +75,6 @@ export default class GoogleBooks {
   }
 
   protected populateBook(book: Book, googleBook: GoogleBook) {
-    book.id = googleBook.id;
     book.vendorIds = { googleBooks: googleBook.id };
     book.slug = "";
 

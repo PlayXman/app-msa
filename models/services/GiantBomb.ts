@@ -90,7 +90,6 @@ export default class GiantBomb {
     game.vendorIds = { giantBomb: game.id };
     /*
     TODO: Temporarily disable until the API is up and running again.
-    game.id = item.id?.toString() ?? "";
     game.vendorIds = {giantBomb: item.id?.toString() ?? ""};
     game.slug = "";
     game.title = item.name ?? "";
