@@ -6,7 +6,7 @@ import {
   resolveReleaseDate,
 } from "../services/igdb";
 import { SearchGamesRequest, SearchGamesResponse } from "./types";
-import { inspect } from "util";
+import { enforceAuthentication } from "../utils";
 
 /**
  * Search games from IGDB by name.
@@ -15,7 +15,9 @@ export const searchGames = onCall<
   SearchGamesRequest,
   Promise<SearchGamesResponse>
 >(async (request) => {
-  const { query } = request.data;
+  enforceAuthentication(request);
+
+  const { query } = request.data || {};
   logger.info(`Searching games for query: ${query}`);
 
   logger.debug("Creating IGDB client");
@@ -55,7 +57,7 @@ export const searchGames = onCall<
       .limit(10)
       .request("/games");
 
-    logger.debug("Returned results:", inspect(data, false, null, false));
+    logger.debug("Returned results", { data });
 
     return {
       games: (data as SearchResponseData).map((game) => {
