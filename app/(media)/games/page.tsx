@@ -3,12 +3,12 @@
 import React from "react";
 import Media from "@/models/Media";
 import Game from "@/app/(media)/games/Game";
-import GiantBomb from "@/models/services/GiantBomb";
 import ExtraActions from "@/app/(media)/games/ExtraActions";
 import PageLayout, {
   Props as PageLayoutProps,
 } from "@/app/(media)/_components/PageLayout";
 import { MAIN_COLOR } from "@/app/(media)/games/color";
+import GameCloudFunctions from "@/models/services/GameCloudFunctions";
 
 /**
  * Search for new items.
@@ -20,8 +20,8 @@ const handleNewItemsSearch: PageLayoutProps["onSearch"] = async (
     return [];
   }
 
-  const giantBomb = new GiantBomb();
-  return giantBomb.searchGames(searchText);
+  const gameDataProvider = new GameCloudFunctions();
+  return gameDataProvider.searchGames(searchText);
 };
 
 /**

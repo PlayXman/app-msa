@@ -23,6 +23,10 @@ const eslintConfig = defineConfig([
     ".firebase/**",
     "_*/**",
     "public/**/*.js",
+    // Functions folder
+    "functions/*.*",
+    "functions/node_modules/**",
+    "functions/lib/**",
   ]),
 ]);
 

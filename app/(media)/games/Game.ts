@@ -1,25 +1,30 @@
 import Media from "@/models/Media";
-import GiantBomb from "@/models/services/GiantBomb";
 import { Props as InfoLink } from "@/app/(media)/_components/MediaGrid/MediaGridItemMenuInfoLink";
 import { config } from "@/models/utils/config";
 import { encodeText } from "@/models/utils/urlHelpers";
+import GameCloudFunctions from "@/models/services/GameCloudFunctions";
 
 interface VendorIds {
   giantBomb?: string;
+  igdb?: number;
 }
 
 export default class Game extends Media<VendorIds> {
+  get mainVendorId(): string | number | null {
+    return this.vendorIds?.igdb ?? null;
+  }
+
   get modelName(): string {
     return "Games";
   }
 
   get batchOperationConcurrencyLimit(): number {
-    return 80;
+    return 500; // IGDB allows up to 500 IDs per request
   }
 
   async refresh(items: Game[]): Promise<Game[]> {
-    const giantBomb = new GiantBomb();
-    await giantBomb.fillGames(items);
+    const gameProvider = new GameCloudFunctions();
+    await gameProvider.fillGames(items);
 
     return items;
   }

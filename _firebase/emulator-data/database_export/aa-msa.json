@@ -93,7 +93,7 @@
     "Games": {
       "20464": {
         "vendorIds": {
-          "giantBomb": "20464"
+          "igdb": 562
         },
         "imageUrl": "https://www.giantbomb.com/a/uploads/scale_small/3/30036/1323469-939336_87218_front.jpg",
         "labels": [
@@ -106,7 +106,7 @@
       },
       "20470": {
         "vendorIds": {
-          "giantBomb": "20470"
+          "igdb": 6914
         },
         "imageUrl": "https://www.giantbomb.com/a/uploads/scale_small/8/87790/1824020-box_bioniccom.png",
         "releaseDate": "2009-05-18",
@@ -116,7 +116,7 @@
       },
       "20521": {
         "vendorIds": {
-          "giantBomb": "20521"
+          "igdb": 988
         },
         "imageUrl": "https://www.giantbomb.com/a/uploads/scale_small/8/87790/2079828-box_halowars.png",
         "releaseDate": "2009-02-26",
@@ -126,7 +126,7 @@
       },
       "20654": {
         "vendorIds": {
-          "giantBomb": "20654"
+          "igdb": 7351
         },
         "imageUrl": "https://www.giantbomb.com/a/uploads/scale_small/8/82063/2849529-doom.jpg",
         "labels": [
@@ -140,7 +140,7 @@
       },
       "20660": {
         "vendorIds": {
-          "giantBomb": "20660"
+          "igdb": 959
         },
         "imageUrl": "https://www.giantbomb.com/a/uploads/scale_small/8/87790/2167092-box_cacra3.png",
         "labels": [
@@ -153,7 +153,7 @@
       },
       "20703": {
         "vendorIds": {
-          "giantBomb": "20703"
+          "igdb": 4220
         },
         "imageUrl": "https://www.giantbomb.com/a/uploads/scale_small/8/87790/1825078-box_darkvoid.png",
         "releaseDate": "2010-01-15",
@@ -163,7 +163,7 @@
       },
       "20710": {
         "vendorIds": {
-          "giantBomb": "20710"
+          "igdb": 279337
         },
         "imageUrl": "https://www.giantbomb.com/a/uploads/scale_small/20/201266/3514050-0532446346-hero_.jpg",
         "releaseDate": "2009-10-29",

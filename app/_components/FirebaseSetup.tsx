@@ -4,6 +4,8 @@ import { initializeApp } from "firebase/app";
 import { config } from "@/models/utils/config";
 import { connectDatabaseEmulator, getDatabase } from "firebase/database";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
+import { connectFunctionsEmulator } from "@firebase/functions";
+import { getFunctions } from "firebase/functions";
 
 initializeApp(config.firebase);
 
@@ -14,6 +16,7 @@ if (process.env.NEXT_PUBLIC_EMULATORS === "true") {
     disableWarnings: true,
   });
   connectDatabaseEmulator(getDatabase(), "127.0.0.1", 9000);
+  connectFunctionsEmulator(getFunctions(), "127.0.0.1", 5001);
 }
 
 export default function FirebaseSetup() {

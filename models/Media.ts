@@ -39,6 +39,11 @@ export default abstract class Media<VendorIds extends Record<any, any> = any> {
   }
 
   /**
+   * Main vendor ID used to identify the item.
+   */
+  abstract get mainVendorId(): string | number | null;
+
+  /**
    * Name of the model. Lowercase, and used as a key in DB.
    */
   abstract get modelName(): string;
@@ -107,6 +112,19 @@ export default abstract class Media<VendorIds extends Record<any, any> = any> {
    */
   clone(): this {
     return new (this.constructor as any)(structuredClone(this));
+  }
+
+  /**
+   * Is equal to another media item? Compares their main vendor IDs.
+   */
+  isEqual(other: Media<VendorIds>): boolean {
+    const tId = this.mainVendorId;
+    const oId = other.mainVendorId;
+    if (tId == null || oId == null) {
+      return false;
+    }
+
+    return tId === oId;
   }
 
   /**

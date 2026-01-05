@@ -1,6 +1,6 @@
 {
   "name": "app-msa",
-  "version": "7.0.0",
+  "version": "8.0.0",
   "private": true,
   "license": "MIT",
   "bugs": {
@@ -13,7 +13,7 @@
   "scripts": {
     "prepare": "husky",
     "pre-commit": "lint-staged",
-    "dev:emulators": "firebase emulators:start --only auth,database --import=./_firebase/emulator-data",
+    "dev:emulators": "firebase emulators:start --only auth,database,functions --import=./_firebase/emulator-data",
     "dev:app": "next dev --webpack",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",

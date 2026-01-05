@@ -9,6 +9,10 @@ interface VendorIds {
 }
 
 export default class Book extends Media<VendorIds> {
+  get mainVendorId(): string | number | null {
+    return this.vendorIds?.googleBooks ?? null;
+  }
+
   get modelName(): string {
     return "Books";
   }
