@@ -20,6 +20,9 @@ export const refreshGames = onCall<
   enforceAuthentication(request);
 
   const { igdbIds } = request.data || {};
+  if (!igdbIds?.length) {
+    throw new HttpsError("invalid-argument", "No IGDB IDs provided");
+  }
   const igdbIdsString = igdbIds.join(",");
   logger.info(`Searching games by ID: ${igdbIdsString}`);
 
