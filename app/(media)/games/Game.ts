@@ -10,6 +10,10 @@ interface VendorIds {
 }
 
 export default class Game extends Media<VendorIds> {
+  get mainVendorId(): string | number | null {
+    return this.vendorIds?.igdb ?? null;
+  }
+
   get modelName(): string {
     return "Games";
   }

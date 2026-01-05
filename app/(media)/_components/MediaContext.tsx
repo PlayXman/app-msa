@@ -18,7 +18,9 @@ import { PersistedCache } from "@/models/PersistedCache";
 export type Model = (new (...args: any) => Media) | null;
 
 export interface MediaContextItem {
+  /** DB ID. */
   id: Media["id"];
+  /** Display in the list. */
   display: boolean;
   model: Media;
 }

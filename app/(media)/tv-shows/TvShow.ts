@@ -10,6 +10,10 @@ interface VendorIds {
 }
 
 export default class TvShow extends Media<VendorIds> {
+  get mainVendorId(): string | number | null {
+    return this.vendorIds?.tmdb ?? null;
+  }
+
   get modelName(): string {
     return "TvShows";
   }

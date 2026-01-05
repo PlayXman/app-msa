@@ -236,20 +236,20 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
                   </div>
                 ))
             ) : searchResults.length ? (
-              searchResults.map((media) => {
-                const isAdded = mediaStateItems.some(
-                  (item) => item.id === media.id,
+              searchResults.map((searchResult) => {
+                const isAdded = mediaStateItems.some((item) =>
+                  searchResult.isEqual(item.model),
                 );
 
                 return (
-                  <div key={media.id}>
+                  <div key={searchResult.mainVendorId}>
                     <MediaGridItemCard
-                      model={media}
+                      model={searchResult}
                       onClick={handleItemInfoPageNavigation}
                       actions={
                         <IconButton
                           label="Add"
-                          onClick={() => handleAddItem(media)}
+                          onClick={() => handleAddItem(searchResult)}
                           loading={addingItem}
                           disabled={isAdded}
                           color="secondary"
