@@ -61,6 +61,7 @@ export default function MediaGridItemMenuLabelsDialog({
           labelCounts.set(label, (labelCounts.get(label) ?? 0) + 1);
         }
       }
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setInitialLabels(new Map(labelCounts));
       setNextLabels(labelCounts);
       setNewLabel("");

@@ -6,6 +6,7 @@ import {
   get,
   query,
   orderByChild,
+  push,
 } from "firebase/database";
 import { slugify } from "@/models/utils/urlHelpers";
 import { Props as InfoLink } from "@/app/(media)/_components/MediaGrid/MediaGridItemMenuInfoLink";
@@ -19,8 +20,11 @@ export enum Status {
 /**
  * Base class for all media types.
  */
-export default abstract class Media {
+export default abstract class Media<VendorIds extends Record<any, any> = any> {
+  /** DB key. */
   id: string = "";
+  /** External provider IDs. */
+  vendorIds: VendorIds | null = null;
   slug: string = "";
   title: string = "";
   status: Status = Status.DEFAULT;
@@ -30,11 +34,7 @@ export default abstract class Media {
 
   constructor(obj?: Record<string, any>) {
     if (obj) {
-      for (const key of Object.keys(this)) {
-        const prop = key as keyof this;
-        const value = obj[key];
-        this[prop] = typeof value === typeof this[prop] ? value : this[prop];
-      }
+      Object.assign(this, obj);
     }
   }
 
@@ -74,11 +74,20 @@ export default abstract class Media {
   /**
    * Update item in DB.
    */
-  save(): Promise<void> {
+  async save(): Promise<void> {
     if (!this.id) {
-      throw new Error(`Missing ID for ${this.title}`);
+      // New item
+      const { key } = await push(
+        ref(getDatabase(), this.getDbPath()),
+        this.toDb(),
+      );
+      if (key) {
+        this.id = key;
+      }
+      return;
     }
 
+    // Existing item
     return set(ref(getDatabase(), this.getDbPath(this.id)), this.toDb());
   }
 
@@ -97,15 +106,13 @@ export default abstract class Media {
    * Clone this instance.
    */
   clone(): this {
-    return new (this.constructor as any)(
-      Object.fromEntries(Object.entries(this)),
-    );
+    return new (this.constructor as any)(structuredClone(this));
   }
 
   /**
    * Update items from external sources.
    */
-  abstract refresh(items: Media[]): Promise<Media[]>;
+  abstract refresh(items: Media<VendorIds>[]): Promise<Media<VendorIds>[]>;
 
   /**
    * Should display?
@@ -144,7 +151,7 @@ export default abstract class Media {
    *
    * @returns null if not implemented/applicable.
    */
-  async fetchItemsFromExternalSource(): Promise<Media[] | null> {
+  async fetchItemsFromExternalSource(): Promise<Media<VendorIds>[] | null> {
     return null;
   }
 
@@ -188,6 +195,7 @@ export default abstract class Media {
   protected toDb(): object {
     return {
       slug: this.slug || slugify(this.title),
+      vendorIds: this.vendorIds,
       title: this.title,
       status: this.status,
       labels: this.labels,

@@ -39,6 +39,7 @@ export default function RefreshButton() {
   // Refresh labels.
   useEffect(() => {
     if (!disabled && progress >= 100) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setProgress(0);
       notification({ type: "loading", message: "Refreshing labels..." });
       refreshLabels()

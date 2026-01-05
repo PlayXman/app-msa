@@ -4,7 +4,11 @@ import { Props as InfoLink } from "@/app/(media)/_components/MediaGrid/MediaGrid
 import { config } from "@/models/utils/config";
 import { encodeText } from "@/models/utils/urlHelpers";
 
-export default class Book extends Media {
+interface VendorIds {
+  googleBooks?: string;
+}
+
+export default class Book extends Media<VendorIds> {
   get modelName(): string {
     return "Books";
   }
@@ -34,23 +38,25 @@ export default class Book extends Media {
   }
 
   get infoLinks(): InfoLink[] {
+    const encodedTitle = encodeText(this.title);
+
     return [
       {
         variant: "googleBooks",
-        url: config.vendors.googleBooks.infoUrl + this.id,
+        url: config.vendors.googleBooks.infoUrl + this.vendorIds?.googleBooks,
       },
       {
         variant: "amazon",
-        url: config.vendors.amazonCom.searchUrl + encodeText(this.title),
+        url: config.vendors.amazonCom.searchUrl + encodedTitle,
       },
       {
         variant: "goodreads",
-        url: config.vendors.goodreadsCom.searchUrl + encodeText(this.title),
+        url: config.vendors.goodreadsCom.searchUrl + encodedTitle,
       },
     ];
   }
 
   get searchInfoLink(): string {
-    return config.vendors.googleBooks.infoUrl + this.id;
+    return config.vendors.googleBooks.infoUrl + this.vendorIds?.googleBooks;
   }
 }

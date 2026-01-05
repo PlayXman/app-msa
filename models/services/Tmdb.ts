@@ -6,7 +6,7 @@ import {
   ShowResponse,
   TvResult,
 } from "moviedb-promise";
-import Movie, { FALLBACK_ID_PREFIX } from "@/app/(media)/movies/Movie";
+import Movie from "@/app/(media)/movies/Movie";
 import { config } from "@/models/utils/config";
 import TvShow from "@/app/(media)/tv-shows/TvShow";
 
@@ -78,17 +78,16 @@ export class Tmdb {
    * @param movie
    */
   async fillMovie(movie: Movie): Promise<void> {
-    if (movie.id.startsWith(FALLBACK_ID_PREFIX)) {
-      return;
+    const id = movie.vendorIds?.tmdb;
+    if (!id) {
+      throw new Error("Missing TMDB ID");
     }
 
     const movieDb = new MovieDb(await this.getApiKey());
-
-    const response = await movieDb.movieInfo({
-      id: movie.id,
+    const movieInfo = await movieDb.movieInfo({
+      id,
     });
-
-    this.populateMovie(movie, response);
+    this.populateMovie(movie, movieInfo);
   }
 
   /**
@@ -96,17 +95,16 @@ export class Tmdb {
    * @param tvShow
    */
   async fillTvShow(tvShow: TvShow): Promise<void> {
-    if (tvShow.id.startsWith(FALLBACK_ID_PREFIX)) {
-      return;
+    const id = tvShow.vendorIds?.tmdb;
+    if (!id) {
+      throw new Error("Missing TMDB ID");
     }
 
     const movieDb = new MovieDb(await this.getApiKey());
-
-    const response = await movieDb.tvInfo({
-      id: tvShow.id,
+    const tvInfo = await movieDb.tvInfo({
+      id,
     });
-
-    this.populateTvShow(tvShow, response);
+    this.populateTvShow(tvShow, tvInfo);
   }
 
   protected async getApiKey(): Promise<string> {
@@ -122,6 +120,7 @@ export class Tmdb {
     movie: Movie,
     tmdbData: MovieResult | MovieResponse,
   ): void {
+    movie.vendorIds = { tmdb: tmdbData.id?.toString() ?? "" };
     movie.slug = "";
     movie.title = tmdbData.title ?? "";
     movie.imageUrl = tmdbData.poster_path
@@ -134,6 +133,7 @@ export class Tmdb {
     tvShow: TvShow,
     tmdbData: TvResult | ShowResponse,
   ): void {
+    tvShow.vendorIds = { tmdb: tmdbData.id?.toString() ?? "" };
     tvShow.slug = "";
     tvShow.title = tmdbData.name ?? "";
     tvShow.imageUrl = tmdbData.poster_path

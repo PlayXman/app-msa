@@ -42,6 +42,7 @@ export default function TextSearch() {
   // Reset on page navigation.
   useEffect(() => {
     if (model) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSearchText("");
     }
   }, [model]);

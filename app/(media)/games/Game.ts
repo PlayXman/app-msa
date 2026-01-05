@@ -4,7 +4,11 @@ import { Props as InfoLink } from "@/app/(media)/_components/MediaGrid/MediaGrid
 import { config } from "@/models/utils/config";
 import { encodeText } from "@/models/utils/urlHelpers";
 
-export default class Game extends Media {
+interface VendorIds {
+  giantBomb?: string;
+}
+
+export default class Game extends Media<VendorIds> {
   get modelName(): string {
     return "Games";
   }

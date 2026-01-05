@@ -11,7 +11,6 @@ import {
 import Media, { Status } from "@/models/Media";
 import { useNotificationDispatch } from "@/app/_components/NotificationContext";
 import { LinearProgress, SxProps, Theme } from "@mui/material";
-import { func } from "prop-types";
 import { PersistedCache } from "@/models/PersistedCache";
 
 // Context
@@ -110,7 +109,7 @@ function reducer(
         loading: state.loading,
         selectedItems: state.selectedItems,
         items: state.items.map((item) => {
-          let nextDisplay = item.model.display({
+          const nextDisplay = item.model.display({
             text: action.text,
             isReleased: action.isReleased,
             status: action.status,
@@ -230,6 +229,7 @@ export function MediaContextProvider({ mediaModel, children }: Props) {
       try {
         setInitialLoadingProgress(0);
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [_, previousItems, externalSourceItems] = await Promise.all([
           fetchItemsFromCache(),
           fetchItemsFromDatabase(),

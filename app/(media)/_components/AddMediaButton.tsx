@@ -157,6 +157,7 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
   useEffect(() => {
     if (!loading && fetchResults && firstOpen) {
       if (quickSearchValue) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSearchText(quickSearchValue);
         fetchResults().then();
       }
