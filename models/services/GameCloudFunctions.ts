@@ -1,5 +1,7 @@
 import { getFunctions, httpsCallable } from "firebase/functions";
 import {
+  RefreshGamesRequest,
+  RefreshGamesResponse,
   SearchGamesRequest,
   SearchGamesResponse,
 } from "@/functions/src/handlers/types";
@@ -28,6 +30,34 @@ export default class GameCloudFunctions {
       this.populateGame(game, item);
       return game;
     });
+  }
+
+  /**
+   * Fill game details from IGDB API.
+   */
+  async fillGames(games: Game[]): Promise<void> {
+    const igdbIds = games.reduce<number[]>((result, game) => {
+      if (game.vendorIds?.igdb != null) {
+        result.push(game.vendorIds.igdb);
+      }
+      return result;
+    }, []);
+    const callable = httpsCallable<RefreshGamesRequest, RefreshGamesResponse>(
+      getFunctions(),
+      "refreshGames",
+      {
+        timeout: 5000,
+      },
+    );
+    const response = await callable({ igdbIds });
+
+    for (const nextData of response.data.games) {
+      const game = games.find((g) => g.mainVendorId === nextData.igdbId);
+
+      if (game != null) {
+        this.populateGame(game, nextData);
+      }
+    }
   }
 
   protected populateGame(

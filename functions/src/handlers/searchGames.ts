@@ -4,6 +4,8 @@ import {
   createIgdbClient,
   createImageUrl,
   resolveReleaseDate,
+  SearchEndpointResponseData,
+  standardGameFields,
 } from "../services/igdb";
 import { SearchGamesRequest, SearchGamesResponse } from "./types";
 import { enforceAuthentication } from "../utils";
@@ -26,29 +28,8 @@ export const searchGames = onCall<
   try {
     logger.debug("Sending search request to IGDB");
     // @see https://api-docs.igdb.com/?javascript#game
-    type SearchResponseData = Array<{
-      id: number;
-      name: string;
-      slug: string;
-      cover?: {
-        image_id: string;
-      };
-      release_dates?: Array<{
-        date: number;
-        y: number;
-        date_format: number;
-      }>;
-    }>;
-
     const { data } = await igdnClient
-      .fields([
-        "name",
-        "slug",
-        "cover.image_id",
-        "release_dates.date",
-        "release_dates.y",
-        "release_dates.date_format",
-      ])
+      .fields(standardGameFields)
       .search(query)
       .where([
         "version_parent = null", // remove bundles
@@ -60,7 +41,7 @@ export const searchGames = onCall<
     logger.debug("Returned results", { data });
 
     return {
-      games: (data as SearchResponseData).map((game) => {
+      games: (data as SearchEndpointResponseData).map((game) => {
         return {
           igdbId: game.id,
           name: game.name,

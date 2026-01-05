@@ -123,3 +123,37 @@ export function resolveReleaseDate(releaseDates: Array<ReleaseDate>): string {
       return "";
   }
 }
+
+/**
+ * Standard expected fields returned by `/games` endpoint. They are the bare minimum for constructing the `Game` object.
+ *
+ * @see Game
+ */
+export const standardGameFields = [
+  "name",
+  "slug",
+  "cover.image_id",
+  "release_dates.date",
+  "release_dates.y",
+  "release_dates.date_format",
+];
+
+/**
+ * Returned data type from IGDB `/games` endpoint matching `standardGameFields` field set.
+ *
+ * @see standardGameFields
+ * @see https://api-docs.igdb.com/?javascript#game
+ */
+export type SearchEndpointResponseData = Array<{
+  id: number;
+  name: string;
+  slug: string;
+  cover?: {
+    image_id: string;
+  };
+  release_dates?: Array<{
+    date: number;
+    y: number;
+    date_format: number;
+  }>;
+}>;
