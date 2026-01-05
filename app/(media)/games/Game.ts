@@ -6,6 +6,7 @@ import { encodeText } from "@/models/utils/urlHelpers";
 
 interface VendorIds {
   giantBomb?: string;
+  igdb?: number;
 }
 
 export default class Game extends Media<VendorIds> {
@@ -14,7 +15,7 @@ export default class Game extends Media<VendorIds> {
   }
 
   get batchOperationConcurrencyLimit(): number {
-    return 80;
+    return Infinity;
   }
 
   async refresh(items: Game[]): Promise<Game[]> {
