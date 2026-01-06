@@ -26,7 +26,7 @@ export default function PageTheme({
   const globalStyles = useMemo(
     () => ({
       body: {
-        backgroundImage: `radial-gradient(ellipse at calc(100% - ${theme.spacing(SX_WIDTH)} - 28px) calc(100% - ${theme.spacing(2)} - 28px), ${colorToHexAlpha(theme.palette.secondary.main, 0.4)} 0%, ${colorToHexAlpha(theme.palette.secondary.main, 0)} 100%)`,
+        backgroundImage: `radial-gradient(ellipse at calc(100% - ${theme.spacing(SX_WIDTH)} - 28px) calc(100% - ${theme.spacing(2)} - 28px), ${colorToHexAlpha(theme.palette.secondary.main, 0.4)} 0%, ${colorToHexAlpha(theme.palette.secondary.main, 0.1)} 100%)`,
       },
     }),
     [theme],
