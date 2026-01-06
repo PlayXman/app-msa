@@ -14,7 +14,7 @@ const rootSx: SxProps = {
   alignItems: "center",
   backgroundColor: "background.paper",
   color: "text.primary",
-  backgroundImage: `radial-gradient( ellipse at 50% 4rem, var(--mediaButtonColor) 0%, rgba(0,0,0,0) 100% )`,
+  backgroundImage: `radial-gradient( ellipse at 50% 4rem, var(--mediaButtonColor) 0%, var(--secondaryMediaButtonColor) 100% )`,
   "&:hover": {
     backgroundColor: "var(--mediaButtonColor)",
   },
@@ -38,6 +38,7 @@ export default function MediaButton({
       sx={{
         ...rootSx,
         "--mediaButtonColor": colorToHexAlpha(bgColor, 0.4),
+        "--secondaryMediaButtonColor": colorToHexAlpha(bgColor, 0.1),
       }}
       component={Link}
       href={href}
