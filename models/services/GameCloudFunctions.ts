@@ -20,7 +20,7 @@ export default class GameCloudFunctions {
       getFunctions(),
       "searchGames",
       {
-        timeout: 5000,
+        timeout: 20000,
       },
     );
     const response = await callable({ query: title });
@@ -46,7 +46,7 @@ export default class GameCloudFunctions {
       getFunctions(),
       "refreshGames",
       {
-        timeout: 5000,
+        timeout: 20000,
       },
     );
     const response = await callable({ igdbIds });
