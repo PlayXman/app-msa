@@ -17,8 +17,8 @@ import { formatDate } from "@/models/utils/formatters";
 import Image from "next/image";
 import MediaGridItemCardLabels from "@/app/(media)/_components/MediaGrid/labels/MediaGridItemCardLabels";
 
-const IMAGE_WIDTH = 158;
-const IMAGE_HEIGHT = 200;
+const IMAGE_WIDTH = 160;
+const IMAGE_HEIGHT = 210;
 
 const cardSx: SxProps<Theme> = {
   height: "100%",
