@@ -1,4 +1,10 @@
-import React, { FormEvent, useCallback, useEffect, useState } from "react";
+import React, {
+  SubmitEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   AppBar,
   Box,
@@ -76,6 +82,7 @@ export interface Props {
 }
 
 export default function AddMediaButton({ loading, onSearch }: Props) {
+  const searchFieldRef = useRef<HTMLDivElement>(null);
   /** Is the dialog opened for the first time? */
   const [firstOpen, setFirstOpen] = useState(true);
   const [searchText, setSearchText] = useState("");
@@ -116,9 +123,10 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
   }, []);
   const handleClearSearch = useCallback(() => {
     setSearchText("");
+    searchFieldRef.current?.focus();
   }, []);
-  const handleSubmitSearch = useCallback(
-    async (event: FormEvent) => {
+  const handleSubmitSearch = useCallback<SubmitEventHandler>(
+    async (event) => {
       event.preventDefault();
       await fetchResults();
     },
@@ -176,11 +184,13 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
         open={open}
         onClose={handleClose}
         hideBackdrop
-        PaperProps={{
-          sx: backgroundSx,
+        slotProps={{
+          paper: {
+            sx: backgroundSx,
+          },
         }}
       >
-        <AppBar position="relative" color="secondary" enableColorOnDark>
+        <AppBar position="fixed" color="secondary" enableColorOnDark>
           <Toolbar sx={toolbarSx}>
             <Typography variant="h6" sx={{ color: "inherit" }}>
               New Item
@@ -190,6 +200,7 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
             </IconButton>
           </Toolbar>
         </AppBar>
+        <Toolbar />
         <Container maxWidth="sm" sx={contentSx}>
           <Box sx={listSx}>
             <Box
@@ -207,14 +218,17 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
                 fullWidth
                 value={searchText}
                 onChange={handleSearchChange}
-                InputProps={{
-                  endAdornment: searchText.length ? (
-                    <InputAdornment position="end">
-                      <IconButton onClick={handleClearSearch}>
-                        <ClearIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ) : null,
+                slotProps={{
+                  input: {
+                    inputRef: searchFieldRef,
+                    endAdornment: searchText.length ? (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleClearSearch}>
+                          <ClearIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ) : null,
+                  },
                 }}
               />
             </Box>

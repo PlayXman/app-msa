@@ -7,6 +7,7 @@ import SteamLogoIcon from "@/components/icons/SteamLogoIcon";
 import EpicLogoIcon from "@/components/icons/EpicLogoIcon";
 import Game from "@/app/(media)/games/Game";
 import { SpecialLabels } from "@/app/(media)/_components/MediaGrid/labels/specialLabels";
+import { Status } from "@/models/Media";
 
 export default function ExtraActions({ item }: { item: Game }) {
   const { dispatchMedia } = useMediaContext();
@@ -16,6 +17,8 @@ export default function ExtraActions({ item }: { item: Game }) {
 
   const handleClick = async (label: SpecialLabels) => {
     try {
+      const nextItem = item.clone();
+
       const nextLabels = new Set(labels);
       if (nextLabels.has(label)) {
         // Remove
@@ -25,9 +28,10 @@ export default function ExtraActions({ item }: { item: Game }) {
         // Add
         nextLabels.add(label);
         await updateLabels([label], []);
+        nextItem.status = Status.OWNED;
       }
-      const nextItem = item.clone();
       nextItem.labels = Array.from(nextLabels);
+
       await nextItem.save();
       dispatchMedia({
         type: "update",

@@ -15,6 +15,8 @@ import { useMediaContext } from "@/app/(media)/_components/MediaContext";
 import { useFilterContext } from "@/app/(media)/_components/FilterContext";
 import { useLabelContext } from "@/app/(media)/_components/LabelContext";
 
+const MINIMAL_SEARCH_LENGTH = 2;
+
 const fieldSx: SxProps<Theme> = {
   borderRadius: 50,
   backgroundColor: (theme) => theme.palette.grey["800"],
@@ -52,7 +54,7 @@ export default function TextSearch() {
     const search = searchText.trim();
     let timeoutId: ReturnType<typeof setTimeout> | undefined = undefined;
 
-    if (search.length > 2 || search.length === 0) {
+    if (search.length >= MINIMAL_SEARCH_LENGTH || search.length === 0) {
       timeoutId = setTimeout(() => {
         dispatchMedia({
           type: "filter",

@@ -39,8 +39,8 @@ export const config = {
       },
     },
     traktTv: {
-      movieSearchUrl: "https://trakt.tv/search/movies?query=",
-      tvShowSearchUrl: "https://trakt.tv/search/shows?query=",
+      movieSearchUrl: "https://app.trakt.tv/search?m=movie&q=",
+      tvShowSearchUrl: "https://app.trakt.tv/search?m=show&q=",
     },
     amazonCom: {
       searchUrl: "https://www.amazon.com/s?k=",

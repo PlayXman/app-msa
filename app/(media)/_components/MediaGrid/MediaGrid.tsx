@@ -13,7 +13,7 @@ import MediaGridItemMenu, {
 } from "@/app/(media)/_components/MediaGrid/MediaGridItemMenu";
 import { slugToAlphabet } from "@/models/utils/formatters";
 
-export const ITEM_WIDTH = 158;
+export const ITEM_WIDTH = 160;
 const GAP_SX_WIDTH = 1;
 
 const listSx: SxProps = {
@@ -26,7 +26,7 @@ const listSx: SxProps = {
   alignItems: "stretch",
   gap: GAP_SX_WIDTH,
   gridTemplateColumns: {
-    xs: "repeat(2, 50%)",
+    xs: `repeat(2, min(50%, ${ITEM_WIDTH}px))`,
     sm: `repeat(auto-fit, ${ITEM_WIDTH}px)`,
   },
   gridAutoFlow: "row",

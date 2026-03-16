@@ -65,7 +65,7 @@ export default class GameCloudFunctions {
     item: SearchGamesResponse["games"][number],
   ): void {
     game.vendorIds = { igdb: item.igdbId ?? undefined };
-    game.slug = item.slug;
+    game.slug = "";
     game.title = item.name;
     game.imageUrl = item.imageUrl;
     game.releaseDate = item.releaseDate;
