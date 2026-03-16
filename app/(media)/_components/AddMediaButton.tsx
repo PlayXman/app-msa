@@ -190,7 +190,7 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
           },
         }}
       >
-        <AppBar position="relative" color="secondary" enableColorOnDark>
+        <AppBar position="fixed" color="secondary" enableColorOnDark>
           <Toolbar sx={toolbarSx}>
             <Typography variant="h6" sx={{ color: "inherit" }}>
               New Item
@@ -200,6 +200,7 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
             </IconButton>
           </Toolbar>
         </AppBar>
+        <Toolbar />
         <Container maxWidth="sm" sx={contentSx}>
           <Box sx={listSx}>
             <Box
