@@ -16,6 +16,7 @@ import {
   Badge,
   SxProps,
   Theme,
+  DialogProps,
 } from "@mui/material";
 import Button from "@/components/Button";
 import { Status } from "@/models/Media";
@@ -91,6 +92,15 @@ export default function Filter() {
     setStatusState(value);
   }, []);
 
+  const handleClose = useCallback<NonNullable<DialogProps["onClose"]>>(
+    (_event, reason) => {
+      if (reason !== "escapeKeyDown") {
+        setOpen(false);
+      }
+    },
+    [],
+  );
+
   const handleSubmit = useCallback(() => {
     const isReleased =
       releaseState === "" ? undefined : releaseState === "true";
@@ -130,10 +140,15 @@ export default function Filter() {
         </Badge>
       </IconButton>
 
-      <Dialog disableEscapeKeyDown open={open}>
+      <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Filter</DialogTitle>
         <DialogContent>
-          <Stack spacing={2} direction="row" useFlexGap flexWrap="wrap">
+          <Stack
+            spacing={2}
+            direction="row"
+            useFlexGap
+            sx={{ flexWrap: "wrap" }}
+          >
             <FormControl color="secondary">
               <FormLabel>Release state</FormLabel>
               <RadioGroup value={releaseState} onChange={handleReleaseChange}>

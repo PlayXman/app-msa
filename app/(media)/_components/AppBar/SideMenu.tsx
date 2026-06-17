@@ -61,7 +61,13 @@ export default function SideMenu() {
         onClose={handleClose}
         disableSwipeToOpen
       >
-        <Box p={4} bgcolor="secondary.dark" color="secondary.contrastText">
+        <Box
+          sx={{
+            p: 4,
+            bgcolor: "secondary.dark",
+            color: "secondary.contrastText",
+          }}
+        >
           <Avatar alt="MSA" src="/images/logo.svg" sx={logoSx} />
           <Typography variant="h6" sx={{ color: "white" }}>
             MediaStorage App

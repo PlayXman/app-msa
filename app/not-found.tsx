@@ -16,7 +16,7 @@ export default function NotFound() {
       }}
     >
       <Grid size="auto">
-        <Typography variant="h1" textAlign="center">
+        <Typography variant="h1" sx={{ textAlign: "center" }}>
           404
         </Typography>
         <Button variant="outlined" component={Link} href="/">

@@ -239,7 +239,9 @@ export default function MediaGrid({
               return (
                 <Box
                   key={item.id}
-                  display={!item.display ? "none" : undefined}
+                  sx={{
+                    display: !item.display ? "none" : undefined,
+                  }}
                   id={id}
                 >
                   <MediaGridItem
