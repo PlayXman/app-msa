@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Button, GridLegacy as Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import Link from "next/link";
 
 export default function NotFound() {
@@ -9,11 +9,13 @@ export default function NotFound() {
     <Grid
       container
       component="main"
-      justifyContent="center"
-      alignItems="center"
-      height="100%"
+      sx={{
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+      }}
     >
-      <Grid item>
+      <Grid size="auto">
         <Typography variant="h1" textAlign="center">
           404
         </Typography>

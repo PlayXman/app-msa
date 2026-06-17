@@ -11,7 +11,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  GridLegacy as Grid,
+  Grid,
   TextField,
 } from "@mui/material";
 import { useLabelContext } from "@/app/(media)/_components/LabelContext";
@@ -146,7 +146,7 @@ export default function MediaGridItemMenuLabelsDialog({
       <DialogTitle>Edit labels</DialogTitle>
       <DialogContent>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <form onSubmit={handleLabelAdd}>
               <TextField
                 margin="dense"
@@ -165,7 +165,7 @@ export default function MediaGridItemMenuLabelsDialog({
             const isSelectedOnAllItems = count === modelCount;
             const Icon = SPECIAL_LABELS[label];
             return (
-              <Grid item key={label}>
+              <Grid size="auto" key={label}>
                 <Chip
                   label={label}
                   variant={isSelected ? "filled" : "outlined"}

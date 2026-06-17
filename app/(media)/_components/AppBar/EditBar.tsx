@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import {
   AppBar,
-  GridLegacy as Grid,
+  Grid,
   IconButton,
   Slide,
   Toolbar,
@@ -26,28 +26,31 @@ export default function EditBar() {
         <Toolbar>
           <Grid
             container
-            justifyContent="space-between"
-            alignItems="center"
+            sx={{
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexGrow: 1,
+            }}
             wrap="nowrap"
             spacing={1}
           >
-            <Grid item>
+            <Grid size="auto">
               <IconButton color="inherit" edge="start" onClick={handleClear}>
                 <CloseIcon />
               </IconButton>
             </Grid>
-            <Grid item xs>
+            <Grid size="grow">
               <Typography variant="h6" sx={{ color: "inherit" }}>
                 Selected {selectedItems.size}
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid size="auto">
               <StatusButton />
             </Grid>
-            <Grid item>
+            <Grid size="auto">
               <LabelButton />
             </Grid>
-            <Grid item>
+            <Grid size="auto">
               <DeleteButton />
             </Grid>
           </Grid>

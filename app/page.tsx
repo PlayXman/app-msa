@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useReducer } from "react";
 import {
   Container,
-  GridLegacy as Grid,
+  Grid,
   SxProps,
   TextField,
   TextFieldProps,
@@ -16,6 +16,9 @@ import GamesNavigationButton from "@/app/(media)/games/NavigationButton";
 import BooksNavigationButton from "@/app/(media)/books/NavigationButton";
 
 const containerSx: SxProps = {
+  justifyContent: "center",
+  alignItems: "center",
+  alignContent: "center",
   py: 2,
   minHeight: "100vh",
 };
@@ -56,21 +59,14 @@ export default function Page() {
   return (
     <main>
       <Container maxWidth="md">
-        <Grid
-          container
-          justifyContent="center"
-          alignItems="center"
-          alignContent="center"
-          spacing={{ xs: 2, sm: 4 }}
-          sx={containerSx}
-        >
-          <Grid item xs={12}>
+        <Grid container spacing={{ xs: 2, sm: 4 }} sx={containerSx}>
+          <Grid size={12}>
             <Typography variant="h5" align="center">
               MediaStorage App
             </Typography>
           </Grid>
-          <Grid item xs={false} sm={3} sx={hideOnMobileSx} />
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ sm: 3 }} sx={hideOnMobileSx} />
+          <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               type="search"
               placeholder="Quick add..."
@@ -80,17 +76,17 @@ export default function Page() {
               value={quickSearchValue}
             />
           </Grid>
-          <Grid item xs={false} sm={3} sx={hideOnMobileSx} />
-          <Grid item xs={6} sm={3}>
+          <Grid size={{ sm: 3 }} sx={hideOnMobileSx} />
+          <Grid size={{ xs: 6, sm: 3 }}>
             <MoviesNavigationButton urlParam={quickSearchUrlParam} />
           </Grid>
-          <Grid item xs={6} sm={3}>
+          <Grid size={{ xs: 6, sm: 3 }}>
             <GamesNavigationButton urlParam={quickSearchUrlParam} />
           </Grid>
-          <Grid item xs={6} sm={3}>
+          <Grid size={{ xs: 6, sm: 3 }}>
             <BooksNavigationButton urlParam={quickSearchUrlParam} />
           </Grid>
-          <Grid item xs={6} sm={3}>
+          <Grid size={{ xs: 6, sm: 3 }}>
             <TvShowsNavigationButton urlParam={quickSearchUrlParam} />
           </Grid>
         </Grid>

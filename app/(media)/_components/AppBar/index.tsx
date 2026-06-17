@@ -3,7 +3,7 @@ import {
   useScrollTrigger,
   AppBar as MuiAppBar,
   Toolbar,
-  GridLegacy as Grid,
+  Grid,
 } from "@mui/material";
 import SideMenu from "@/app/(media)/_components/AppBar/SideMenu";
 import { FilterContextProvider } from "@/app/(media)/_components/FilterContext";
@@ -33,29 +33,34 @@ export default function AppBar() {
         <Toolbar>
           <Grid
             container
-            justifyContent="space-between"
-            alignItems="center"
+            sx={{
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexGrow: 1,
+            }}
             wrap="nowrap"
             spacing={1}
           >
-            <Grid item xs="auto" sm={2}>
+            <Grid size={{ xs: "auto", sm: 2 }}>
               <SideMenu />
             </Grid>
             <FilterContextProvider>
-              <Grid item xs sm={4}>
+              <Grid size={{ xs: "grow", sm: 4 }}>
                 <TextSearch />
               </Grid>
-              <Grid item xs="auto" sm={2}>
+              <Grid size={{ xs: "auto", sm: 2 }}>
                 <Grid
                   container
-                  justifyContent="flex-end"
+                  sx={{
+                    justifyContent: "flex-end",
+                  }}
                   wrap="nowrap"
                   spacing={1}
                 >
-                  <Grid item>
+                  <Grid size="auto">
                     <Filter />
                   </Grid>
-                  <Grid item>
+                  <Grid size="auto">
                     <RefreshButton />
                   </Grid>
                 </Grid>
