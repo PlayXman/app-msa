@@ -16,6 +16,10 @@
 # production
 /build
 
+# Serwist
+public/sw*
+public/swe-worker*
+
 # misc
 .DS_Store
 *.pem
