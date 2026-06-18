@@ -15,8 +15,10 @@
 
 # production
 /build
-/public/sw*
-/public/workbox*
+
+# Serwist
+public/sw*
+public/swe-worker*
 
 # misc
 .DS_Store
