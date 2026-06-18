@@ -1,7 +1,7 @@
 import {
   Box,
   Divider,
-  GridLegacy as Grid,
+  Grid,
   List,
   ListItem,
   Paper,
@@ -112,8 +112,8 @@ function MediaGridItemMenu({
     >
       {model == null ? null : (
         <>
-          <Grid container justifyContent="center" onClick={onClose}>
-            <Grid item xs sm={7} md={5} lg={4} xl={4}>
+          <Grid container sx={{ justifyContent: "center" }} onClick={onClose}>
+            <Grid size={{ xs: "grow", sm: 7, md: 5, lg: 4, xl: 4 }}>
               <Box sx={imageSx}>
                 {model.imageUrl ? (
                   <Image
@@ -129,8 +129,8 @@ function MediaGridItemMenu({
             </Grid>
           </Grid>
           <Paper elevation={8} sx={backgroundSx}>
-            <Grid container justifyContent="center">
-              <Grid item xs sm={7} md={5} lg={4} xl={4}>
+            <Grid container sx={{ justifyContent: "center" }}>
+              <Grid size={{ xs: "grow", sm: 7, md: 5, lg: 4, xl: 4 }}>
                 <Box sx={headingSx}>
                   <Typography variant="h5" gutterBottom>
                     {model.title}
@@ -145,7 +145,7 @@ function MediaGridItemMenu({
                   <ListItem>
                     <Grid container spacing={1}>
                       {model.infoLinks.map((link, index) => (
-                        <Grid item xs key={index}>
+                        <Grid size="grow" key={index}>
                           <MediaGridItemMenuInfoLink
                             variant={link.variant}
                             url={link.url}

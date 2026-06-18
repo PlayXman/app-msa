@@ -206,7 +206,7 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
             <Box
               component="form"
               onSubmit={handleSubmitSearch}
-              gridColumn="1 / -1"
+              sx={{ gridColumn: "1 / -1" }}
             >
               <TextField
                 placeholder="Search title..."

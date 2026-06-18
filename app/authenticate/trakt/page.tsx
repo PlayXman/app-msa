@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense } from "react";
-import { Button, GridLegacy as Grid, Typography } from "@mui/material";
+import { Button, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 import TraktAuthentication from "@/app/authenticate/trakt/TraktAuthentication";
 
@@ -11,27 +11,27 @@ import TraktAuthentication from "@/app/authenticate/trakt/TraktAuthentication";
  */
 export default function Page() {
   return (
-    <Grid
-      container
+    <Stack
       component="main"
-      direction="column"
-      justifyContent="center"
-      alignItems="center"
-      height="100%"
+      sx={{
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+      }}
       spacing={2}
     >
-      <Grid item>
-        <Typography variant="h5" textAlign="center">
+      <Grid size="auto">
+        <Typography variant="h5" sx={{ textAlign: "center" }}>
           Sign in to your Trakt account and authorize MediaStorage app. When
           finished you will be redirected back to the app.
         </Typography>
       </Grid>
-      <Grid item>
-        <Typography variant="body1" textAlign="center">
+      <Grid size="auto">
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           You can close this tab.
         </Typography>
       </Grid>
-      <Grid item>
+      <Grid size="auto">
         <Button variant="outlined" component={Link} href="/">
           Back to home screen
         </Button>
@@ -40,6 +40,6 @@ export default function Page() {
       <Suspense>
         <TraktAuthentication />
       </Suspense>
-    </Grid>
+    </Stack>
   );
 }

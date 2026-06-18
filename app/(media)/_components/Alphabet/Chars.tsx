@@ -38,6 +38,8 @@ const alphabetSx: SxProps<Theme> = {
   overflow: "auto",
   py: 2,
   width: "100%",
+  justifyContent: "space-between",
+  alignItems: "center",
 };
 const charSx: SxProps<Theme> = (theme) => ({
   textDecoration: "none",
@@ -62,12 +64,7 @@ function Chars({ loading, activeLetters }: Props) {
   return (
     <>
       <Toolbar />
-      <Stack
-        direction="column"
-        justifyContent="space-between"
-        alignItems="center"
-        sx={alphabetSx}
-      >
+      <Stack direction="column" sx={alphabetSx}>
         {loading ? (
           <Skeleton variant="rectangular" width={fontSize} height="100%" />
         ) : (

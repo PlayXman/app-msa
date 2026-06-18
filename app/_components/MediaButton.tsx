@@ -1,5 +1,5 @@
 import React from "react";
-import { SxProps, Typography } from "@mui/material";
+import { SxProps, Theme, Typography } from "@mui/material";
 import Button from "@/components/Button";
 import { SvgIconComponent } from "@mui/icons-material";
 import Link from "next/link";
@@ -18,6 +18,10 @@ const rootSx: SxProps = {
   "&:hover": {
     backgroundColor: "var(--mediaButtonColor)",
   },
+};
+
+const labelSx: SxProps<Theme> = {
+  whiteSpace: "nowrap",
 };
 
 export default function MediaButton({
@@ -47,7 +51,9 @@ export default function MediaButton({
         <Icon fontSize="large" />
       </div>
       <div>
-        <Typography variant="h6">{label}</Typography>
+        <Typography sx={labelSx} variant="h6">
+          {label}
+        </Typography>
       </div>
     </Button>
   );

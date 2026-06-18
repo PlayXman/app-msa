@@ -50,7 +50,13 @@ export default function Page() {
   );
 
   return (
-    <Stack justifyContent="center" alignItems="center" height="100%">
+    <Stack
+      sx={{
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+      }}
+    >
       <Card sx={cardSx}>
         <form onSubmit={handleSubmit}>
           <CardContent>

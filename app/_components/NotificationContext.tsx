@@ -92,7 +92,7 @@ function reducer(
         open: true,
         autoHideDuration: null,
         message: (
-          <Stack spacing={2} direction="row" alignItems="center">
+          <Stack spacing={2} direction="row" sx={{ alignItems: "center" }}>
             <CircularProgress
               size={25}
               variant={loadingVariant}
@@ -136,7 +136,9 @@ export function NotificationContextProvider({
         onClose={handleClose}
         message={notification.message}
         action={notification.action}
-        TransitionComponent={SlideTransition}
+        slots={{
+          transition: SlideTransition,
+        }}
       >
         {notification.children}
       </Snackbar>

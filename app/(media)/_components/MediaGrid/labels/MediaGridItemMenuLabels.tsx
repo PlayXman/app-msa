@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Chip, GridLegacy as Grid } from "@mui/material";
+import { Chip, Grid } from "@mui/material";
 import { Edit as EditIcon } from "@mui/icons-material";
 import Media from "@/models/Media";
 import { sortLabels } from "@/app/(media)/_components/MediaGrid/labels/specialLabels";
@@ -37,7 +37,7 @@ export default function MediaGridItemMenuLabels({
       <Grid container spacing={1}>
         {specialLabels.map(({ label, Icon }) => {
           return (
-            <Grid item key={label}>
+            <Grid size="auto" key={label}>
               <Chip
                 label={label}
                 size="small"
@@ -49,12 +49,12 @@ export default function MediaGridItemMenuLabels({
         })}
         {normalLabels.map((label) => {
           return (
-            <Grid item key={label}>
+            <Grid size="auto" key={label}>
               <Chip label={label} size="small" variant="outlined" />
             </Grid>
           );
         })}
-        <Grid item>
+        <Grid size="auto">
           <Chip
             label="Edit labels"
             icon={<EditIcon />}
