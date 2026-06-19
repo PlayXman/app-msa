@@ -5,7 +5,7 @@ import {
   Toolbar,
   Grid,
 } from "@mui/material";
-import SideMenu from "@/app/(media)/_components/AppBar/SideMenu";
+import MediaListButton from "@/app/(media)/_components/AppBar/MediaListButton";
 import { FilterContextProvider } from "@/app/(media)/_components/FilterContext";
 import TextSearch from "@/app/(media)/_components/AppBar/TextSearch";
 import Filter from "@/app/(media)/_components/AppBar/Filter";
@@ -42,7 +42,7 @@ export default function AppBar() {
             spacing={1}
           >
             <Grid size={{ xs: "auto", sm: 2 }}>
-              <SideMenu />
+              <MediaListButton />
             </Grid>
             <FilterContextProvider>
               <Grid size={{ xs: "grow", sm: 4 }}>

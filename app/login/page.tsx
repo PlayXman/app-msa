@@ -10,7 +10,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { FormEventHandler, useCallback } from "react";
+import React, { SubmitEventHandler, useCallback } from "react";
 import { useNotificationDispatch } from "@/app/_components/NotificationContext";
 import { useAuthenticationContext } from "@/app/_components/AuthenticationContext";
 import { useRouter } from "next/navigation";
@@ -28,7 +28,7 @@ export default function Page() {
   const { signIn } = useAuthenticationContext();
   const router = useRouter();
 
-  const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
+  const handleSubmit = useCallback<SubmitEventHandler<HTMLFormElement>>(
     async (event) => {
       event.preventDefault();
 

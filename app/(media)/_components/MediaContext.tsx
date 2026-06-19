@@ -310,7 +310,7 @@ export function MediaContextProvider({ mediaModel, children }: Props) {
       {initialLoadingProgress < 100 && (
         <LinearProgress
           variant="buffer"
-          valueBuffer={0}
+          valueBuffer={initialLoadingProgress}
           value={initialLoadingProgress}
           sx={progressSx}
         />

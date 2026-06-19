@@ -1,6 +1,6 @@
 import React, {
   ChangeEvent,
-  FormEvent,
+  SubmitEventHandler,
   useCallback,
   useEffect,
   useState,
@@ -88,8 +88,8 @@ export default function MediaGridItemMenuLabelsDialog({
     [modelCount],
   );
 
-  const handleLabelAdd = useCallback(
-    (event: FormEvent<HTMLFormElement>) => {
+  const handleLabelAdd = useCallback<SubmitEventHandler<HTMLFormElement>>(
+    (event) => {
       event.preventDefault();
 
       if (!newLabel) {
