@@ -61,6 +61,9 @@ const backgroundSx: SxProps = {
 const headingSx: SxProps = {
   p: 2,
 };
+const infoLinksSx: SxProps = {
+  flexGrow: 1,
+};
 
 export interface Props {
   open: boolean;
@@ -143,7 +146,7 @@ function MediaGridItemMenu({
                 <Divider />
                 <List>
                   <ListItem>
-                    <Grid container spacing={1}>
+                    <Grid container spacing={1} sx={infoLinksSx}>
                       {model.infoLinks.map((link, index) => (
                         <Grid size="grow" key={index}>
                           <MediaGridItemMenuInfoLink

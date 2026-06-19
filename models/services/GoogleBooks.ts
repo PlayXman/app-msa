@@ -1,18 +1,23 @@
 import Book from "@/app/(media)/books/Book";
+import { Vendors } from "@/models/Vendors";
 
 const API_URL = "https://www.googleapis.com/books/v1/volumes";
+const VENDORS_DB_NAME = "googleBooks";
 export const TITLE_SEPARATOR = " · ";
 
 /**
  * Google Books API wrapper.
  */
 export default class GoogleBooks {
+  static apiKeyCache = "";
+
   /**
    * Search books by title.
    * @param title
    */
   async searchBooks(title: string): Promise<Book[]> {
     const url = new URL(API_URL);
+    url.searchParams.set("key", await this.getApiKey());
     url.searchParams.set("q", title);
     url.searchParams.set("maxResults", "10");
     url.searchParams.set("orderBy", "relevance");
@@ -53,6 +58,7 @@ export default class GoogleBooks {
    */
   protected async getBook(id: string): Promise<GoogleBook> {
     const url = new URL(`${API_URL}/${id}`);
+    url.searchParams.set("key", await this.getApiKey());
     url.searchParams.set("fields", this.createRequestParamFields());
 
     const response = await fetch(url);
@@ -72,6 +78,15 @@ export default class GoogleBooks {
       "volumeInfo/imageLinks",
       "volumeInfo/publishedDate",
     ].join(",");
+  }
+
+  protected async getApiKey(): Promise<string> {
+    if (!GoogleBooks.apiKeyCache) {
+      const vendors = new Vendors(VENDORS_DB_NAME);
+      GoogleBooks.apiKeyCache = (await vendors.get("key")) ?? "";
+    }
+
+    return GoogleBooks.apiKeyCache;
   }
 
   protected populateBook(book: Book, googleBook: GoogleBook) {
