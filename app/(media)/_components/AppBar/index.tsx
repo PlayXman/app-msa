@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import {
   useScrollTrigger,
   AppBar as MuiAppBar,
@@ -11,8 +11,13 @@ import TextSearch from "@/app/(media)/_components/AppBar/TextSearch";
 import Filter from "@/app/(media)/_components/AppBar/Filter";
 import RefreshButton from "@/app/(media)/_components/AppBar/RefreshButton";
 import EditBar from "@/app/(media)/_components/AppBar/EditBar";
+import AddMediaButton, {
+  Props as AddMediaButtonProps,
+} from "@/app/(media)/_components/AppBar/AddMediaButton";
 
-export default function AppBar() {
+export type Props = Pick<AddMediaButtonProps, "onSearch">;
+
+export default function AppBar({ onSearch }: Props) {
   const windowObj = typeof window !== "undefined" ? window : undefined;
   const scrollTrigger = useScrollTrigger({
     disableHysteresis: true,
@@ -31,42 +36,47 @@ export default function AppBar() {
         }}
       >
         <Toolbar>
-          <Grid
-            container
-            sx={{
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexGrow: 1,
-            }}
-            wrap="nowrap"
-            spacing={1}
-          >
-            <Grid size={{ xs: "auto", sm: 2 }}>
-              <MediaListButton />
-            </Grid>
-            <FilterContextProvider>
+          <FilterContextProvider>
+            <Grid
+              container
+              sx={{
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexGrow: 1,
+              }}
+              wrap="nowrap"
+              spacing={1}
+            >
+              <Grid container size={{ xs: "auto", sm: 2 }}>
+                <Grid>
+                  <MediaListButton />
+                </Grid>
+                <Grid>
+                  <RefreshButton />
+                </Grid>
+              </Grid>
               <Grid size={{ xs: "grow", sm: 4 }}>
                 <TextSearch />
               </Grid>
-              <Grid size={{ xs: "auto", sm: 2 }}>
-                <Grid
-                  container
-                  sx={{
-                    justifyContent: "flex-end",
-                  }}
-                  wrap="nowrap"
-                  spacing={1}
-                >
-                  <Grid size="auto">
-                    <Filter />
-                  </Grid>
-                  <Grid size="auto">
-                    <RefreshButton />
-                  </Grid>
+              <Grid
+                container
+                size={{ xs: "auto", sm: 2 }}
+                wrap="nowrap"
+                sx={{
+                  justifyContent: "flex-end",
+                }}
+              >
+                <Grid>
+                  <Filter />
+                </Grid>
+                <Grid>
+                  <Suspense>
+                    <AddMediaButton onSearch={onSearch} />
+                  </Suspense>
                 </Grid>
               </Grid>
-            </FilterContextProvider>
-          </Grid>
+            </Grid>
+          </FilterContextProvider>
         </Toolbar>
       </MuiAppBar>
       <EditBar />

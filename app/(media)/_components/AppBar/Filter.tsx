@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import IconButton from "@/components/IconButton";
-import { FilterList as FilterListIcon } from "@mui/icons-material";
+import { FilterAltRounded as FilterAltRoundedIcon } from "@mui/icons-material";
 import {
   Dialog,
   DialogActions,
@@ -136,7 +136,7 @@ export default function Filter() {
           color="warning"
           invisible={!isFilterActive}
         >
-          <FilterListIcon color="inherit" />
+          <FilterAltRoundedIcon color="inherit" />
         </Badge>
       </IconButton>
 

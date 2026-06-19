@@ -10,7 +10,6 @@ import {
   Box,
   Container,
   Drawer,
-  Fab,
   InputAdornment,
   SxProps,
   TextField,
@@ -26,7 +25,6 @@ import {
   AddCircle as AddCircleIcon,
 } from "@mui/icons-material";
 import IconButton from "@/components/IconButton";
-import { SX_WIDTH } from "@/app/(media)/_components/Alphabet/Alphabet";
 import Media from "@/models/Media";
 import MediaGridItemCard, {
   Props as MediaGridItemCardProps,
@@ -37,10 +35,8 @@ import { useMediaContext } from "@/app/(media)/_components/MediaContext";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { openNewTab } from "@/models/utils/urlHelpers";
 
-const fabSx: SxProps<Theme> = {
-  position: "fixed",
-  bottom: (theme) => theme.spacing(2),
-  right: (theme) => theme.spacing(SX_WIDTH),
+const buttonSx: SxProps<Theme> = {
+  backgroundColor: (theme) => theme.palette.grey["800"],
 };
 const backgroundSx: SxProps<Theme> = {
   minHeight: "100%",
@@ -74,14 +70,13 @@ const textFeedbackSx: SxProps = {
 export const QUICK_SEARCH_URL_PROPERTY_NAME = "search-new-q";
 
 export interface Props {
-  loading: boolean;
   /**
    * @param text Sanitized search text.
    */
   onSearch: (text: string) => Promise<Media[]>;
 }
 
-export default function AddMediaButton({ loading, onSearch }: Props) {
+export default function AddMediaButton({ onSearch }: Props) {
   const searchFieldRef = useRef<HTMLDivElement>(null);
   /** Is the dialog opened for the first time? */
   const [firstOpen, setFirstOpen] = useState(true);
@@ -90,7 +85,7 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
   const [searchResults, setSearchResults] = useState<Media[]>([]);
   const [addingItem, setAddingItem] = useState(false);
 
-  const { items: mediaStateItems, dispatchMedia } = useMediaContext();
+  const { items: mediaStateItems, dispatchMedia, loading } = useMediaContext();
   const urlPathname = usePathname();
   const urlSearchParams = useSearchParams();
   const router = useRouter();
@@ -176,9 +171,14 @@ export default function AddMediaButton({ loading, onSearch }: Props) {
 
   return (
     <>
-      <Fab color="secondary" onClick={handleOpen} sx={fabSx} size="large">
-        <AddIcon />
-      </Fab>
+      <IconButton
+        label="Filter"
+        color="inherit"
+        onClick={handleOpen}
+        sx={buttonSx}
+      >
+        <AddIcon color="inherit" />
+      </IconButton>
       <Drawer
         anchor="bottom"
         open={open}

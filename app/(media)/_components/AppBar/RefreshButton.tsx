@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import IconButton from "@/components/IconButton";
-import { Sync as SyncIcon } from "@mui/icons-material";
+import { SyncRounded as SyncRoundedIcon } from "@mui/icons-material";
 import { useNotificationDispatch } from "@/app/_components/NotificationContext";
 import { useMediaContext } from "@/app/(media)/_components/MediaContext";
 import { splitIntoChunks } from "@/models/utils/list";
@@ -117,10 +117,9 @@ export default function RefreshButton() {
       color="inherit"
       onClick={handleClick}
       disabled={disabled}
-      edge="end"
       sx={buttonSx}
     >
-      <SyncIcon color="inherit" />
+      <SyncRoundedIcon color="inherit" />
     </IconButton>
   );
 }
