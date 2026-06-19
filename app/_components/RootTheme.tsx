@@ -4,6 +4,7 @@ import React, { ReactNode } from "react";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { CssBaseline, ThemeOptions } from "@mui/material";
 import { Roboto } from "next/font/google";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
 
 const roboto = Roboto({
   display: "swap",
@@ -38,9 +39,11 @@ const theme = createTheme(themeOptions);
  */
 export default function RootTheme({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {children}
-    </ThemeProvider>
+    <AppRouterCacheProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
+    </AppRouterCacheProvider>
   );
 }

@@ -22,10 +22,12 @@
     "deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
+    "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^9.1.1",
     "@mui/material": "^9.1.1",
+    "@mui/material-nextjs": "^9.1.1",
     "firebase": "^12.10.0",
     "moviedb-promise": "^4.0.8",
     "next": "^16.2.9",
