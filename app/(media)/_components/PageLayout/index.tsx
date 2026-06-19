@@ -7,11 +7,12 @@ import {
 import PageContent, {
   Props as PageContentProps,
 } from "@/app/(media)/_components/PageContent";
-import AppBar from "../AppBar";
+import AppBar, { Props as AppBarProps } from "../AppBar";
 import PageTheme from "@/app/(media)/_components/PageLayout/PageTheme";
 import MediaCache from "@/app/(media)/_components/MediaCache";
 
-export type Props = Omit<PageContentProps, "loading"> &
+export type Props = PageContentProps &
+  Pick<AppBarProps, "onSearch"> &
   Pick<MediaContextProviderProps, "mediaModel"> & {
     themeSecondaryColor: string;
   };
@@ -19,6 +20,7 @@ export type Props = Omit<PageContentProps, "loading"> &
 export default function PageLayout({
   themeSecondaryColor,
   mediaModel,
+  onSearch,
   ...contentProps
 }: Props) {
   return (
@@ -26,7 +28,7 @@ export default function PageLayout({
       <MediaContextProvider mediaModel={mediaModel}>
         <MediaCache />
         <LabelContextProvider>
-          <AppBar />
+          <AppBar onSearch={onSearch} />
           <PageContent {...contentProps} />
         </LabelContextProvider>
       </MediaContextProvider>

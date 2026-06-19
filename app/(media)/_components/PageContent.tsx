@@ -1,10 +1,7 @@
-import React, { Suspense } from "react";
+import React from "react";
 import MediaGrid, {
   Props as MediaGridProps,
 } from "@/app/(media)/_components/MediaGrid/MediaGrid";
-import AddMediaButton, {
-  Props as AddMediaButtonProps,
-} from "@/app/(media)/_components/AddMediaButton";
 import { Box, SxProps } from "@mui/material";
 import Alphabet, {
   SX_WIDTH as alphabetWidth,
@@ -18,16 +15,14 @@ const contentSx: SxProps = {
   paddingBottom: "5em",
 };
 
-export type Props = Pick<MediaGridProps, "extraActions"> &
-  Pick<AddMediaButtonProps, "onSearch">;
+export type Props = Pick<MediaGridProps, "extraActions">;
 
 /**
  * Main content of the media page.
  * @param extraActions
- * @param onSearch
  * @constructor
  */
-export default function PageContent({ extraActions, onSearch }: Props) {
+export default function PageContent({ extraActions }: Props) {
   const { loading } = useMediaContext();
 
   return (
@@ -36,9 +31,6 @@ export default function PageContent({ extraActions, onSearch }: Props) {
         <MediaGrid loading={loading} extraActions={extraActions} />
       </Box>
       <Alphabet loading={loading} />
-      <Suspense>
-        <AddMediaButton loading={loading} onSearch={onSearch} />
-      </Suspense>
     </main>
   );
 }
