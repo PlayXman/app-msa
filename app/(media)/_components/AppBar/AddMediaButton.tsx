@@ -36,7 +36,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { openNewTab } from "@/models/utils/urlHelpers";
 
 const buttonSx: SxProps<Theme> = {
-  backgroundColor: (theme) => theme.palette.grey["800"],
+  bgcolor: "secondary.main",
+  "--IconButton-hoverBg": (theme) => theme.palette.secondary.dark,
 };
 const backgroundSx: SxProps<Theme> = {
   minHeight: "100%",
@@ -172,10 +173,11 @@ export default function AddMediaButton({ onSearch }: Props) {
   return (
     <>
       <IconButton
-        label="Filter"
+        label="New item"
         color="inherit"
         onClick={handleOpen}
         sx={buttonSx}
+        edge="end"
       >
         <AddIcon color="inherit" />
       </IconButton>
