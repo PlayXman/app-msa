@@ -4,8 +4,12 @@ import {
   Grid,
   IconButton,
   Slide,
+  SxProps,
   Toolbar,
   Typography,
+  useMediaQuery,
+  useTheme,
+  Zoom,
 } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
 import { useMediaContext } from "@/app/(media)/_components/MediaContext";
@@ -13,16 +17,33 @@ import DeleteButton from "@/app/(media)/_components/AppBar/DeleteButton";
 import StatusButton from "@/app/(media)/_components/AppBar/StatusButton";
 import LabelButton from "@/app/(media)/_components/AppBar/LabelButton";
 
+const appBarSx: SxProps = {
+  top: {
+    xs: "auto",
+    sm: 0,
+  },
+  bottom: {
+    xs: 0,
+    sm: "auto",
+  },
+};
+
 export default function EditBar() {
   const { selectedItems, dispatchMedia } = useMediaContext();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
   const handleClear = useCallback(() => {
     dispatchMedia({ type: "toggleSelect", item: null });
   }, [dispatchMedia]);
 
   return (
-    <Slide appear={false} direction="down" in={selectedItems.size > 0}>
-      <AppBar enableColorOnDark color="secondary">
+    <Slide
+      appear={false}
+      direction={matches ? "down" : "up"}
+      in={selectedItems.size > 0}
+    >
+      <AppBar enableColorOnDark color="secondary" sx={appBarSx}>
         <Toolbar>
           <Grid
             container

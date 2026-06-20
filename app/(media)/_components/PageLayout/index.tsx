@@ -4,15 +4,13 @@ import {
   MediaContextProvider,
   Props as MediaContextProviderProps,
 } from "@/app/(media)/_components/MediaContext";
-import PageContent, {
-  Props as PageContentProps,
-} from "@/app/(media)/_components/PageContent";
-import AppBar, { Props as AppBarProps } from "../AppBar";
 import PageTheme from "@/app/(media)/_components/PageLayout/PageTheme";
 import MediaCache from "@/app/(media)/_components/MediaCache";
+import Overlay, {
+  Props as OverlayProps,
+} from "@/app/(media)/_components/PageLayout/Overlay";
 
-export type Props = PageContentProps &
-  Pick<AppBarProps, "onSearch"> &
+export type Props = OverlayProps &
   Pick<MediaContextProviderProps, "mediaModel"> & {
     themeSecondaryColor: string;
   };
@@ -20,16 +18,14 @@ export type Props = PageContentProps &
 export default function PageLayout({
   themeSecondaryColor,
   mediaModel,
-  onSearch,
-  ...contentProps
+  ...overlayProps
 }: Props) {
   return (
     <PageTheme secondaryColor={themeSecondaryColor}>
       <MediaContextProvider mediaModel={mediaModel}>
         <MediaCache />
         <LabelContextProvider>
-          <AppBar onSearch={onSearch} />
-          <PageContent {...contentProps} />
+          <Overlay {...overlayProps} />
         </LabelContextProvider>
       </MediaContextProvider>
     </PageTheme>

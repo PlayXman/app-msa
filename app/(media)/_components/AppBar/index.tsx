@@ -1,10 +1,5 @@
 import React, { Suspense } from "react";
-import {
-  useScrollTrigger,
-  AppBar as MuiAppBar,
-  Toolbar,
-  Grid,
-} from "@mui/material";
+import { AppBar as MuiAppBar, Toolbar, Grid, SxProps } from "@mui/material";
 import MediaListButton from "@/app/(media)/_components/AppBar/MediaListButton";
 import { FilterContextProvider } from "@/app/(media)/_components/FilterContext";
 import TextSearch from "@/app/(media)/_components/AppBar/TextSearch";
@@ -15,38 +10,34 @@ import AddMediaButton, {
   Props as AddMediaButtonProps,
 } from "@/app/(media)/_components/AppBar/AddMediaButton";
 
+const appBarSx: SxProps = {
+  top: {
+    xs: "auto",
+    sm: 0,
+  },
+  bottom: {
+    xs: 0,
+    sm: "auto",
+  },
+};
+const toolbarRowSx: SxProps = {
+  justifyContent: "space-between",
+  alignItems: "center",
+  flexGrow: 1,
+};
+const toolbarRowLastItemSx: SxProps = {
+  justifyContent: "flex-end",
+};
+
 export type Props = Pick<AddMediaButtonProps, "onSearch">;
 
 export default function AppBar({ onSearch }: Props) {
-  const windowObj = typeof window !== "undefined" ? window : undefined;
-  const scrollTrigger = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: 0,
-    target: windowObj,
-  });
-
   return (
     <>
-      <MuiAppBar
-        elevation={scrollTrigger ? 1 : 0}
-        sx={() => {
-          return {
-            backgroundColor: scrollTrigger ? "background.paper" : "transparent",
-          };
-        }}
-      >
+      <MuiAppBar position="fixed" elevation={0} sx={appBarSx}>
         <Toolbar>
           <FilterContextProvider>
-            <Grid
-              container
-              sx={{
-                justifyContent: "space-between",
-                alignItems: "center",
-                flexGrow: 1,
-              }}
-              wrap="nowrap"
-              spacing={1}
-            >
+            <Grid container sx={toolbarRowSx} wrap="nowrap" spacing={1}>
               <Grid container size={{ xs: "auto", sm: 2 }}>
                 <Grid>
                   <MediaListButton />
@@ -62,9 +53,7 @@ export default function AppBar({ onSearch }: Props) {
                 container
                 size={{ xs: "auto", sm: 2 }}
                 wrap="nowrap"
-                sx={{
-                  justifyContent: "flex-end",
-                }}
+                sx={toolbarRowLastItemSx}
               >
                 <Grid>
                   <Filter />
@@ -80,7 +69,6 @@ export default function AppBar({ onSearch }: Props) {
         </Toolbar>
       </MuiAppBar>
       <EditBar />
-      <Toolbar />
     </>
   );
 }

@@ -62,31 +62,28 @@ export interface Props {
 
 function Chars({ loading, activeLetters }: Props) {
   return (
-    <>
-      <Toolbar />
-      <Stack direction="column" sx={alphabetSx}>
-        {loading ? (
-          <Skeleton variant="rectangular" width={fontSize} height="100%" />
-        ) : (
-          chars.map((char) => {
-            const isDisabled = !activeLetters.has(char);
+    <Stack direction="column" sx={alphabetSx}>
+      {loading ? (
+        <Skeleton variant="rectangular" width={fontSize} height="100%" />
+      ) : (
+        chars.map((char) => {
+          const isDisabled = !activeLetters.has(char);
 
-            return (
-              <Box
-                key={char}
-                component={Link}
-                href={`#${char}`}
-                replace
-                sx={[charSx, isDisabled && charDisabledSx] as SxProps}
-                aria-disabled={isDisabled}
-              >
-                {char.toUpperCase()}
-              </Box>
-            );
-          })
-        )}
-      </Stack>
-    </>
+          return (
+            <Box
+              key={char}
+              component={Link}
+              href={`#${char}`}
+              replace
+              sx={[charSx, isDisabled && charDisabledSx] as SxProps}
+              aria-disabled={isDisabled}
+            >
+              {char.toUpperCase()}
+            </Box>
+          );
+        })
+      )}
+    </Stack>
   );
 }
 

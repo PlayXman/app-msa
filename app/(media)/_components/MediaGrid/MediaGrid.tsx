@@ -38,7 +38,6 @@ const noItemsSx: SxProps = {
 };
 
 export interface Props {
-  loading: boolean;
   extraActions?: MediaGridItemMenuProps["extraActions"];
 }
 
@@ -70,15 +69,12 @@ function menuReducer(
   }
 }
 
-export default function MediaGrid({
-  loading,
-  extraActions = () => null,
-}: Props) {
+export default function MediaGrid({ extraActions = () => null }: Props) {
   const [menu, dispatchMenu] = useReducer(menuReducer, {
     open: false,
     selectedItemId: "",
   });
-  const { items, selectedItems, dispatchMedia } = useMediaContext();
+  const { items, selectedItems, dispatchMedia, loading } = useMediaContext();
   const { update: updateLabels } = useLabelContext();
   const notification = useNotificationDispatch();
   const isInSelectMode = selectedItems.size > 0;
