@@ -15,10 +15,11 @@ import { slugToAlphabet } from "@/models/utils/formatters";
 
 export const ITEM_WIDTH = 160;
 const GAP_SX_WIDTH = 1;
+export const CONTAINER_MAX_WIDTH = (ITEM_WIDTH + GAP_SX_WIDTH * 8) * 6;
 
 const listSx: SxProps = {
   margin: "0 auto",
-  maxWidth: (ITEM_WIDTH + GAP_SX_WIDTH * 8) * 6,
+  maxWidth: CONTAINER_MAX_WIDTH,
   display: "grid",
   justifyItems: "stretch",
   justifyContent: "center",

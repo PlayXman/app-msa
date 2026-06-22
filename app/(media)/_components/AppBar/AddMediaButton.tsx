@@ -177,7 +177,6 @@ export default function AddMediaButton({ onSearch }: Props) {
         color="inherit"
         onClick={handleOpen}
         sx={buttonSx}
-        edge="end"
       >
         <AddIcon color="inherit" />
       </IconButton>

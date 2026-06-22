@@ -1,8 +1,7 @@
-import React, { ReactNode } from "react";
-import { Box, SxProps, Theme, Toolbar } from "@mui/material";
+import React from "react";
+import { Box, SxProps, Theme } from "@mui/material";
 import AppBar, { Props as AppBarProps } from "@/app/(media)/_components/AppBar";
 import Alphabet, {
-  SX_WIDTH,
   SX_WIDTH as alphabetWidth,
 } from "@/app/(media)/_components/Alphabet/Alphabet";
 import MediaGrid, {
@@ -36,6 +35,12 @@ const alphabetSx: SxProps<Theme> = {
   flexGrow: 1,
   justifyContent: "center",
 };
+const toolbarSx: SxProps = {
+  height: {
+    xs: 56 + 8,
+    sm: 64 + 8,
+  },
+};
 
 export type Props = Pick<AppBarProps, "onSearch"> &
   Pick<MediaGridProps, "extraActions">;
@@ -50,9 +55,9 @@ export default function Overlay({ onSearch, extraActions }: Props) {
         <Box sx={alphabetSx}>
           <Alphabet />
         </Box>
-        <Toolbar />
+        <Box sx={toolbarSx} />
       </Box>
-      <Toolbar />
+      <Box sx={toolbarSx} />
       <AppBar onSearch={onSearch} />
     </Box>
   );
