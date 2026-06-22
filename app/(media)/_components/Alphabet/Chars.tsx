@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Box, Skeleton, Stack, SxProps, Theme, Toolbar } from "@mui/material";
+import { Box, Skeleton, Stack, SxProps, Theme } from "@mui/material";
 import Link from "next/link";
 
 const fontSize = "0.7rem";
