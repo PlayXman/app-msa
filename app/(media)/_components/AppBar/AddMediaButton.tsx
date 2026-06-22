@@ -67,6 +67,21 @@ const textFeedbackSx: SxProps = {
   textAlign: "center",
   gridColumn: "1 / -1",
 };
+const searchFieldFormSx: SxProps<Theme> = {
+  gridColumn: "1 / -1",
+  position: "sticky",
+  top: {
+    xs: 54 + 8,
+    sm: 64 + 8,
+  },
+  zIndex: "appBar",
+};
+const searchFieldSx: SxProps<Theme> = {
+  borderRadius: "999px",
+  paddingLeft: 1,
+  background: `rgba(32, 32, 32, 0.95)`,
+  boxShadow: (theme) => theme.shadows["8"],
+};
 
 export const QUICK_SEARCH_URL_PROPERTY_NAME = "search-new-q";
 
@@ -207,7 +222,7 @@ export default function AddMediaButton({ onSearch }: Props) {
             <Box
               component="form"
               onSubmit={handleSubmitSearch}
-              sx={{ gridColumn: "1 / -1" }}
+              sx={searchFieldFormSx}
             >
               <TextField
                 placeholder="Search title..."
@@ -222,6 +237,7 @@ export default function AddMediaButton({ onSearch }: Props) {
                 slotProps={{
                   input: {
                     inputRef: searchFieldRef,
+                    sx: searchFieldSx,
                     endAdornment: searchText.length ? (
                       <InputAdornment position="end">
                         <IconButton onClick={handleClearSearch}>
