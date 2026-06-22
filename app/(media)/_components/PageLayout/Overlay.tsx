@@ -34,12 +34,14 @@ const alphabetSx: SxProps<Theme> = {
   display: "flex",
   flexGrow: 1,
   justifyContent: "center",
+  overflow: "auto",
 };
 const toolbarSx: SxProps = {
   height: {
     xs: 56 + 8,
     sm: 64 + 8,
   },
+  flexShrink: 0,
 };
 
 export type Props = Pick<AppBarProps, "onSearch"> &
