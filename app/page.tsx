@@ -9,7 +9,7 @@ import {
   TextFieldProps,
   Typography,
 } from "@mui/material";
-import { QUICK_SEARCH_URL_PROPERTY_NAME } from "@/app/(media)/_components/AddMediaButton";
+import { QUICK_SEARCH_URL_PROPERTY_NAME } from "@/app/(media)/_components/AppBar/AddMediaButton";
 import TvShowsNavigationButton from "@/app/(media)/tv-shows/NavigationButton";
 import MoviesNavigationButton from "@/app/(media)/movies/NavigationButton";
 import GamesNavigationButton from "@/app/(media)/games/NavigationButton";

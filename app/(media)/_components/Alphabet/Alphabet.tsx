@@ -7,17 +7,13 @@ import { slugToAlphabet } from "@/models/utils/formatters";
 export const SX_WIDTH = 5;
 
 const wrapperSx: SxProps<Theme> = {
-  position: "fixed",
-  top: 0,
-  right: 0,
-  bottom: 0,
   display: "flex",
   flexDirection: "column",
   width: (theme) => theme.spacing(SX_WIDTH),
 };
 
-export default function Alphabet({ loading }: { loading: boolean }) {
-  const { items } = useMediaContext();
+export default function Alphabet() {
+  const { items, loading } = useMediaContext();
 
   const activeLetters = useMemo(() => {
     const result = new Set<string>();

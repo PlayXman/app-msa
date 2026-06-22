@@ -9,13 +9,7 @@ const buttonSx: SxProps<Theme> = {
 
 export default function MediaListButton() {
   return (
-    <IconButton
-      component={Link}
-      href="/"
-      color="inherit"
-      edge="start"
-      sx={buttonSx}
-    >
+    <IconButton component={Link} href="/" color="inherit" sx={buttonSx}>
       <GridViewRoundedIcon />
     </IconButton>
   );
