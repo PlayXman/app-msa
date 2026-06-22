@@ -9,8 +9,9 @@ const appBarSx: SxProps<Theme> = {
   left: "2%",
   right: "2%",
   margin: "0 auto",
-  background: `rgba(32, 32, 32, 0.9)`,
-  outline: (theme) => `1px solid ${theme.palette.grey["800"]}`,
+  background: `rgba(32, 32, 32, 0.95)`,
+  outline: `1px solid`,
+  outlineColor: "secondary.dark",
   outlineOffset: -1,
   top: (theme) => ({
     xs: "auto",
