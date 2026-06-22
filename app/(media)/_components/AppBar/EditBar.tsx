@@ -9,7 +9,6 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
-  Zoom,
 } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
 import { useMediaContext } from "@/app/(media)/_components/MediaContext";
@@ -26,6 +25,13 @@ const appBarSx: SxProps = {
     xs: 0,
     sm: "auto",
   },
+};
+const toolbarSx: SxProps = {
+  my: 0.5,
+  justifyContent: "space-between",
+  alignItems: "center",
+  gap: 1,
+  flexWrap: "wrap",
 };
 
 export default function EditBar() {
@@ -44,36 +50,25 @@ export default function EditBar() {
       in={selectedItems.size > 0}
     >
       <AppBar enableColorOnDark color="secondary" sx={appBarSx}>
-        <Toolbar>
-          <Grid
-            container
-            sx={{
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexGrow: 1,
-            }}
-            wrap="nowrap"
-            spacing={1}
-          >
-            <Grid size="auto">
-              <IconButton color="inherit" edge="start" onClick={handleClear}>
-                <CloseIcon />
-              </IconButton>
-            </Grid>
-            <Grid size="grow">
-              <Typography variant="h6" sx={{ color: "inherit" }}>
-                Selected {selectedItems.size}
-              </Typography>
-            </Grid>
-            <Grid size="auto">
-              <StatusButton />
-            </Grid>
-            <Grid size="auto">
-              <LabelButton />
-            </Grid>
-            <Grid size="auto">
-              <DeleteButton />
-            </Grid>
+        <Toolbar sx={toolbarSx}>
+          <Grid size="auto">
+            <IconButton color="inherit" edge="start" onClick={handleClear}>
+              <CloseIcon />
+            </IconButton>
+          </Grid>
+          <Grid size="grow">
+            <Typography variant="h6" sx={{ color: "inherit" }}>
+              Selected {selectedItems.size}
+            </Typography>
+          </Grid>
+          <Grid size="auto">
+            <StatusButton />
+          </Grid>
+          <Grid size="auto">
+            <LabelButton />
+          </Grid>
+          <Grid size="auto">
+            <DeleteButton />
           </Grid>
         </Toolbar>
       </AppBar>
