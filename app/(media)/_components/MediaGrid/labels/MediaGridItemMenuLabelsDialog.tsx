@@ -23,7 +23,7 @@ import { SPECIAL_LABELS } from "@/app/(media)/_components/MediaGrid/labels/speci
 export interface Props {
   onClose: () => void;
   open: boolean;
-  models: Media[];
+  mediaItems: Media[];
   /**
    * @param updatedModels Media copies with updated labels.
    */
@@ -33,7 +33,7 @@ export interface Props {
 export default function MediaGridItemMenuLabelsDialog({
   onClose,
   open,
-  models,
+  mediaItems,
   onLabelsUpdate,
 }: Props) {
   /** Label-selected on all pair. */
@@ -45,7 +45,7 @@ export default function MediaGridItemMenuLabelsDialog({
   const [newLabel, setNewLabel] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const modelCount = models.length;
+  const mediaItemCount = mediaItems.length;
   const { labels: allAvailableLabels, update: updateAvailableLabels } =
     useLabelContext();
 
@@ -56,8 +56,8 @@ export default function MediaGridItemMenuLabelsDialog({
       const labelCounts = new Map<string, number>(
         allAvailableLabels.map((l) => [l, 0]),
       );
-      for (const model of models) {
-        for (const label of model.labels) {
+      for (const item of mediaItems) {
+        for (const label of item.labels) {
           labelCounts.set(label, (labelCounts.get(label) ?? 0) + 1);
         }
       }
@@ -66,7 +66,7 @@ export default function MediaGridItemMenuLabelsDialog({
       setNextLabels(labelCounts);
       setNewLabel("");
     }
-  }, [allAvailableLabels, models, open]);
+  }, [allAvailableLabels, mediaItems, open]);
 
   // HANDLERS
 
@@ -81,11 +81,11 @@ export default function MediaGridItemMenuLabelsDialog({
     (label: string) => {
       setNextLabels((prevLabels) => {
         const count = prevLabels.get(label) ?? 0;
-        prevLabels.set(label, count === modelCount ? 0 : modelCount);
+        prevLabels.set(label, count === mediaItemCount ? 0 : mediaItemCount);
         return new Map(prevLabels);
       });
     },
-    [modelCount],
+    [mediaItemCount],
   );
 
   const handleLabelAdd = useCallback<SubmitEventHandler<HTMLFormElement>>(
@@ -117,7 +117,7 @@ export default function MediaGridItemMenuLabelsDialog({
         remove.push(label);
       }
     }
-    const nextModels = models.map((model) => {
+    const nextModels = mediaItems.map((model) => {
       const nextModel = model.clone();
       nextModel.labels = Array.from(new Set([...model.labels, ...add])).filter(
         (l) => !remove.includes(l),
@@ -132,7 +132,7 @@ export default function MediaGridItemMenuLabelsDialog({
     onClose();
   }, [
     initialLabels,
-    models,
+    mediaItems,
     nextLabels,
     onClose,
     onLabelsUpdate,
@@ -162,7 +162,7 @@ export default function MediaGridItemMenuLabelsDialog({
           </Grid>
           {[...nextLabels.entries()].map(([label, count]) => {
             const isSelected = count > 0;
-            const isSelectedOnAllItems = count === modelCount;
+            const isSelectedOnAllItems = count === mediaItemCount;
             const Icon = SPECIAL_LABELS[label];
             return (
               <Grid size="auto" key={label}>
