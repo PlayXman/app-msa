@@ -10,7 +10,11 @@ import {
 } from "@/app/(media)/_components/MediaContext/context";
 
 // Context
-export { useMediaContext } from "@/app/(media)/_components/MediaContext/context";
+export {
+  useMediaContext,
+  toMediaList,
+  type Model,
+} from "@/app/(media)/_components/MediaContext/context";
 
 // Provider
 

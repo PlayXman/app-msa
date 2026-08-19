@@ -2,6 +2,7 @@ import Media from "@/models/Media";
 import { createContext, Dispatch, useContext } from "react";
 import { ReducerActions } from "@/app/(media)/_components/MediaContext/useContextData";
 
+/** Media class */
 export type Model = (new (...args: any) => Media) | null;
 
 export interface MediaContextItem {
@@ -30,4 +31,11 @@ export const MediaContext = createContext<MediaContextValue>({
 
 export function useMediaContext() {
   return useContext(MediaContext);
+}
+
+/**
+ * Converts MediaContextItem list to Media list.
+ */
+export function toMediaList(items: MediaContextItem[]): Media[] {
+  return items.map((i) => i.model);
 }

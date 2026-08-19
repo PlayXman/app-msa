@@ -4,9 +4,14 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
-import { useMediaContext } from "@/app/(media)/_components/MediaContext";
+import {
+  Model,
+  toMediaList,
+  useMediaContext,
+} from "@/app/(media)/_components/MediaContext";
 import { useNotificationDispatch } from "@/app/_components/NotificationContext";
 import Labels from "@/models/Labels";
 
@@ -35,7 +40,8 @@ export function useLabelContext() {
  * @constructor
  */
 export function LabelContextProvider({ children }: { children: ReactNode }) {
-  const [labels, setLabels] = useState(new Labels(""));
+  const [labels, setLabels] = useState(new Labels());
+  const currentModel = useRef<Model>(null);
 
   const notification = useNotificationDispatch();
   const { model, items } = useMediaContext();
@@ -43,15 +49,15 @@ export function LabelContextProvider({ children }: { children: ReactNode }) {
   // Load labels
   useEffect(() => {
     (async function () {
-      if (model == null) {
+      if (model == null || model == currentModel.current) {
         return;
       }
 
       try {
-        const modelName = new (model as any)().modelName;
-        const labels = new Labels(modelName);
-        await labels.load();
+        const labels = new Labels();
+        await labels.set(toMediaList(items));
         setLabels(labels);
+        currentModel.current = model;
       } catch (error) {
         notification({
           type: "error",
@@ -60,7 +66,7 @@ export function LabelContextProvider({ children }: { children: ReactNode }) {
         });
       }
     })();
-  }, [model, notification]);
+  }, [model, items, notification]);
 
   const handleUpdate = useCallback<LabelContextValue["update"]>(
     async (addLabels, removeLabels) => {
@@ -82,7 +88,7 @@ export function LabelContextProvider({ children }: { children: ReactNode }) {
   const handleRefresh = useCallback<LabelContextValue["refresh"]>(async () => {
     try {
       const nextLabels = labels.clone();
-      await nextLabels.refresh(items.map((i) => i.model));
+      await nextLabels.set(toMediaList(items));
       setLabels(nextLabels);
     } catch (error) {
       notification({
