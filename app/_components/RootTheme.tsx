@@ -34,7 +34,6 @@ const theme = createTheme(themeOptions);
 
 /**
  * MUI theme.
- * @param children
  * @constructor
  */
 export default function RootTheme({ children }: { children: ReactNode }) {

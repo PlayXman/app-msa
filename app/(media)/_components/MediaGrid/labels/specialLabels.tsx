@@ -20,7 +20,6 @@ interface SpecialLabel {
 
 /**
  * Sort labels into special and normal labels.
- * @param labels
  */
 export function sortLabels(
   labels: Media["labels"],

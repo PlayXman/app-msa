@@ -28,7 +28,6 @@ export default class Labels {
 
   /**
    * Sanitize new label.
-   * @param text
    */
   static createNewLabel(text: string): string {
     return text
@@ -45,7 +44,6 @@ export default class Labels {
 
   /**
    * Update label occurrences in DB. Allows to add new or remove unused.
-   * @param labels
    */
   async update(labels: { add?: string[]; remove?: string[] }): Promise<void> {
     for (const label of labels.add ?? []) {
@@ -83,7 +81,6 @@ export default class Labels {
 
   /**
    * Recalculate label occurrences from media list.
-   * @param mediaList
    */
   refresh(mediaList: Media[]): Promise<void> {
     const nextLabels: typeof this.labels = new Map();

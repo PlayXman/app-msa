@@ -32,7 +32,6 @@ export function useLabelContext() {
 
 /**
  * Holds and manages labels for the current media model.
- * @param children
  * @constructor
  */
 export function LabelContextProvider({ children }: { children: ReactNode }) {

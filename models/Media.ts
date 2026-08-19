@@ -134,7 +134,6 @@ export default abstract class Media<VendorIds extends Record<any, any> = any> {
 
   /**
    * Should display?
-   * @param filter
    */
   display(filter: {
     text?: string;

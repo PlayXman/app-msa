@@ -69,7 +69,6 @@ function reducer(
 
 /**
  * Holds and manages media item filters for the current media model.
- * @param children
  * @constructor
  */
 export function FilterContextProvider({ children }: { children: ReactNode }) {

@@ -13,7 +13,6 @@ export default class GoogleBooks {
 
   /**
    * Search books by title.
-   * @param title
    */
   async searchBooks(title: string): Promise<Book[]> {
     const url = new URL(API_URL);
@@ -40,7 +39,6 @@ export default class GoogleBooks {
 
   /**
    * Fill book instance with Google Books information.
-   * @param book
    */
   async fillBook(book: Book): Promise<void> {
     const id = book.vendorIds?.googleBooks;
