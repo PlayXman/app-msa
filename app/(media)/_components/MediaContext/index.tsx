@@ -58,7 +58,7 @@ export function MediaContextProvider({ mediaModel, children }: Props) {
     }
 
     setInitialLoadingProgress((p) => p + 33);
-  }, [mediaModel]);
+  }, [dispatchMedia, mediaModel]);
 
   const fetchItemsFromDatabase = useCallback(async () => {
     console.log("Fetch media from database");
@@ -78,7 +78,7 @@ export function MediaContextProvider({ mediaModel, children }: Props) {
         error,
       };
     }
-  }, [mediaModel]);
+  }, [dispatchMedia, mediaModel]);
 
   const fetchItemsFromExternalSource = useCallback(async () => {
     console.log("Fetch media from external source");
@@ -165,6 +165,7 @@ export function MediaContextProvider({ mediaModel, children }: Props) {
       }
     })();
   }, [
+    dispatchMedia,
     fetchItemsFromCache,
     fetchItemsFromDatabase,
     fetchItemsFromExternalSource,
