@@ -16,7 +16,7 @@ export default function ExtraActions({ item }: { item: Movie }) {
     try {
       await item.markAsWatched();
       await item.delete();
-      await updateLabels([], item.labels);
+      await updateLabels(item.labels.map((l) => [l, -1]));
       dispatchMedia({
         type: "remove",
         id: item.id,
@@ -44,7 +44,7 @@ export default function ExtraActions({ item }: { item: Movie }) {
   const handleUndoAction = async () => {
     try {
       await item.save();
-      await updateLabels(item.labels, []);
+      await updateLabels(item.labels.map((l) => [l, 1]));
       dispatchMedia({
         type: "add",
         item: {

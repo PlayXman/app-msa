@@ -23,11 +23,11 @@ export default function ExtraActions({ item }: { item: Game }) {
       if (nextLabels.has(label)) {
         // Remove
         nextLabels.delete(label);
-        await updateLabels([], [label]);
+        await updateLabels([[label, -1]]);
       } else {
         // Add
         nextLabels.add(label);
-        await updateLabels([label], []);
+        await updateLabels([[label, 1]]);
         nextItem.status = Status.OWNED;
       }
       nextItem.labels = Array.from(nextLabels);

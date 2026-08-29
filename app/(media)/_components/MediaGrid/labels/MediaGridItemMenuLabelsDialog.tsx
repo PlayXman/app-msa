@@ -108,6 +108,7 @@ export default function MediaGridItemMenuLabelsDialog({
 
     const add: string[] = [];
     const remove: string[] = [];
+    const availableLabelUpdates: [string, number][] = [];
     for (const [label, count] of nextLabels.entries()) {
       const initialCount = initialLabels.get(label) ?? 0;
 
@@ -116,6 +117,8 @@ export default function MediaGridItemMenuLabelsDialog({
       } else if (count < initialCount) {
         remove.push(label);
       }
+
+      availableLabelUpdates.push([label, count - initialCount]);
     }
     const nextModels = mediaItems.map((model) => {
       const nextModel = model.clone();
@@ -126,7 +129,7 @@ export default function MediaGridItemMenuLabelsDialog({
     });
 
     await onLabelsUpdate(nextModels);
-    await updateAvailableLabels(add, remove);
+    await updateAvailableLabels(availableLabelUpdates);
 
     setLoading(false);
     onClose();
