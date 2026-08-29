@@ -33,9 +33,9 @@ export default class Labels {
   }
 
   /**
-   * Update label occurrences in DB. Allows to add new or remove unused.
+   * Allows to add new or remove unused.
    */
-  async update(labels: { add?: string[]; remove?: string[] }): Promise<void> {
+  update(labels: { add?: string[]; remove?: string[] }): void {
     for (const label of labels.add ?? []) {
       let count = this.labels.get(label) ?? 0;
       count++;
@@ -57,7 +57,7 @@ export default class Labels {
   /**
    * Recalculate label occurrences from media list.
    */
-  async set(mediaList: Media[]): Promise<void> {
+  set(mediaList: Media[]): void {
     const nextLabels: typeof this.labels = new Map();
 
     for (const media of mediaList) {

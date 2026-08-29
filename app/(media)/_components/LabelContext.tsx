@@ -48,14 +48,14 @@ export function LabelContextProvider({ children }: { children: ReactNode }) {
 
   // Load labels
   useEffect(() => {
-    (async function () {
+    (function () {
       if (areItemsLoading || model == null || model == currentModel.current) {
         return;
       }
 
       try {
         const labels = new Labels();
-        await labels.set(toMediaList(items));
+        labels.set(toMediaList(items));
         setLabels(labels);
         currentModel.current = model;
       } catch (error) {
@@ -72,7 +72,7 @@ export function LabelContextProvider({ children }: { children: ReactNode }) {
     async (addLabels, removeLabels) => {
       try {
         const nextLabels = labels.clone();
-        await nextLabels.update({ add: addLabels, remove: removeLabels });
+        nextLabels.update({ add: addLabels, remove: removeLabels });
         setLabels(nextLabels);
       } catch (error) {
         notification({
@@ -88,7 +88,7 @@ export function LabelContextProvider({ children }: { children: ReactNode }) {
   const handleRefresh = useCallback<LabelContextValue["refresh"]>(async () => {
     try {
       const nextLabels = labels.clone();
-      await nextLabels.set(toMediaList(items));
+      nextLabels.set(toMediaList(items));
       setLabels(nextLabels);
     } catch (error) {
       notification({
