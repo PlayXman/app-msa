@@ -44,12 +44,12 @@ export function LabelContextProvider({ children }: { children: ReactNode }) {
   const currentModel = useRef<Model>(null);
 
   const notification = useNotificationDispatch();
-  const { model, items } = useMediaContext();
+  const { model, items, loading: areItemsLoading } = useMediaContext();
 
   // Load labels
   useEffect(() => {
     (async function () {
-      if (model == null || model == currentModel.current) {
+      if (areItemsLoading || model == null || model == currentModel.current) {
         return;
       }
 
@@ -66,7 +66,7 @@ export function LabelContextProvider({ children }: { children: ReactNode }) {
         });
       }
     })();
-  }, [model, items, notification]);
+  }, [model, items, notification, areItemsLoading]);
 
   const handleUpdate = useCallback<LabelContextValue["update"]>(
     async (addLabels, removeLabels) => {

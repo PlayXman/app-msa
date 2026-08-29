@@ -184,7 +184,7 @@ export function MediaContextProvider({ mediaModel, children }: Props) {
       )}
       <MediaContext.Provider
         value={{
-          loading: data.loading,
+          loading: data.loading || initialLoadingProgress < 100,
           model: mediaModel,
           items: data.items,
           selectedItems: data.selectedItems,
