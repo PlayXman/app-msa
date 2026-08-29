@@ -1,23 +1,13 @@
-import { get, getDatabase, ref, set } from "firebase/database";
 import Media from "@/models/Media";
 
 /**
- * Stores labels for media in DB collection.
+ * Processes the labels in the React context.
  */
 export default class Labels {
-  readonly mediaName: string;
   /**
    * Pair of label name and its number of occurrences.
    */
   labels: Map<string, number> = new Map();
-
-  constructor(mediaName: string) {
-    this.mediaName = mediaName;
-  }
-
-  getDbPath(...chunks: string[]): string {
-    return ["/Labels", this.mediaName, ...chunks].join("/");
-  }
 
   /**
    * Convert to list of labels.
@@ -28,7 +18,6 @@ export default class Labels {
 
   /**
    * Sanitize new label.
-   * @param text
    */
   static createNewLabel(text: string): string {
     return text
@@ -38,25 +27,19 @@ export default class Labels {
   }
 
   clone(): Labels {
-    const nextLabels = new Labels(this.mediaName);
+    const nextLabels = new Labels();
     nextLabels.labels = new Map(this.labels);
     return nextLabels;
   }
 
   /**
-   * Update label occurrences in DB. Allows to add new or remove unused.
-   * @param labels
+   * Allows to add new or remove unused.
+   * @param updates Label name - count to add/remove tuple. Positive numbers add to totals and negative removes.
    */
-  async update(labels: { add?: string[]; remove?: string[] }): Promise<void> {
-    for (const label of labels.add ?? []) {
+  update(updates: [string, number][]): void {
+    for (const [label, updateCount] of updates) {
       let count = this.labels.get(label) ?? 0;
-      count++;
-      this.labels.set(label, count);
-    }
-
-    for (const label of labels.remove ?? []) {
-      let count = this.labels.get(label) ?? 0;
-      count--;
+      count = count + updateCount;
 
       if (count <= 0) {
         this.labels.delete(label);
@@ -64,28 +47,12 @@ export default class Labels {
         this.labels.set(label, count);
       }
     }
-
-    return this.saveLabels();
-  }
-
-  /**
-   * Fetch all labels from DB.
-   */
-  async load(): Promise<void> {
-    const snapshot = await get(ref(getDatabase(), this.getDbPath()));
-
-    if (!snapshot.exists()) {
-      return;
-    }
-
-    this.labels = new Map(Object.entries<number>(snapshot.val()));
   }
 
   /**
    * Recalculate label occurrences from media list.
-   * @param mediaList
    */
-  refresh(mediaList: Media[]): Promise<void> {
+  set(mediaList: Media[]): void {
     const nextLabels: typeof this.labels = new Map();
 
     for (const media of mediaList) {
@@ -96,17 +63,5 @@ export default class Labels {
     }
 
     this.labels = nextLabels;
-    return this.saveLabels();
-  }
-
-  /**
-   * Persist labels in DB.
-   * @protected
-   */
-  protected saveLabels() {
-    return set(
-      ref(getDatabase(), this.getDbPath()),
-      Object.fromEntries(this.labels),
-    );
   }
 }

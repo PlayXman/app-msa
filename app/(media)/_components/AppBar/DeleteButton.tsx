@@ -28,7 +28,7 @@ export default function DeleteButton() {
     try {
       for (const model of selectedItems.values()) {
         await model.delete();
-        await updateLabels([], model.labels);
+        await updateLabels(model.labels.map((l) => [l, -1]));
         dispatchMedia({
           type: "remove",
           id: model.id,

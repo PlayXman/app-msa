@@ -67,7 +67,7 @@ export default function MediaGridItemMenuLabels({
       <MediaGridItemMenuLabelsDialog
         open={open}
         onClose={handleClose}
-        models={[model]}
+        mediaItems={[model]}
         onLabelsUpdate={onLabelsUpdate}
       />
     </>

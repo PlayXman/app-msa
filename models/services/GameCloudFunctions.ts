@@ -12,8 +12,6 @@ export default class GameCloudFunctions {
    * Search games by title.
    *
    * @see @/functions/src/handlers/searchGames.ts
-   *
-   * @param title
    */
   async searchGames(title: string): Promise<Game[]> {
     const callable = httpsCallable<SearchGamesRequest, SearchGamesResponse>(

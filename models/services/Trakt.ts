@@ -22,7 +22,6 @@ export class Trakt {
 
   /**
    * Remove movie(s) or TV show(s) from user's Trakt watchlist.
-   * @param tmdbIds
    */
   async removeFromWatchlist(tmdbIds: string[] | number[]): Promise<void> {
     const response = await fetch(`${API_URL}/sync/watchlist/remove`, {
@@ -45,7 +44,6 @@ export class Trakt {
 
   /**
    * Mark movie(s) or TV show(s) as watched.
-   * @param tmdbIds
    */
   async markWatched(tmdbIds: string[] | number[]): Promise<void> {
     const watchedAt = new Date().toUTCString();

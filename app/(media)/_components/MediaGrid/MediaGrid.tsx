@@ -190,7 +190,7 @@ export default function MediaGrid({ extraActions = () => null }: Props) {
     async (model) => {
       try {
         await model.delete();
-        await updateLabels([], model.labels);
+        await updateLabels(model.labels.map((l) => [l, -1]));
         handleCloseMenu();
         dispatchMedia({
           type: "remove",

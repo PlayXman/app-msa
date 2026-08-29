@@ -41,7 +41,6 @@ export class PersistedCache {
 
   /**
    * Set items in cache for the current media model.
-   * @param data
    */
   async set(data: Media[]): Promise<void> {
     const db = await this.connect();
@@ -73,7 +72,6 @@ export class PersistedCache {
 
       /**
        * Create object store if it doesn't exist. The older version store is cleared and recreated empty.
-       * @param event
        */
       request.onupgradeneeded = (event) => {
         const db = request.result;

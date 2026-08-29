@@ -21,7 +21,6 @@ export class Tmdb {
 
   /**
    * Search movies by title.
-   * @param title
    */
   async searchMovies(title: string): Promise<Movie[]> {
     const movieDb = new MovieDb(await this.getApiKey());
@@ -48,7 +47,6 @@ export class Tmdb {
 
   /**
    * Search TV shows by title.
-   * @param title
    */
   async searchTvShows(title: string): Promise<TvShow[]> {
     const movieDb = new MovieDb(await this.getApiKey());
@@ -75,7 +73,6 @@ export class Tmdb {
 
   /**
    * Fill movie instance with TMDB information.
-   * @param movie
    */
   async fillMovie(movie: Movie): Promise<void> {
     const id = movie.vendorIds?.tmdb;
@@ -92,7 +89,6 @@ export class Tmdb {
 
   /**
    * Fill TV Show instance with TMDB information.
-   * @param tvShow
    */
   async fillTvShow(tvShow: TvShow): Promise<void> {
     const id = tvShow.vendorIds?.tmdb;

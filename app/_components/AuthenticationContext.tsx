@@ -36,7 +36,6 @@ export function useAuthenticationContext() {
 
 /**
  * Resolves user authentication.
- * @param children
  * @constructor
  */
 export function AuthenticationContextProvider({
