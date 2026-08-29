@@ -53,7 +53,7 @@ function reducer(state: ReducerValue, action: ReducerActions): ReducerValue {
           if (item.id === action.item.id) {
             return {
               ...action.item,
-              data: action.item.model.clone(),
+              model: action.item.model.clone(),
             };
           }
 
