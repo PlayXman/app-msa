@@ -4,9 +4,14 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
-import { useMediaContext } from "@/app/(media)/_components/MediaContext";
+import {
+  Model,
+  toMediaList,
+  useMediaContext,
+} from "@/app/(media)/_components/MediaContext";
 import { useNotificationDispatch } from "@/app/_components/NotificationContext";
 import Labels from "@/models/Labels";
 
@@ -32,27 +37,27 @@ export function useLabelContext() {
 
 /**
  * Holds and manages labels for the current media model.
- * @param children
  * @constructor
  */
 export function LabelContextProvider({ children }: { children: ReactNode }) {
-  const [labels, setLabels] = useState(new Labels(""));
+  const [labels, setLabels] = useState(new Labels());
+  const currentModel = useRef<Model>(null);
 
   const notification = useNotificationDispatch();
-  const { model, items } = useMediaContext();
+  const { model, items, loading: areItemsLoading } = useMediaContext();
 
   // Load labels
   useEffect(() => {
-    (async function () {
-      if (model == null) {
+    (function () {
+      if (areItemsLoading || model == null || model == currentModel.current) {
         return;
       }
 
       try {
-        const modelName = new (model as any)().modelName;
-        const labels = new Labels(modelName);
-        await labels.load();
+        const labels = new Labels();
+        labels.set(toMediaList(items));
         setLabels(labels);
+        currentModel.current = model;
       } catch (error) {
         notification({
           type: "error",
@@ -61,13 +66,13 @@ export function LabelContextProvider({ children }: { children: ReactNode }) {
         });
       }
     })();
-  }, [model, notification]);
+  }, [model, items, notification, areItemsLoading]);
 
   const handleUpdate = useCallback<LabelContextValue["update"]>(
     async (addLabels, removeLabels) => {
       try {
         const nextLabels = labels.clone();
-        await nextLabels.update({ add: addLabels, remove: removeLabels });
+        nextLabels.update({ add: addLabels, remove: removeLabels });
         setLabels(nextLabels);
       } catch (error) {
         notification({
@@ -83,7 +88,7 @@ export function LabelContextProvider({ children }: { children: ReactNode }) {
   const handleRefresh = useCallback<LabelContextValue["refresh"]>(async () => {
     try {
       const nextLabels = labels.clone();
-      await nextLabels.refresh(items.map((i) => i.model));
+      nextLabels.set(toMediaList(items));
       setLabels(nextLabels);
     } catch (error) {
       notification({

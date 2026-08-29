@@ -109,7 +109,6 @@ function reducer(
 
 /**
  * Displays notification/snackbar messages.
- * @param children
  * @constructor
  */
 export function NotificationContextProvider({

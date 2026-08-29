@@ -63,7 +63,7 @@ export default function LabelButton() {
       <MediaGridItemMenuLabelsDialog
         onClose={handleClose}
         open={openDialog}
-        models={selectedItemsArray}
+        mediaItems={selectedItemsArray}
         onLabelsUpdate={handleLabelsUpdate}
       />
     </>
