@@ -19,7 +19,10 @@ import Labels from "@/models/Labels";
 
 interface LabelContextValue {
   labels: string[];
-  update: (addLabels: string[], removeLabels: string[]) => Promise<void>;
+  /**
+   * @param labels Label name - label count update tuple. Positive number adds and negative removes the labels.
+   */
+  update: (labels: [string, number][]) => Promise<void>;
   refresh: () => Promise<void>;
 }
 
@@ -69,10 +72,10 @@ export function LabelContextProvider({ children }: { children: ReactNode }) {
   }, [model, items, notification, areItemsLoading]);
 
   const handleUpdate = useCallback<LabelContextValue["update"]>(
-    async (addLabels, removeLabels) => {
+    async (labelUpdates) => {
       try {
         const nextLabels = labels.clone();
-        nextLabels.update({ add: addLabels, remove: removeLabels });
+        nextLabels.update(labelUpdates);
         setLabels(nextLabels);
       } catch (error) {
         notification({

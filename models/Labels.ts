@@ -34,17 +34,12 @@ export default class Labels {
 
   /**
    * Allows to add new or remove unused.
+   * @param updates Label name - count to add/remove tuple. Positive numbers add to totals and negative removes.
    */
-  update(labels: { add?: string[]; remove?: string[] }): void {
-    for (const label of labels.add ?? []) {
+  update(updates: [string, number][]): void {
+    for (const [label, updateCount] of updates) {
       let count = this.labels.get(label) ?? 0;
-      count++;
-      this.labels.set(label, count);
-    }
-
-    for (const label of labels.remove ?? []) {
-      let count = this.labels.get(label) ?? 0;
-      count--;
+      count = count + updateCount;
 
       if (count <= 0) {
         this.labels.delete(label);
