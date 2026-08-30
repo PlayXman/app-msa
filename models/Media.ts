@@ -164,7 +164,7 @@ export default abstract class Media<VendorIds extends Record<any, any> = any> {
   }
 
   /**
-   * Fetch items from external source, like Trakt.tv. The items will then be merged with the current item list and the new ones will be refreshed with latest info.
+   * Fetch items from external source, like Trakt.tv or IMDB.com. The items will then be merged with the current item list, and the new ones will be refreshed with latest info from the default data source. This method can be used for synchronization with your personal watch lists in other services.
    *
    * @returns null if not implemented/applicable.
    */

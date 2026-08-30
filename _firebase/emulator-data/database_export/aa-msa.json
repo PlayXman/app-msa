@@ -309,13 +309,6 @@
     },
     "tmdb": {
       "key": ""
-    },
-    "traktTv": {
-      "key": {
-        "clientId": "",
-        "clientSecret": "",
-        "refreshToken": ""
-      }
     }
   }
 }

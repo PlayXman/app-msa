@@ -2,9 +2,7 @@
 
 import React from "react";
 import Movie from "@/app/(media)/movies/Movie";
-import Media from "@/models/Media";
 import { Tmdb } from "@/models/services/Tmdb";
-import ExtraActions from "@/app/(media)/movies/ExtraActions";
 import PageLayout, {
   Props as PageLayoutProps,
 } from "@/app/(media)/_components/PageLayout";
@@ -24,25 +22,10 @@ const handleNewItemsSearch: PageLayoutProps["onSearch"] = async (
   return tmdb.searchMovies(searchText);
 };
 
-/**
- * Generate extra actions for each item in the grid.
- */
-const createExtraActions: NonNullable<PageLayoutProps["extraActions"]> = (
-  model: Media,
-) => {
-  if (!(model instanceof Movie)) {
-    return null;
-  }
-  const item = model as Movie;
-
-  return <ExtraActions item={item} />;
-};
-
 export default function Page() {
   return (
     <PageLayout
       mediaModel={Movie}
-      extraActions={createExtraActions}
       onSearch={handleNewItemsSearch}
       themeSecondaryColor={MAIN_COLOR}
     />

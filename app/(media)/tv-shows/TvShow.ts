@@ -1,5 +1,4 @@
 import { Tmdb } from "@/models/services/Tmdb";
-import { Trakt } from "@/models/services/Trakt";
 import Media from "@/models/Media";
 import { Props as InfoLink } from "@/app/(media)/_components/MediaGrid/MediaGridItemMenuInfoLink";
 import { config } from "@/models/utils/config";
@@ -45,11 +44,6 @@ export default class TvShow extends Media<VendorIds> {
     return config.vendors.imdbCom.tvShowSearchUrl + encodeText(this.title);
   }
 
-  async delete(): Promise<void> {
-    await super.delete();
-    await this.removeFromWatchlist();
-  }
-
   async refresh(items: TvShow[]): Promise<TvShow[]> {
     const tmdb = new Tmdb();
     await Promise.all(
@@ -68,14 +62,5 @@ export default class TvShow extends Media<VendorIds> {
     );
 
     return items;
-  }
-
-  async removeFromWatchlist() {
-    const trakt = this.trakt;
-    await trakt.removeFromWatchlist([this.id]);
-  }
-
-  protected get trakt(): Trakt {
-    return new Trakt("shows");
   }
 }
