@@ -1,20 +1,4 @@
 {
-  "Labels": {
-    "Books": {
-      "Comicbook": 1,
-      "Maybe": 2,
-      "StarWars": 1
-    },
-    "Games": {
-      "MustPlay": 1,
-      "Note": 1,
-      "Steam": 2
-    },
-    "Movies": {
-      "FairyTale": 3,
-      "KidSafe": 3
-    }
-  },
   "Media": {
     "Books": {
       "0nj-XYS1xDQC": {
