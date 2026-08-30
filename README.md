@@ -4,15 +4,15 @@
 
 MediaStorage-App
 ================
-The app for managing your personal lists of all sorts of media - books, movies, games etc. It links the lists with your favorite services like _Trakt_, _Giantbomb_ and _Tmdb_.
+The app for managing your personal lists of all sorts of media - books, movies, games, etc. It links the lists with your favorite services like _Trakt_, _Giantbomb_, _Tmdb_, ...
 
-It's meant for personal use only. There's no durable account management system right now. It's supposed to run on personal **Firebase** hosting.
+It's meant for personal use only. There's no durable account management system right now. It's built to run on personal **Firebase** hosting.
 
-The app is utterly serverless. It connects directly to services from its frontend. One can say it behaves as heavy client once all assets are downloaded.
+The app is utterly serverless. It connects directly to services from its frontend (with minor exceptions connecting to server functions). It aims to behave as heavy client once all assets are downloaded.
 
 Development
 -----------
-The app is written in **[Next.js](https://nextjs.org/)** and **[TypeScript](https://www.typescriptlang.org/)**. It uses **[Firebase](https://firebase.google.com/)** for hosting, authentication, Realtime Database, and cloud functions. It syncs data from external services like [_Trakt_](https://trakt.tv) ([API docs](https://trakt.docs.apiary.io/)), [_IGDB_](https://www.igdb.com/) ([API docs](https://api-docs.igdb.com/)), and [_Tmdb_](https://www.themoviedb.org/) ([API docs](https://developer.themoviedb.org/docs/getting-started)).
+The app is written in TypeScript on top of **[Next.js](https://nextjs.org/)** framework. It uses **[Firebase](https://firebase.google.com/)** for hosting, authentication, Realtime Database, and cloud functions. It syncs data from external services like _Google Books_ ([API docs](https://developers.google.com/books/docs/overview)), [_IGDB_](https://www.igdb.com/) ([API docs](https://api-docs.igdb.com/)), and [_Tmdb_](https://www.themoviedb.org/) ([API docs](https://developer.themoviedb.org/docs/getting-started)).
 
 ### Prepare project
 1. Create Firebase account and setup Realtime Database and hosting.
@@ -37,14 +37,11 @@ The app is written in **[Next.js](https://nextjs.org/)** and **[TypeScript](http
    ```json
    {
      "Vendors": {
+       "googleBooks": {
+         "key": "XXX_your_key_XXX"
+       },
        "tmdb" : {
          "key" : "XXX_your_key_XXX"
-       },
-       "traktTv" : {
-         "key" : {
-           "clientId" : "XXX_your_key_XXX",
-           "clientSecret" : "XXX_your_key_XXX"
-         }
        }
      }
    }
