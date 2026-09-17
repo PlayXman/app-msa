@@ -17,7 +17,7 @@
     "dev:app": "next dev --webpack",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "test": "echo \"Error: no test specified yet\"",
+    "test": "jest",
     "build": "next build --webpack",
     "deploy": "npm run build && firebase deploy"
   },
@@ -35,7 +35,9 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@jest/globals": "^30.5.1",
     "@serwist/next": "^9.5.11",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.12.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
@@ -44,9 +46,11 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "husky": "^9.1.7",
+    "jest": "^30.5.1",
     "lint-staged": "^16.3.2",
     "prettier": "^3.8.1",
     "serwist": "^9.5.11",
+    "ts-jest": "^29.4.12",
     "typescript": "^5.9.3"
   },
   "engines": {
