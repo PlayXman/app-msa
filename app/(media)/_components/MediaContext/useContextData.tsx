@@ -2,7 +2,7 @@ import Media, { Status } from "@/models/Media";
 import { MediaContextItem } from "@/app/(media)/_components/MediaContext/context";
 import { ActionDispatch, useReducer } from "react";
 
-interface ReducerValue {
+export interface ReducerValue {
   loading: boolean;
   items: MediaContextItem[];
   selectedItems: Set<Media>;
@@ -16,7 +16,10 @@ export type ReducerActions =
   | { type: "filter"; text?: string; isReleased?: boolean; status?: Status }
   | { type: "toggleSelect"; item: Media | null };
 
-function reducer(state: ReducerValue, action: ReducerActions): ReducerValue {
+export function reducer(
+  state: ReducerValue,
+  action: ReducerActions,
+): ReducerValue {
   switch (action.type) {
     case "load":
       return {
@@ -101,7 +104,7 @@ function reducer(state: ReducerValue, action: ReducerActions): ReducerValue {
   }
 }
 
-const initialState: ReducerValue = {
+export const initialState: ReducerValue = {
   loading: true,
   items: [],
   selectedItems: new Set<Media>(),

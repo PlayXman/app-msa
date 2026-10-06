@@ -26,19 +26,10 @@ const hideOnMobileSx: SxProps = {
   display: { xs: "none", sm: "block" },
 };
 
-/** Quick search value - quick search url param tuple */
-type QuickSearchState = [string, string];
-
-function quickSearchReducer(
-  _: QuickSearchState,
-  action: string,
-): QuickSearchState {
-  if (action) {
-    return [action, `?${QUICK_SEARCH_URL_PROPERTY_NAME}=${action}`];
-  } else {
-    return ["", ""];
-  }
-}
+import {
+  quickSearchReducer,
+  QuickSearchState,
+} from "@/app/_components/quickSearchReducer";
 
 export default function Page() {
   const [[quickSearchValue, quickSearchUrlParam], quickSearchDispatch] =

@@ -43,17 +43,16 @@ export interface Props {
 }
 
 // Menu reducer
-interface MenuState {
+export interface MenuState {
   open: boolean;
   selectedItemId: Media["id"];
 }
 
-function menuReducer(
-  state: MenuState,
-  action:
-    | { type: "open"; itemId: MenuState["selectedItemId"] }
-    | { type: "close" },
-): MenuState {
+export type MenuAction =
+  | { type: "open"; itemId: MenuState["selectedItemId"] }
+  | { type: "close" };
+
+export function menuReducer(state: MenuState, action: MenuAction): MenuState {
   switch (action.type) {
     case "open":
       return {

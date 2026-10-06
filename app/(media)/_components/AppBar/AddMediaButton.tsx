@@ -83,7 +83,8 @@ const searchFieldSx: SxProps<Theme> = {
   boxShadow: (theme) => theme.shadows["8"],
 };
 
-export const QUICK_SEARCH_URL_PROPERTY_NAME = "search-new-q";
+import { QUICK_SEARCH_URL_PROPERTY_NAME } from "@/app/_components/quickSearchReducer";
+export { QUICK_SEARCH_URL_PROPERTY_NAME };
 
 export interface Props {
   /**
