@@ -20,14 +20,20 @@ import {
 
 // Context
 
-type NotificationContextState = Pick<
+export type NotificationContextState = Pick<
   SnackbarProps,
   "open" | "message" | "autoHideDuration" | "children" | "action"
 >;
 
-const NotificationContext = createContext<
-  Dispatch<Parameters<typeof reducer>[1]>
->(() => {});
+export type NotificationAction =
+  | { type: "close" }
+  | { type: "error"; message: string; error?: Error | unknown }
+  | { type: "loading"; message: string; progress?: number }
+  | ({ type: "log" } & Partial<Omit<NotificationContextState, "open">>);
+
+const NotificationContext = createContext<Dispatch<NotificationAction>>(
+  () => {},
+);
 
 export function useNotificationDispatch() {
   return useContext(NotificationContext);
@@ -39,19 +45,15 @@ function SlideTransition(props: SlideProps) {
   return <Slide {...props} direction="up" />;
 }
 
-const initialNotification: NotificationContextState = {
+export const initialNotification: NotificationContextState = {
   open: false,
   autoHideDuration: 2000,
   message: "",
 };
 
-function reducer(
+export function reducer(
   state: NotificationContextState,
-  action:
-    | { type: "close" }
-    | { type: "error"; message: string; error?: Error | unknown }
-    | { type: "loading"; message: string; progress?: number }
-    | ({ type: "log" } & Partial<Omit<NotificationContextState, "open">>),
+  action: NotificationAction,
 ): NotificationContextState {
   switch (action.type) {
     case "close":

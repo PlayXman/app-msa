@@ -31,28 +31,30 @@ export function useFilterContext() {
 
 // Provider
 
-type ReducerValue = Omit<FilterContextValue, "dispatchFilter">;
+export type FilterReducerValue = Omit<FilterContextValue, "dispatchFilter">;
 
-const reducerInitialValue: ReducerValue = {
+export const filterReducerInitialValue: FilterReducerValue = {
   text: "",
   isReleased: null,
   status: null,
 };
 
-function reducer(
-  state: ReducerValue,
-  action:
-    | { type: "reset" }
-    | {
-        type: "filter";
-        text?: string;
-        isReleased?: boolean | null;
-        status?: Status | null;
-      },
-): ReducerValue {
+export type FilterAction =
+  | { type: "reset" }
+  | {
+      type: "filter";
+      text?: string;
+      isReleased?: boolean | null;
+      status?: Status | null;
+    };
+
+export function reducer(
+  state: FilterReducerValue,
+  action: FilterAction,
+): FilterReducerValue {
   switch (action.type) {
     case "reset":
-      return { ...reducerInitialValue };
+      return { ...filterReducerInitialValue };
     case "filter":
       return {
         text: action.text ?? state.text,
@@ -72,7 +74,7 @@ function reducer(
  * @constructor
  */
 export function FilterContextProvider({ children }: { children: ReactNode }) {
-  const [data, dispatch] = useReducer(reducer, reducerInitialValue);
+  const [data, dispatch] = useReducer(reducer, filterReducerInitialValue);
   const { model } = useMediaContext();
 
   // Reset filters when model changes.
